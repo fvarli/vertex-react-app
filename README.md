@@ -117,3 +117,13 @@ Frontend flow:
   - `password123`
 - `password123.` (with trailing `.`) is a different password and returns `401 Invalid credentials.`
 - `POST /refresh-token` returning `401 Unauthenticated` is expected when login did not succeed first.
+
+## Appointments & Calendar
+
+- `AppointmentsPage` now consumes real endpoints:
+  - `GET /appointments`
+  - `POST /appointments`
+  - `PUT /appointments/{id}`
+  - `PATCH /appointments/{id}/status`
+- `CalendarPage` consumes `GET /calendar` and renders grouped `days[]` payload.
+- Conflict validation from backend is surfaced in UI (`422`, `errors.code = time_slot_conflict`).
