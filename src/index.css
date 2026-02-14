@@ -1,9 +1,11 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 :root {
-  font-family: 'Inter', ui-sans-serif, system-ui, -apple-system, Segoe UI, sans-serif;
-  line-height: 1.4;
-  font-weight: 400;
   color: #0f172a;
-  background: #f8fafc;
+  background-color: #f8fafc;
+  font-family: 'Inter', ui-sans-serif, system-ui, -apple-system, Segoe UI, sans-serif;
 }
 
 * {
@@ -20,130 +22,51 @@ a {
 }
 
 .app-shell {
-  display: grid;
-  grid-template-columns: 240px 1fr;
-  min-height: 100vh;
+  @apply grid min-h-screen grid-cols-[240px_1fr];
 }
 
 .sidebar {
-  background: #111827;
-  color: #f9fafb;
-  padding: 20px;
+  @apply bg-slate-900 p-5 text-slate-50;
 }
 
 .sidebar h1 {
-  font-size: 1.1rem;
-  margin: 0 0 16px;
+  @apply mb-4 text-lg font-semibold;
 }
 
 .sidebar nav {
-  display: grid;
-  gap: 8px;
+  @apply grid gap-2;
 }
 
 .sidebar a {
-  padding: 8px 10px;
-  border-radius: 8px;
-  color: #cbd5e1;
+  @apply rounded-md px-3 py-2 text-slate-300;
 }
 
 .sidebar a.active {
-  background: #1f2937;
-  color: #fff;
+  @apply bg-slate-800 text-white;
 }
 
 .main {
-  padding: 18px;
+  @apply p-4;
 }
 
 .topbar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 16px;
+  @apply mb-4 flex items-center justify-between;
 }
 
 .topbar span {
-  display: block;
-  font-size: 0.85rem;
-  color: #64748b;
+  @apply block text-sm text-muted;
 }
 
 .content {
-  display: grid;
-  gap: 16px;
-}
-
-.panel {
-  border: 1px solid #e2e8f0;
-  background: #fff;
-  border-radius: 12px;
-  padding: 16px;
-}
-
-.page h2 {
-  margin-top: 0;
+  @apply grid gap-4;
 }
 
 .centered-screen {
-  min-height: 100vh;
-  display: grid;
-  place-items: center;
-  padding: 20px;
+  @apply grid min-h-screen place-items-center p-4;
 }
 
-form.panel {
-  width: min(420px, 92vw);
-  display: grid;
-  gap: 12px;
-}
-
-input,
-button {
-  font: inherit;
-}
-
-input {
-  width: 100%;
-  border: 1px solid #cbd5e1;
-  border-radius: 8px;
-  padding: 10px;
-  margin-top: 6px;
-}
-
-button {
-  border: 1px solid #0f172a;
-  background: #0f172a;
-  color: #fff;
-  border-radius: 8px;
-  padding: 10px 12px;
-  cursor: pointer;
-}
-
-button:disabled {
-  opacity: 0.7;
-  cursor: default;
-}
-
-.error {
-  color: #dc2626;
-}
-
-.list {
-  display: grid;
-  gap: 10px;
-}
-
-table {
-  width: 100%;
-  border-collapse: collapse;
-}
-
-th,
-td {
-  text-align: left;
-  padding: 10px;
-  border-bottom: 1px solid #e5e7eb;
+.panel {
+  @apply rounded-xl border border-border bg-white p-4;
 }
 
 @media (max-width: 900px) {
