@@ -127,3 +127,13 @@ Frontend flow:
   - `PATCH /appointments/{id}/status`
 - `CalendarPage` consumes `GET /calendar` and renders grouped `days[]` payload.
 - Conflict validation from backend is surfaced in UI (`422`, `errors.code = time_slot_conflict`).
+
+## Programs
+
+- `ProgramsPage` now consumes real endpoints:
+  - `GET /students/{student}/programs`
+  - `POST /students/{student}/programs`
+  - `PUT /programs/{id}`
+  - `PATCH /programs/{id}/status`
+- Supports week-based program CRUD with ordered item rows.
+- Backend validation errors (including active-per-week and duplicate day/order rules) are shown in UI.
