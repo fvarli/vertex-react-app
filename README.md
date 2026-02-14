@@ -9,6 +9,7 @@ Internal MVP panel for Vertex coaching platform.
 - TanStack Query
 - Axios
 - React Hook Form + Zod
+- Tailwind CSS + shadcn-style UI primitives
 - Vitest + Testing Library
 
 ## Requirements
@@ -24,11 +25,53 @@ cp .env.example .env
 npm run dev
 ```
 
-Default app URL: `http://127.0.0.1:5173`
+Default dev URL: `http://127.0.0.1:5173`
 
 ## Environment
 
-- `VITE_API_BASE_URL` default: `http://127.0.0.1:8000/api/v1`
+- `VITE_API_BASE_URL` default: `https://vertex.local/api/v1`
+
+## Local HTTPS Domain (vertex-ui.local)
+
+To open frontend via `https://vertex-ui.local`:
+
+1. Add hosts entry:
+
+```bash
+sudo sh -c 'echo "127.0.0.1 vertex-ui.local" >> /etc/hosts'
+```
+
+2. Install local CA and cert with mkcert:
+
+```bash
+mkcert -install
+mkcert vertex-ui.local
+```
+
+3. Move generated cert files to expected Nginx paths:
+
+```bash
+sudo mkdir -p /etc/nginx/ssl
+sudo cp vertex-ui.local.pem /etc/nginx/ssl/vertex-ui.local.pem
+sudo cp vertex-ui.local-key.pem /etc/nginx/ssl/vertex-ui.local-key.pem
+```
+
+4. Enable Nginx configs from `ops/nginx`:
+
+- `vertex-ui.local.http.conf` (80 -> 443 redirect)
+- `vertex-ui.local.https.conf` (TLS + Vite proxy)
+
+5. Reload Nginx.
+
+6. Run frontend dev server:
+
+```bash
+npm run dev -- --host 127.0.0.1 --port 5173
+```
+
+7. Open:
+
+- `https://vertex-ui.local`
 
 ## Scripts
 
@@ -39,6 +82,16 @@ Default app URL: `http://127.0.0.1:5173`
 - `npm run test`
 - `npm run test:watch`
 - `npm run format`
+
+## CI
+
+GitHub Actions workflow: `.github/workflows/ci.yml`
+
+Checks on push/PR to `main`:
+- typecheck
+- lint
+- test
+- build
 
 ## Backend Contract
 
@@ -56,3 +109,11 @@ Frontend flow:
 - App sends `Accept: application/json` and `Authorization: Bearer <token>` automatically.
 - App attaches `X-Request-Id` per request.
 - 401 responses trigger one refresh-token attempt before logout.
+
+## Auth Troubleshooting
+
+- Demo owner credentials are exact:
+  - `owner@vertex.local`
+  - `password123`
+- `password123.` (with trailing `.`) is a different password and returns `401 Invalid credentials.`
+- `POST /refresh-token` returning `401 Unauthenticated` is expected when login did not succeed first.

@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import axios from 'axios'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { useAuth } from '../features/auth/auth-context'
 
@@ -23,8 +24,9 @@ export function LoginPage() {
     try {
       await login({ email, password })
       navigate(from, { replace: true })
-    } catch {
-      setError('Login failed. Check email/password.')
+    } catch (error) {
+      const apiMessage = axios.isAxiosError<{ message?: string }>(error) ? error.response?.data?.message : undefined
+      setError(apiMessage ?? 'Login failed. Check email/password.')
     } finally {
       setIsSubmitting(false)
     }
