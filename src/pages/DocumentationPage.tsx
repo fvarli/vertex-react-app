@@ -12,10 +12,16 @@ type GuideStep = {
   detail: string
 }
 
+type GuideLink = {
+  label: string
+  path: string
+}
+
 export function DocumentationPage({ area }: DocumentationPageProps) {
   const { t } = useTranslation(['pages'])
   const { user, systemRole, workspaceRole } = useAuth()
   const activeWorkspaceId = getActiveWorkspaceId()
+  const areaBase = area === 'admin' ? '/admin' : '/trainer'
 
   const steps = useMemo<GuideStep[]>(
     () => [
@@ -37,6 +43,17 @@ export function DocumentationPage({ area }: DocumentationPageProps) {
       },
     ],
     [area, t],
+  )
+
+  const links = useMemo<GuideLink[]>(
+    () => [
+      { label: t('pages:documentation.links.workspaces'), path: `${areaBase}/workspaces` },
+      { label: t('pages:documentation.links.students'), path: `${areaBase}/students` },
+      { label: t('pages:documentation.links.programs'), path: `${areaBase}/programs` },
+      { label: t('pages:documentation.links.appointments'), path: `${areaBase}/appointments` },
+      { label: t('pages:documentation.links.calendar'), path: `${areaBase}/calendar` },
+    ],
+    [areaBase, t],
   )
 
   return (
@@ -71,6 +88,21 @@ export function DocumentationPage({ area }: DocumentationPageProps) {
           ))}
         </ol>
       </div>
+
+      <div className="space-y-2 text-sm">
+        <h3 className="text-lg font-semibold">{t('pages:documentation.quickLinks')}</h3>
+        <ul className="list-inside list-disc space-y-1">
+          {links.map((link) => (
+            <li key={link.path}>
+              <strong>{link.label}:</strong> <code>{link.path}</code>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <p className="rounded-md bg-muted/50 px-3 py-2 text-sm text-muted">
+        <strong>{t('pages:documentation.helpTitle')}:</strong> {t('pages:documentation.helpBody')}
+      </p>
     </div>
   )
 }

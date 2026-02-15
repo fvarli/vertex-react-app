@@ -23,6 +23,16 @@
     "activeWorkspaceId": "Aktif Çalışma Alanı ID",
     "notSelected": "Seçilmedi",
     "howToUse": "Uygulama nasıl kullanılır",
+    "quickLinks": "Hızlı gezinme bağlantıları",
+    "helpTitle": "Destek ipucu",
+    "helpBody": "Bir sayfa 403 dönerse önce aktif çalışma alanını ve rol kapsamını doğrula.",
+    "links": {
+      "workspaces": "Çalışma Alanları",
+      "students": "Öğrenciler",
+      "programs": "Programlar",
+      "appointments": "Randevular",
+      "calendar": "Takvim"
+    },
     "admin": {
       "step1Title": "Aktif çalışma alanını seç",
       "step1Detail": "Çalışma Alanları sayfasından bu oturumda yöneteceğin alanı seç.",

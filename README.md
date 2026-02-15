@@ -108,6 +108,16 @@ Frontend flow:
 3. Switch active workspace
 4. Access domain pages (students/programs/appointments/calendar)
 
+## User Documentation (TR/EN)
+
+- English guide: `docs/user-guide.en.md`
+- Turkish guide: `docs/user-guide.tr.md`
+- In-app left menu:
+  - Admin: `/admin/documentation`
+  - Trainer: `/trainer/documentation`
+
+Each role guide explains workspace flow, domain usage order, and troubleshooting.
+
 ## Notes
 
 - App sends `Accept: application/json` and `Authorization: Bearer <token>` automatically.
@@ -149,3 +159,5 @@ Frontend flow:
   - owner admin / platform admin -> `/admin/*`
   - trainer -> `/trainer/*`
 - Current split preserves backend policy enforcement; frontend route guards only shape UX.
+- Workspace guard rule:
+  - if active workspace is missing, user is redirected to `/<area>/workspaces`

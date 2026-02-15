@@ -23,6 +23,16 @@
     "activeWorkspaceId": "Active Workspace ID",
     "notSelected": "Not selected",
     "howToUse": "How to use the application",
+    "quickLinks": "Quick navigation links",
+    "helpTitle": "Support tip",
+    "helpBody": "If a page returns 403, first verify your active workspace and role scope.",
+    "links": {
+      "workspaces": "Workspaces",
+      "students": "Students",
+      "programs": "Programs",
+      "appointments": "Appointments",
+      "calendar": "Calendar"
+    },
     "admin": {
       "step1Title": "Select active workspace",
       "step1Detail": "Go to Workspaces and pick the workspace you want to manage for this session.",
