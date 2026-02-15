@@ -214,7 +214,7 @@ export function StudentsPage() {
               />
             </div>
 
-            <div className="mt-4 flex items-center justify-between">
+            <div className="mt-4 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
               <p className="text-sm text-muted">
                 {t('pages:students.pagination', {
                   page: pagination?.current_page ?? 1,

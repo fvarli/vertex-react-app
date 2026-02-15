@@ -16,19 +16,19 @@ export function Dialog({ open, title, description, children, onClose, footer }: 
   if (!open) return null
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4">
-      <div className="w-full max-w-lg rounded-xl border border-border bg-card p-4 shadow-xl">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-3 sm:p-4">
+      <div className="max-h-[88vh] w-full max-w-lg overflow-hidden rounded-xl border border-border bg-card shadow-xl">
         <div className="mb-3 flex items-start justify-between">
-          <div>
+          <div className="p-4 pb-0">
             <h3 className="text-lg font-semibold text-foreground">{title}</h3>
             {description ? <p className="text-sm text-muted">{description}</p> : null}
           </div>
-          <Button variant="outline" size="sm" onClick={onClose}>
+          <Button className="mr-4 mt-4" variant="outline" size="sm" onClick={onClose}>
             {t('common:close')}
           </Button>
         </div>
-        <div>{children}</div>
-        {footer ? <div className="mt-4 flex justify-end gap-2">{footer}</div> : null}
+        <div className="max-h-[58vh] overflow-y-auto px-4">{children}</div>
+        {footer ? <div className="mt-4 flex justify-end gap-2 border-t border-border/70 bg-card px-4 py-3">{footer}</div> : null}
       </div>
     </div>
   )

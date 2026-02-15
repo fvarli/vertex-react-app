@@ -205,7 +205,7 @@ export function ProgramsPage() {
           </Button>
         </div>
 
-        <div className="mb-4 grid gap-3 rounded-2xl border border-border/70 bg-background/55 p-3 sm:grid-cols-3">
+        <div className="filter-surface mb-4 grid gap-3 sm:grid-cols-3">
           <Select value={selectedStudentId ? String(selectedStudentId) : ''} onChange={(e) => setStudentId(e.target.value ? Number(e.target.value) : null)}>
             <option value="">{t('pages:programs.selectStudent')}</option>
             {students.map((student) => (
@@ -236,60 +236,91 @@ export function ProgramsPage() {
         ) : programsQuery.isError ? (
           <p className="text-sm text-danger">{extractApiMessage(programsQuery.error, t('common:requestFailed'))}</p>
         ) : (
-          <div className="overflow-x-auto rounded-2xl border border-border/70 bg-card/50">
-            <Table>
-              <THead>
-                <tr>
-                  <TH>{t('pages:programs.table.id')}</TH>
-                  <TH>{t('pages:programs.table.title')}</TH>
-                  <TH>{t('pages:programs.table.week')}</TH>
-                  <TH>{t('pages:programs.table.status')}</TH>
-                  <TH>{t('pages:programs.table.items')}</TH>
-                  <TH>{t('pages:programs.table.actions')}</TH>
-                </tr>
-              </THead>
-              <TBody>
-                {programs.map((program) => (
-                  <tr key={program.id}>
-                    <TD>#{program.id}</TD>
-                    <TD>{program.title}</TD>
-                    <TD>{program.week_start_date}</TD>
-                    <TD>
-                      <Badge variant={program.status === 'active' ? 'success' : 'muted'}>{t(`common:${program.status}`)}</Badge>
-                    </TD>
-                    <TD>{program.items.length}</TD>
-                    <TD>
-                      <div className="flex flex-wrap gap-2">
-                        <Button size="sm" variant="outline" onClick={() => openEditForm(program)}>
-                          {t('common:edit')}
-                        </Button>
-                        <Button
-                          size="sm"
-                          variant="secondary"
-                          onClick={() => void statusMutation.mutateAsync({ programId: program.id, nextStatus: 'active' })}
-                        >
-                          {t('pages:programs.table.activate')}
-                        </Button>
-                        <Button
-                          size="sm"
-                          variant="outline"
-                          onClick={() => void statusMutation.mutateAsync({ programId: program.id, nextStatus: 'draft' })}
-                        >
-                          {t('common:draft')}
-                        </Button>
-                        <Button
-                          size="sm"
-                          variant="danger"
-                          onClick={() => void statusMutation.mutateAsync({ programId: program.id, nextStatus: 'archived' })}
-                        >
-                          {t('pages:programs.table.archive')}
-                        </Button>
-                      </div>
-                    </TD>
+          <div className="space-y-3">
+            <div className="grid gap-3 md:hidden">
+              {programs.map((program) => (
+                <div key={program.id} className="rounded-xl border border-border/70 bg-card/75 p-3">
+                  <div className="flex items-start justify-between gap-2">
+                    <div>
+                      <p className="text-sm font-semibold text-foreground">{program.title}</p>
+                      <p className="text-xs text-muted">{t('pages:programs.table.week')}: {program.week_start_date}</p>
+                      <p className="text-xs text-muted">{t('pages:programs.table.items')}: {program.items.length}</p>
+                    </div>
+                    <Badge variant={program.status === 'active' ? 'success' : 'muted'}>{t(`common:${program.status}`)}</Badge>
+                  </div>
+                  <div className="mt-3 grid gap-2">
+                    <Button size="sm" variant="outline" onClick={() => openEditForm(program)}>
+                      {t('common:edit')}
+                    </Button>
+                    <Button size="sm" variant="secondary" onClick={() => void statusMutation.mutateAsync({ programId: program.id, nextStatus: 'active' })}>
+                      {t('pages:programs.table.activate')}
+                    </Button>
+                    <Button size="sm" variant="outline" onClick={() => void statusMutation.mutateAsync({ programId: program.id, nextStatus: 'draft' })}>
+                      {t('common:draft')}
+                    </Button>
+                    <Button size="sm" variant="danger" onClick={() => void statusMutation.mutateAsync({ programId: program.id, nextStatus: 'archived' })}>
+                      {t('pages:programs.table.archive')}
+                    </Button>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <div className="table-surface hidden md:block">
+              <Table>
+                <THead>
+                  <tr>
+                    <TH>{t('pages:programs.table.id')}</TH>
+                    <TH>{t('pages:programs.table.title')}</TH>
+                    <TH>{t('pages:programs.table.week')}</TH>
+                    <TH>{t('pages:programs.table.status')}</TH>
+                    <TH>{t('pages:programs.table.items')}</TH>
+                    <TH>{t('pages:programs.table.actions')}</TH>
                   </tr>
-                ))}
-              </TBody>
-            </Table>
+                </THead>
+                <TBody>
+                  {programs.map((program) => (
+                    <tr key={program.id}>
+                      <TD>#{program.id}</TD>
+                      <TD>{program.title}</TD>
+                      <TD>{program.week_start_date}</TD>
+                      <TD>
+                        <Badge variant={program.status === 'active' ? 'success' : 'muted'}>{t(`common:${program.status}`)}</Badge>
+                      </TD>
+                      <TD>{program.items.length}</TD>
+                      <TD>
+                        <div className="flex flex-wrap gap-2">
+                          <Button size="sm" variant="outline" onClick={() => openEditForm(program)}>
+                            {t('common:edit')}
+                          </Button>
+                          <Button
+                            size="sm"
+                            variant="secondary"
+                            onClick={() => void statusMutation.mutateAsync({ programId: program.id, nextStatus: 'active' })}
+                          >
+                            {t('pages:programs.table.activate')}
+                          </Button>
+                          <Button
+                            size="sm"
+                            variant="outline"
+                            onClick={() => void statusMutation.mutateAsync({ programId: program.id, nextStatus: 'draft' })}
+                          >
+                            {t('common:draft')}
+                          </Button>
+                          <Button
+                            size="sm"
+                            variant="danger"
+                            onClick={() => void statusMutation.mutateAsync({ programId: program.id, nextStatus: 'archived' })}
+                          >
+                            {t('pages:programs.table.archive')}
+                          </Button>
+                        </div>
+                      </TD>
+                    </tr>
+                  ))}
+                </TBody>
+              </Table>
+            </div>
           </div>
         )}
       </div>

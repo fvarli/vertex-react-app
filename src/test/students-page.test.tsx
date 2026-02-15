@@ -66,8 +66,8 @@ describe('StudentsPage', () => {
 
     renderStudentsPage()
 
-    expect(await screen.findByText('Ali Veli')).toBeInTheDocument()
-    expect(screen.getByText('+905551234567')).toBeInTheDocument()
+    expect((await screen.findAllByText('Ali Veli')).length).toBeGreaterThan(0)
+    expect(screen.getAllByText('+905551234567').length).toBeGreaterThan(0)
   })
 
   it('creates a student and invalidates list', async () => {

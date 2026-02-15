@@ -215,7 +215,7 @@ export function AppointmentsPage() {
           <Button onClick={openCreateForm}>{t('pages:appointments.new')}</Button>
         </div>
 
-        <div className="mb-4 grid gap-3 rounded-2xl border border-border/70 bg-background/55 p-3 sm:grid-cols-4">
+        <div className="filter-surface mb-4 grid gap-3 sm:grid-cols-4">
           <Input type="datetime-local" value={from} onChange={(e) => setFrom(e.target.value)} />
           <Input type="datetime-local" value={to} onChange={(e) => setTo(e.target.value)} />
           <Select value={status} onChange={(e) => setStatus(e.target.value as AppointmentStatus | 'all')}>
@@ -250,64 +250,95 @@ export function AppointmentsPage() {
         ) : appointmentsQuery.isError ? (
           <p className="text-sm text-danger">{extractApiMessage(appointmentsQuery.error, t('common:requestFailed'))}</p>
         ) : (
-          <>
-            <div className="overflow-x-auto rounded-2xl border border-border/70 bg-card/50">
+          <div className="space-y-3">
+            <div className="grid gap-3 md:hidden">
+              {appointments.map((appointment) => (
+                <div key={appointment.id} className="rounded-xl border border-border/70 bg-card/75 p-3">
+                  <div className="flex items-start justify-between gap-2">
+                    <div>
+                      <p className="text-sm font-semibold text-foreground">
+                        {students.find((student) => student.id === appointment.student_id)?.full_name ?? `${t('pages:appointments.table.student')} #${appointment.student_id}`}
+                      </p>
+                      <p className="text-xs text-muted">{formatDate(appointment.starts_at)}</p>
+                      <p className="text-xs text-muted">{formatDate(appointment.ends_at)}</p>
+                    </div>
+                    <Badge variant={appointment.status === 'done' ? 'success' : 'muted'}>{t(`common:${appointment.status}`)}</Badge>
+                  </div>
+                  <div className="mt-3 grid gap-2">
+                    <Button size="sm" variant="outline" onClick={() => openEditForm(appointment)}>
+                      {t('common:edit')}
+                    </Button>
+                    <Button size="sm" variant="secondary" onClick={() => void statusMutation.mutateAsync({ appointmentId: appointment.id, nextStatus: 'done' })}>
+                      {t('common:done')}
+                    </Button>
+                    <Button size="sm" variant="outline" onClick={() => void statusMutation.mutateAsync({ appointmentId: appointment.id, nextStatus: 'no_show' })}>
+                      {t('pages:appointments.table.noShow')}
+                    </Button>
+                    <Button size="sm" variant="danger" onClick={() => void statusMutation.mutateAsync({ appointmentId: appointment.id, nextStatus: 'cancelled' })}>
+                      {t('pages:appointments.table.cancel')}
+                    </Button>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <div className="table-surface hidden md:block">
               <Table>
-              <THead>
-                <tr>
-                  <TH>{t('pages:appointments.table.id')}</TH>
-                  <TH>{t('pages:appointments.table.student')}</TH>
-                  <TH>{t('pages:appointments.table.start')}</TH>
-                  <TH>{t('pages:appointments.table.end')}</TH>
-                  <TH>{t('pages:appointments.table.status')}</TH>
-                  <TH>{t('pages:appointments.table.actions')}</TH>
-                </tr>
-              </THead>
-              <TBody>
-                {appointments.map((appointment) => (
-                  <tr key={appointment.id}>
-                    <TD>#{appointment.id}</TD>
-                    <TD>{students.find((student) => student.id === appointment.student_id)?.full_name ?? appointment.student_id}</TD>
-                    <TD>{formatDate(appointment.starts_at)}</TD>
-                    <TD>{formatDate(appointment.ends_at)}</TD>
-                    <TD>
-                      <Badge variant={appointment.status === 'done' ? 'success' : 'muted'}>{t(`common:${appointment.status}`)}</Badge>
-                    </TD>
-                    <TD>
-                      <div className="flex flex-wrap gap-2">
-                        <Button size="sm" variant="outline" onClick={() => openEditForm(appointment)}>
-                          {t('common:edit')}
-                        </Button>
-                        <Button
-                          size="sm"
-                          variant="secondary"
-                          onClick={() => void statusMutation.mutateAsync({ appointmentId: appointment.id, nextStatus: 'done' })}
-                        >
-                          {t('common:done')}
-                        </Button>
-                        <Button
-                          size="sm"
-                          variant="outline"
-                          onClick={() => void statusMutation.mutateAsync({ appointmentId: appointment.id, nextStatus: 'no_show' })}
-                        >
-                          {t('pages:appointments.table.noShow')}
-                        </Button>
-                        <Button
-                          size="sm"
-                          variant="danger"
-                          onClick={() => void statusMutation.mutateAsync({ appointmentId: appointment.id, nextStatus: 'cancelled' })}
-                        >
-                          {t('pages:appointments.table.cancel')}
-                        </Button>
-                      </div>
-                    </TD>
+                <THead>
+                  <tr>
+                    <TH>{t('pages:appointments.table.id')}</TH>
+                    <TH>{t('pages:appointments.table.student')}</TH>
+                    <TH>{t('pages:appointments.table.start')}</TH>
+                    <TH>{t('pages:appointments.table.end')}</TH>
+                    <TH>{t('pages:appointments.table.status')}</TH>
+                    <TH>{t('pages:appointments.table.actions')}</TH>
                   </tr>
-                ))}
-              </TBody>
+                </THead>
+                <TBody>
+                  {appointments.map((appointment) => (
+                    <tr key={appointment.id}>
+                      <TD>#{appointment.id}</TD>
+                      <TD>{students.find((student) => student.id === appointment.student_id)?.full_name ?? appointment.student_id}</TD>
+                      <TD>{formatDate(appointment.starts_at)}</TD>
+                      <TD>{formatDate(appointment.ends_at)}</TD>
+                      <TD>
+                        <Badge variant={appointment.status === 'done' ? 'success' : 'muted'}>{t(`common:${appointment.status}`)}</Badge>
+                      </TD>
+                      <TD>
+                        <div className="flex flex-wrap gap-2">
+                          <Button size="sm" variant="outline" onClick={() => openEditForm(appointment)}>
+                            {t('common:edit')}
+                          </Button>
+                          <Button
+                            size="sm"
+                            variant="secondary"
+                            onClick={() => void statusMutation.mutateAsync({ appointmentId: appointment.id, nextStatus: 'done' })}
+                          >
+                            {t('common:done')}
+                          </Button>
+                          <Button
+                            size="sm"
+                            variant="outline"
+                            onClick={() => void statusMutation.mutateAsync({ appointmentId: appointment.id, nextStatus: 'no_show' })}
+                          >
+                            {t('pages:appointments.table.noShow')}
+                          </Button>
+                          <Button
+                            size="sm"
+                            variant="danger"
+                            onClick={() => void statusMutation.mutateAsync({ appointmentId: appointment.id, nextStatus: 'cancelled' })}
+                          >
+                            {t('pages:appointments.table.cancel')}
+                          </Button>
+                        </div>
+                      </TD>
+                    </tr>
+                  ))}
+                </TBody>
               </Table>
             </div>
 
-            <div className="mt-4 flex items-center justify-between">
+            <div className="mt-4 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
               <p className="text-sm text-muted">
                 {t('pages:appointments.pagination', {
                   page: pagination?.current_page ?? 1,
@@ -334,7 +365,7 @@ export function AppointmentsPage() {
                 </Button>
               </div>
             </div>
-          </>
+          </div>
         )}
       </div>
 
@@ -356,7 +387,7 @@ export function AppointmentsPage() {
             </div>
             <Input placeholder={t('pages:appointments.form.location')} value={formLocation} onChange={(e) => setFormLocation(e.target.value)} />
             <Input placeholder={t('pages:appointments.form.notes')} value={formNotes} onChange={(e) => setFormNotes(e.target.value)} />
-            <div className="flex gap-2">
+            <div className="flex flex-col gap-2 sm:flex-row">
               <Button type="submit" disabled={createMutation.isPending || updateMutation.isPending}>
                 {createMutation.isPending || updateMutation.isPending ? t('common:saving') : t('common:save')}
               </Button>

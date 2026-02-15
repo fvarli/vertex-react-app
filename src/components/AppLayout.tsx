@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react'
 import { NavLink, Outlet, useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { useAuth } from '../features/auth/auth-context'
@@ -14,6 +15,7 @@ export function AppLayout({ area }: AppLayoutProps) {
   const { t } = useTranslation(['layout'])
   const { user, logout } = useAuth()
   const navigate = useNavigate()
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
 
   async function handleLogout() {
     await logout()
@@ -22,6 +24,52 @@ export function AppLayout({ area }: AppLayoutProps) {
   }
 
   const base = area === 'admin' ? '/admin' : '/trainer'
+
+  useEffect(() => {
+    if (!isMobileMenuOpen) return
+    const previousOverflow = document.body.style.overflow
+    document.body.style.overflow = 'hidden'
+    return () => {
+      document.body.style.overflow = previousOverflow
+    }
+  }, [isMobileMenuOpen])
+
+  useEffect(() => {
+    if (!isMobileMenuOpen) return
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        setIsMobileMenuOpen(false)
+      }
+    }
+    window.addEventListener('keydown', handleKeyDown)
+    return () => window.removeEventListener('keydown', handleKeyDown)
+  }, [isMobileMenuOpen])
+
+  const renderNavLinks = (onNavigate?: () => void) => (
+    <>
+      <NavLink to={`${base}/dashboard`} onClick={onNavigate}>
+        {t('layout:menu.dashboard')}
+      </NavLink>
+      <NavLink to={`${base}/students`} onClick={onNavigate}>
+        {t('layout:menu.students')}
+      </NavLink>
+      <NavLink to={`${base}/programs`} onClick={onNavigate}>
+        {t('layout:menu.programs')}
+      </NavLink>
+      <NavLink to={`${base}/appointments`} onClick={onNavigate}>
+        {t('layout:menu.appointments')}
+      </NavLink>
+      <NavLink to={`${base}/calendar`} onClick={onNavigate}>
+        {t('layout:menu.calendar')}
+      </NavLink>
+      <NavLink to={`${base}/workspaces`} onClick={onNavigate}>
+        {t('layout:menu.workspaces')}
+      </NavLink>
+      <NavLink to={`${base}/documentation`} onClick={onNavigate}>
+        {t('layout:menu.documentation')}
+      </NavLink>
+    </>
+  )
 
   return (
     <div className="app-shell">
@@ -33,15 +81,7 @@ export function AppLayout({ area }: AppLayoutProps) {
             {area === 'admin' ? t('layout:area.admin') : t('layout:area.trainer')}
           </p>
         </div>
-        <nav>
-          <NavLink to={`${base}/dashboard`}>{t('layout:menu.dashboard')}</NavLink>
-          <NavLink to={`${base}/students`}>{t('layout:menu.students')}</NavLink>
-          <NavLink to={`${base}/programs`}>{t('layout:menu.programs')}</NavLink>
-          <NavLink to={`${base}/appointments`}>{t('layout:menu.appointments')}</NavLink>
-          <NavLink to={`${base}/calendar`}>{t('layout:menu.calendar')}</NavLink>
-          <NavLink to={`${base}/workspaces`}>{t('layout:menu.workspaces')}</NavLink>
-          <NavLink to={`${base}/documentation`}>{t('layout:menu.documentation')}</NavLink>
-        </nav>
+        <nav>{renderNavLinks()}</nav>
 
         <div className="mt-auto rounded-xl border border-sidebarActive/60 bg-sidebarActive/50 p-3">
           <p className="text-xs text-sidebarMuted">{t('layout:signedInAs')}</p>
@@ -51,7 +91,16 @@ export function AppLayout({ area }: AppLayoutProps) {
       </aside>
       <main className="main">
         <header className="topbar">
-          <div>
+          <div className="topbar-leading">
+            <Button
+              className="mobile-nav-toggle"
+              variant="outline"
+              size="sm"
+              aria-label={t('layout:menu.open')}
+              onClick={() => setIsMobileMenuOpen(true)}
+            >
+              {t('layout:menu.open')}
+            </Button>
             <p className="text-xs uppercase tracking-[0.12em] text-muted">{area}</p>
             <strong className="text-base">{user?.name}</strong>
             <span>{user?.email}</span>
@@ -70,6 +119,37 @@ export function AppLayout({ area }: AppLayoutProps) {
           <Outlet />
         </section>
       </main>
+      {isMobileMenuOpen ? (
+        <div className="mobile-drawer-backdrop" onClick={() => setIsMobileMenuOpen(false)}>
+          <aside className="mobile-drawer" onClick={(event) => event.stopPropagation()}>
+            <div className="mobile-drawer-header">
+              <div>
+                <p className="text-[11px] uppercase tracking-[0.16em] text-sidebarMuted">Vertex Platform</p>
+                <h2 className="text-lg font-extrabold text-sidebarForeground">{t('layout:appName')}</h2>
+              </div>
+              <Button variant="outline" size="sm" aria-label={t('layout:menu.close')} onClick={() => setIsMobileMenuOpen(false)}>
+                {t('layout:menu.close')}
+              </Button>
+            </div>
+
+            <p className="mt-1 text-xs text-sidebarMuted">{area === 'admin' ? t('layout:area.admin') : t('layout:area.trainer')}</p>
+            <nav className="mobile-drawer-nav">{renderNavLinks(() => setIsMobileMenuOpen(false))}</nav>
+            <div className="mobile-drawer-controls">
+              <LanguageToggle />
+              <ThemeToggle />
+              <Button
+                variant="outline"
+                onClick={async () => {
+                  await handleLogout()
+                  setIsMobileMenuOpen(false)
+                }}
+              >
+                {t('layout:logout')}
+              </Button>
+            </div>
+          </aside>
+        </div>
+      ) : null}
     </div>
   )
 }

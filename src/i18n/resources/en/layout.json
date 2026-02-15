@@ -6,6 +6,8 @@
     "trainer": "Trainer Area"
   },
   "menu": {
+    "open": "Menu",
+    "close": "Close",
     "dashboard": "Dashboard",
     "students": "Students",
     "programs": "Programs",

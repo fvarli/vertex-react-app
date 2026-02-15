@@ -92,6 +92,6 @@ describe('ProgramsPage', () => {
 
     renderPage()
 
-    expect(await screen.findByText('Strength Week')).toBeInTheDocument()
+    expect((await screen.findAllByText('Strength Week')).length).toBeGreaterThan(0)
   })
 })

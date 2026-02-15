@@ -97,8 +97,16 @@ a {
   @apply block text-sm text-muted;
 }
 
+.topbar-leading {
+  @apply flex items-center gap-2;
+}
+
 .topbar-actions {
   @apply flex items-center gap-2;
+}
+
+.mobile-nav-toggle {
+  @apply hidden;
 }
 
 .topbar-segment {
@@ -119,6 +127,50 @@ a {
 
 .topbar-logout {
   @apply h-9;
+}
+
+.mobile-drawer-backdrop {
+  @apply fixed inset-0 z-50 bg-slate-950/60 backdrop-blur-[1px];
+}
+
+.mobile-drawer {
+  @apply h-full w-[88%] max-w-[360px] border-r border-sidebarActive/60 bg-sidebar/95 px-4 py-4 text-sidebarForeground shadow-[0_20px_40px_rgba(0,0,0,0.36)];
+}
+
+.mobile-drawer-header {
+  @apply flex items-start justify-between gap-2;
+}
+
+.mobile-drawer-nav {
+  @apply mt-4 grid gap-1.5;
+}
+
+.mobile-drawer-nav a {
+  @apply rounded-xl px-3 py-2.5 text-sm font-medium text-sidebarMuted transition-all duration-200;
+}
+
+.mobile-drawer-nav a:hover {
+  @apply bg-sidebarActive/70 text-sidebarForeground;
+}
+
+.mobile-drawer-nav a.active {
+  @apply bg-sidebarActive text-sidebarForeground shadow-[0_8px_24px_rgba(0,0,0,0.2)];
+}
+
+.mobile-drawer-controls {
+  @apply mt-4 grid gap-2 border-t border-sidebarActive/60 pt-4;
+}
+
+.mobile-drawer .topbar-control {
+  @apply justify-between rounded-xl border border-sidebarActive/70 bg-sidebarActive/40 px-3 py-2 text-sidebarForeground;
+}
+
+.mobile-drawer .topbar-control-label {
+  @apply text-sidebarMuted;
+}
+
+.mobile-drawer .topbar-control-select {
+  @apply border-sidebarActive/80 bg-sidebar/80 text-sidebarForeground;
 }
 
 .content {
@@ -241,26 +293,34 @@ input[type='datetime-local']::-webkit-calendar-picker-indicator {
   }
 
   .sidebar {
-    @apply static h-auto border-r-0 border-b px-4 py-4;
-  }
-
-  .sidebar nav {
-    @apply grid grid-cols-2 gap-2;
+    @apply hidden;
   }
 
   .main {
-    @apply px-4 py-4;
+    @apply px-3 py-3;
   }
 
   .topbar {
-    @apply flex-col items-start;
+    @apply sticky top-0 z-40 mb-4 rounded-xl px-3 py-2;
+  }
+
+  .topbar-leading {
+    @apply w-full;
+  }
+
+  .mobile-nav-toggle {
+    @apply inline-flex;
   }
 
   .topbar-actions {
-    @apply w-full flex-wrap;
+    @apply hidden;
   }
 
   .topbar-segment {
     @apply w-full justify-between;
+  }
+
+  .panel {
+    @apply rounded-xl p-4;
   }
 }

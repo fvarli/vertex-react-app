@@ -6,6 +6,8 @@
     "trainer": "Trainer Alanı"
   },
   "menu": {
+    "open": "Menü",
+    "close": "Kapat",
     "dashboard": "Panel",
     "students": "Öğrenciler",
     "programs": "Programlar",
