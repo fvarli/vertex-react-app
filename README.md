@@ -96,7 +96,11 @@ Checks on push/PR to `main`:
 ## Backend Contract
 
 Backend source of truth:
-- `/home/fvarli/Desktop/LaravelProjects/vertex-laravel-api`
+- sibling repository `vertex-laravel-api` (same parent folder as this frontend repo)
+
+Example local structure:
+- `/<your-workspace>/vertex-react-app`
+- `/<your-workspace>/vertex-laravel-api`
 
 Frontend flow:
 1. Login
@@ -137,3 +141,11 @@ Frontend flow:
   - `PATCH /programs/{id}/status`
 - Supports week-based program CRUD with ordered item rows.
 - Backend validation errors (including active-per-week and duplicate day/order rules) are shown in UI.
+
+## Role-Aware Routing
+
+- Single login entrypoint: `/login`
+- Post-login routing is role-aware:
+  - owner admin / platform admin -> `/admin/*`
+  - trainer -> `/trainer/*`
+- Current split preserves backend policy enforcement; frontend route guards only shape UX.

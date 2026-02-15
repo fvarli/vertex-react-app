@@ -2,14 +2,23 @@ import { useState } from 'react'
 import axios from 'axios'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { useAuth } from '../features/auth/auth-context'
+import type { ApiUser } from '../features/auth/types'
 
 type LocationState = { from?: { pathname?: string } }
+
+function defaultRouteForUser(user: ApiUser): string {
+  if (user.system_role === 'platform_admin' || user.active_workspace_role === 'owner_admin') {
+    return '/admin/workspaces'
+  }
+
+  return '/trainer/workspaces'
+}
 
 export function LoginPage() {
   const { login } = useAuth()
   const navigate = useNavigate()
   const location = useLocation()
-  const from = (location.state as LocationState | null)?.from?.pathname ?? '/workspaces'
+  const from = (location.state as LocationState | null)?.from?.pathname
 
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -22,8 +31,8 @@ export function LoginPage() {
     setIsSubmitting(true)
 
     try {
-      await login({ email, password })
-      navigate(from, { replace: true })
+      const user = await login({ email, password })
+      navigate(from ?? defaultRouteForUser(user), { replace: true })
     } catch (error) {
       const apiMessage = axios.isAxiosError<{ message?: string }>(error) ? error.response?.data?.message : undefined
       setError(apiMessage ?? 'Login failed. Check email/password.')

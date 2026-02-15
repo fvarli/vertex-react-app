@@ -1,6 +1,6 @@
 import { createBrowserRouter, Navigate } from 'react-router-dom'
 import { AppLayout } from '../components/AppLayout'
-import { ProtectedRoute, WorkspaceRoute } from '../components/RouteGuards'
+import { AdminRoute, ProtectedRoute, TrainerRoute, WorkspaceRoute } from '../components/RouteGuards'
 import { AppointmentsPage } from '../pages/AppointmentsPage'
 import { CalendarPage } from '../pages/CalendarPage'
 import { DashboardPage } from '../pages/DashboardPage'
@@ -10,28 +10,64 @@ import { ProgramsPage } from '../pages/ProgramsPage'
 import { StudentsPage } from '../pages/StudentsPage'
 import { WorkspacePage } from '../pages/WorkspacePage'
 
+const adminChildren = [
+  { path: '/admin/workspaces', element: <WorkspacePage /> },
+  {
+    element: <WorkspaceRoute area="admin" />,
+    children: [
+      { path: '/admin/dashboard', element: <DashboardPage /> },
+      { path: '/admin/students', element: <StudentsPage /> },
+      { path: '/admin/programs', element: <ProgramsPage /> },
+      { path: '/admin/appointments', element: <AppointmentsPage /> },
+      { path: '/admin/calendar', element: <CalendarPage /> },
+    ],
+  },
+]
+
+const trainerChildren = [
+  { path: '/trainer/workspaces', element: <WorkspacePage /> },
+  {
+    element: <WorkspaceRoute area="trainer" />,
+    children: [
+      { path: '/trainer/dashboard', element: <DashboardPage /> },
+      { path: '/trainer/students', element: <StudentsPage /> },
+      { path: '/trainer/programs', element: <ProgramsPage /> },
+      { path: '/trainer/appointments', element: <AppointmentsPage /> },
+      { path: '/trainer/calendar', element: <CalendarPage /> },
+    ],
+  },
+]
+
 export const router = createBrowserRouter([
   { path: '/login', element: <LoginPage /> },
   {
     element: <ProtectedRoute />,
     children: [
       {
-        element: <AppLayout />,
+        element: <AdminRoute />,
         children: [
-          { index: true, element: <Navigate to="/dashboard" replace /> },
-          { path: '/workspaces', element: <WorkspacePage /> },
           {
-            element: <WorkspaceRoute />,
-            children: [
-              { path: '/dashboard', element: <DashboardPage /> },
-              { path: '/students', element: <StudentsPage /> },
-              { path: '/programs', element: <ProgramsPage /> },
-              { path: '/appointments', element: <AppointmentsPage /> },
-              { path: '/calendar', element: <CalendarPage /> },
-            ],
+            element: <AppLayout area="admin" />,
+            children: adminChildren,
           },
         ],
       },
+      {
+        element: <TrainerRoute />,
+        children: [
+          {
+            element: <AppLayout area="trainer" />,
+            children: trainerChildren,
+          },
+        ],
+      },
+      { path: '/', element: <Navigate to="/trainer/workspaces" replace /> },
+      { path: '/dashboard', element: <Navigate to="/trainer/dashboard" replace /> },
+      { path: '/workspaces', element: <Navigate to="/trainer/workspaces" replace /> },
+      { path: '/students', element: <Navigate to="/trainer/students" replace /> },
+      { path: '/programs', element: <Navigate to="/trainer/programs" replace /> },
+      { path: '/appointments', element: <Navigate to="/trainer/appointments" replace /> },
+      { path: '/calendar', element: <Navigate to="/trainer/calendar" replace /> },
     ],
   },
   { path: '*', element: <NotFoundPage /> },

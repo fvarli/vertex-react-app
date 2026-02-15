@@ -13,11 +13,31 @@ export function ProtectedRoute() {
   return <Outlet />
 }
 
-export function WorkspaceRoute() {
+export function AdminRoute() {
+  const { isAdminArea } = useAuth()
+
+  if (!isAdminArea) {
+    return <Navigate to="/trainer/dashboard" replace />
+  }
+
+  return <Outlet />
+}
+
+export function TrainerRoute() {
+  const { isAdminArea } = useAuth()
+
+  if (isAdminArea) {
+    return <Navigate to="/admin/dashboard" replace />
+  }
+
+  return <Outlet />
+}
+
+export function WorkspaceRoute({ area }: { area: 'admin' | 'trainer' }) {
   const workspaceId = getActiveWorkspaceId()
 
   if (!workspaceId) {
-    return <Navigate to="/workspaces" replace />
+    return <Navigate to={`/${area}/workspaces`} replace />
   }
 
   return <Outlet />

@@ -1,16 +1,19 @@
 import { createContext, useContext, useEffect, useMemo, useState } from 'react'
 import { api } from '../../lib/api'
 import { getToken, setToken } from '../../lib/storage'
-import type { ApiUser, LoginPayload, LoginResponse, MeResponse } from './types'
+import type { ApiUser, LoginPayload, LoginResponse, MeResponse, WorkspaceRole } from './types'
 
 type AuthContextValue = {
   user: ApiUser | null
   token: string | null
   isReady: boolean
   isAuthenticated: boolean
-  login: (payload: LoginPayload) => Promise<void>
+  systemRole: ApiUser['system_role'] | null
+  workspaceRole: WorkspaceRole
+  isAdminArea: boolean
+  login: (payload: LoginPayload) => Promise<ApiUser>
   logout: () => Promise<void>
-  refreshProfile: () => Promise<void>
+  refreshProfile: () => Promise<ApiUser | null>
 }
 
 const AuthContext = createContext<AuthContextValue | undefined>(undefined)
@@ -42,13 +45,16 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     void bootstrap()
   }, [token])
 
-  async function login(payload: LoginPayload): Promise<void> {
+  async function login(payload: LoginPayload): Promise<ApiUser> {
     const response = await api.post<LoginResponse>('/login', payload)
     const nextToken = response.data.data.token
+    const nextUser = response.data.data.user
 
     setToken(nextToken)
     setTokenState(nextToken)
-    setUser(response.data.data.user)
+    setUser(nextUser)
+
+    return nextUser
   }
 
   async function logout(): Promise<void> {
@@ -61,10 +67,23 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
   }
 
-  async function refreshProfile(): Promise<void> {
-    const response = await api.get<MeResponse>('/me')
-    setUser(response.data.data)
+  async function refreshProfile(): Promise<ApiUser | null> {
+    try {
+      const response = await api.get<MeResponse>('/me')
+      const nextUser = response.data.data
+      setUser(nextUser)
+      return nextUser
+    } catch {
+      setToken(null)
+      setTokenState(null)
+      setUser(null)
+      return null
+    }
   }
+
+  const systemRole = user?.system_role ?? null
+  const workspaceRole = user?.active_workspace_role ?? null
+  const isAdminArea = systemRole === 'platform_admin' || workspaceRole === 'owner_admin'
 
   const value = useMemo<AuthContextValue>(
     () => ({
@@ -72,11 +91,14 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       token,
       isReady,
       isAuthenticated: Boolean(token),
+      systemRole,
+      workspaceRole,
+      isAdminArea,
       login,
       logout,
       refreshProfile,
     }),
-    [user, token, isReady],
+    [user, token, isReady, systemRole, workspaceRole, isAdminArea],
   )
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>

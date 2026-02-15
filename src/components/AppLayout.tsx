@@ -2,7 +2,11 @@ import { NavLink, Outlet, useNavigate } from 'react-router-dom'
 import { useAuth } from '../features/auth/auth-context'
 import { setActiveWorkspaceId } from '../lib/storage'
 
-export function AppLayout() {
+type AppLayoutProps = {
+  area: 'admin' | 'trainer'
+}
+
+export function AppLayout({ area }: AppLayoutProps) {
   const { user, logout } = useAuth()
   const navigate = useNavigate()
 
@@ -12,17 +16,19 @@ export function AppLayout() {
     navigate('/login', { replace: true })
   }
 
+  const base = area === 'admin' ? '/admin' : '/trainer'
+
   return (
     <div className="app-shell">
       <aside className="sidebar">
         <h1>Vertex Coach</h1>
         <nav>
-          <NavLink to="/dashboard">Dashboard</NavLink>
-          <NavLink to="/students">Students</NavLink>
-          <NavLink to="/programs">Programs</NavLink>
-          <NavLink to="/appointments">Appointments</NavLink>
-          <NavLink to="/calendar">Calendar</NavLink>
-          <NavLink to="/workspaces">Workspaces</NavLink>
+          <NavLink to={`${base}/dashboard`}>Dashboard</NavLink>
+          <NavLink to={`${base}/students`}>Students</NavLink>
+          <NavLink to={`${base}/programs`}>Programs</NavLink>
+          <NavLink to={`${base}/appointments`}>Appointments</NavLink>
+          <NavLink to={`${base}/calendar`}>Calendar</NavLink>
+          <NavLink to={`${base}/workspaces`}>Workspaces</NavLink>
         </nav>
       </aside>
       <main className="main">
