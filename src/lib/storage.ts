@@ -1,6 +1,9 @@
+export type ThemeMode = 'light' | 'dark' | 'system'
+
 export const storageKeys = {
   token: 'vertex_access_token',
   activeWorkspaceId: 'vertex_active_workspace_id',
+  themeMode: 'vertex_theme_mode',
 }
 
 export function getToken(): string | null {
@@ -31,4 +34,17 @@ export function setActiveWorkspaceId(workspaceId: number | null): void {
   }
 
   localStorage.setItem(storageKeys.activeWorkspaceId, String(workspaceId))
+}
+
+export function getThemeMode(): ThemeMode {
+  const raw = localStorage.getItem(storageKeys.themeMode)
+  if (raw === 'light' || raw === 'dark' || raw === 'system') {
+    return raw
+  }
+
+  return 'system'
+}
+
+export function setThemeMode(mode: ThemeMode): void {
+  localStorage.setItem(storageKeys.themeMode, mode)
 }

@@ -63,7 +63,7 @@ export function CalendarPage() {
 
   return (
     <div className="space-y-4">
-      <div className="rounded-lg border border-border bg-white p-4">
+      <div className="rounded-lg border border-border bg-card p-4">
         <h2 className="mb-2 text-xl font-semibold">Calendar</h2>
         <p className="mb-4 text-sm text-muted">Week/day schedule view from backend availability endpoint.</p>
 
@@ -100,7 +100,7 @@ export function CalendarPage() {
                   <h3 className="mb-2 text-sm font-semibold">{dayjs(day.date).format('dddd, DD MMM YYYY')}</h3>
                   <div className="space-y-2">
                     {day.items.map((item) => (
-                      <div key={item.id} className="rounded-md bg-slate-50 px-3 py-2 text-sm">
+                      <div key={item.id} className="rounded-md bg-border/30 px-3 py-2 text-sm">
                         <strong>{formatDateTime(item.starts_at)}</strong> - {formatDateTime(item.ends_at)} • Student #{item.student_id} •{' '}
                         {item.status}
                         {item.location ? ` • ${item.location}` : ''}

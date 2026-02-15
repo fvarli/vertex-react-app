@@ -13,11 +13,11 @@ export function Dialog({ open, title, description, children, onClose, footer }: 
   if (!open) return null
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
-      <div className="w-full max-w-lg rounded-xl bg-white p-4 shadow-xl">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4">
+      <div className="w-full max-w-lg rounded-xl border border-border bg-card p-4 shadow-xl">
         <div className="mb-3 flex items-start justify-between">
           <div>
-            <h3 className="text-lg font-semibold">{title}</h3>
+            <h3 className="text-lg font-semibold text-foreground">{title}</h3>
             {description ? <p className="text-sm text-muted">{description}</p> : null}
           </div>
           <Button variant="outline" size="sm" onClick={onClose}>

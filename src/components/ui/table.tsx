@@ -3,7 +3,7 @@ export function Table({ children }: { children: React.ReactNode }) {
 }
 
 export function THead({ children }: { children: React.ReactNode }) {
-  return <thead className="bg-slate-50">{children}</thead>
+  return <thead className="bg-border/30">{children}</thead>
 }
 
 export function TBody({ children }: { children: React.ReactNode }) {
@@ -11,9 +11,9 @@ export function TBody({ children }: { children: React.ReactNode }) {
 }
 
 export function TH({ children }: { children: React.ReactNode }) {
-  return <th className="border-b border-border px-3 py-2 text-left font-semibold">{children}</th>
+  return <th className="border-b border-border px-3 py-2 text-left font-semibold text-foreground">{children}</th>
 }
 
 export function TD({ children }: { children: React.ReactNode }) {
-  return <td className="border-b border-border px-3 py-2 align-middle">{children}</td>
+  return <td className="border-b border-border px-3 py-2 align-middle text-foreground">{children}</td>
 }

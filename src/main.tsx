@@ -5,7 +5,10 @@ import { RouterProvider } from 'react-router-dom'
 import { AuthProvider } from './features/auth/auth-context'
 import { queryClient } from './app/query-client'
 import { router } from './app/router'
+import { initTheme } from './features/theme/theme'
 import './index.css'
+
+initTheme()
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>

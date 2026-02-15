@@ -1,6 +1,8 @@
 import { NavLink, Outlet, useNavigate } from 'react-router-dom'
 import { useAuth } from '../features/auth/auth-context'
 import { setActiveWorkspaceId } from '../lib/storage'
+import { ThemeToggle } from './ThemeToggle'
+import { Button } from './ui/button'
 
 type AppLayoutProps = {
   area: 'admin' | 'trainer'
@@ -38,7 +40,12 @@ export function AppLayout({ area }: AppLayoutProps) {
             <strong>{user?.name}</strong>
             <span>{user?.email}</span>
           </div>
-          <button onClick={handleLogout}>Logout</button>
+          <div className="topbar-actions">
+            <ThemeToggle />
+            <Button variant="outline" onClick={handleLogout}>
+              Logout
+            </Button>
+          </div>
         </header>
         <section className="content">
           <Outlet />

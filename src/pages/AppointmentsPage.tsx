@@ -192,7 +192,7 @@ export function AppointmentsPage() {
 
   return (
     <div className="space-y-4">
-      <div className="rounded-lg border border-border bg-white p-4">
+      <div className="rounded-lg border border-border bg-card p-4">
         <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
           <div>
             <h2 className="text-xl font-semibold">Appointments</h2>
@@ -224,8 +224,8 @@ export function AppointmentsPage() {
           </Select>
         </div>
 
-        {notice ? <p className="mb-3 rounded-md bg-green-50 px-3 py-2 text-sm text-green-700">{notice}</p> : null}
-        {errorNotice ? <p className="mb-3 rounded-md bg-red-50 px-3 py-2 text-sm text-red-700">{errorNotice}</p> : null}
+        {notice ? <p className="mb-3 rounded-md bg-success/15 px-3 py-2 text-sm text-success">{notice}</p> : null}
+        {errorNotice ? <p className="mb-3 rounded-md bg-danger/15 px-3 py-2 text-sm text-danger">{errorNotice}</p> : null}
 
         {appointmentsQuery.isLoading ? (
           <div className="space-y-2">
@@ -317,7 +317,7 @@ export function AppointmentsPage() {
       </div>
 
       {formOpen ? (
-        <div className="rounded-lg border border-border bg-white p-4">
+        <div className="rounded-lg border border-border bg-card p-4">
           <h3 className="mb-3 text-lg font-semibold">{isEditing ? 'Edit Appointment' : 'New Appointment'}</h3>
           <form className="space-y-3" onSubmit={submitForm}>
             <Select value={formStudentId} onChange={(e) => setFormStudentId(e.target.value)} required>
