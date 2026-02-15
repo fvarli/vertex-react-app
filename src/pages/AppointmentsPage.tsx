@@ -4,6 +4,7 @@ import { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 import { Button } from '../components/ui/button'
+import { Badge } from '../components/ui/badge'
 import { Input } from '../components/ui/input'
 import { Select } from '../components/ui/select'
 import { Skeleton } from '../components/ui/skeleton'
@@ -203,17 +204,18 @@ export function AppointmentsPage() {
   }
 
   return (
-    <div className="space-y-4">
-      <div className="rounded-lg border border-border bg-card p-4">
+    <div className="space-y-5 fade-in">
+      <div className="panel">
         <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
           <div>
-            <h2 className="text-xl font-semibold">{t('pages:appointments.title')}</h2>
-            <p className="text-sm text-muted">{t('pages:appointments.description')}</p>
+            <p className="text-xs uppercase tracking-[0.14em] text-muted">Operations</p>
+            <h2 className="text-2xl font-extrabold tracking-tight">{t('pages:appointments.title')}</h2>
+            <p className="mt-1 text-sm text-muted">{t('pages:appointments.description')}</p>
           </div>
           <Button onClick={openCreateForm}>{t('pages:appointments.new')}</Button>
         </div>
 
-        <div className="mb-4 grid gap-3 sm:grid-cols-4">
+        <div className="mb-4 grid gap-3 rounded-2xl border border-border/70 bg-background/55 p-3 sm:grid-cols-4">
           <Input type="datetime-local" value={from} onChange={(e) => setFrom(e.target.value)} />
           <Input type="datetime-local" value={to} onChange={(e) => setTo(e.target.value)} />
           <Select value={status} onChange={(e) => setStatus(e.target.value as AppointmentStatus | 'all')}>
@@ -236,20 +238,21 @@ export function AppointmentsPage() {
           </Select>
         </div>
 
-        {notice ? <p className="mb-3 rounded-md bg-success/15 px-3 py-2 text-sm text-success">{notice}</p> : null}
-        {errorNotice ? <p className="mb-3 rounded-md bg-danger/15 px-3 py-2 text-sm text-danger">{errorNotice}</p> : null}
+        {notice ? <p className="mb-3 rounded-xl bg-success/15 px-3 py-2 text-sm text-success">{notice}</p> : null}
+        {errorNotice ? <p className="mb-3 rounded-xl bg-danger/15 px-3 py-2 text-sm text-danger">{errorNotice}</p> : null}
 
         {appointmentsQuery.isLoading ? (
           <div className="space-y-2">
-            <Skeleton className="h-10 w-full" />
-            <Skeleton className="h-10 w-full" />
-            <Skeleton className="h-10 w-full" />
+            <Skeleton className="h-12 w-full rounded-xl" />
+            <Skeleton className="h-12 w-full rounded-xl" />
+            <Skeleton className="h-12 w-full rounded-xl" />
           </div>
         ) : appointmentsQuery.isError ? (
           <p className="text-sm text-danger">{extractApiMessage(appointmentsQuery.error, t('common:requestFailed'))}</p>
         ) : (
           <>
-            <Table>
+            <div className="overflow-x-auto rounded-2xl border border-border/70 bg-card/50">
+              <Table>
               <THead>
                 <tr>
                   <TH>{t('pages:appointments.table.id')}</TH>
@@ -267,7 +270,9 @@ export function AppointmentsPage() {
                     <TD>{students.find((student) => student.id === appointment.student_id)?.full_name ?? appointment.student_id}</TD>
                     <TD>{formatDate(appointment.starts_at)}</TD>
                     <TD>{formatDate(appointment.ends_at)}</TD>
-                    <TD>{t(`common:${appointment.status}`)}</TD>
+                    <TD>
+                      <Badge variant={appointment.status === 'done' ? 'success' : 'muted'}>{t(`common:${appointment.status}`)}</Badge>
+                    </TD>
                     <TD>
                       <div className="flex flex-wrap gap-2">
                         <Button size="sm" variant="outline" onClick={() => openEditForm(appointment)}>
@@ -299,7 +304,8 @@ export function AppointmentsPage() {
                   </tr>
                 ))}
               </TBody>
-            </Table>
+              </Table>
+            </div>
 
             <div className="mt-4 flex items-center justify-between">
               <p className="text-sm text-muted">
@@ -333,8 +339,8 @@ export function AppointmentsPage() {
       </div>
 
       {formOpen ? (
-        <div className="rounded-lg border border-border bg-card p-4">
-          <h3 className="mb-3 text-lg font-semibold">{isEditing ? t('pages:appointments.form.editTitle') : t('pages:appointments.form.newTitle')}</h3>
+        <div className="panel">
+          <h3 className="mb-3 text-lg font-semibold tracking-tight">{isEditing ? t('pages:appointments.form.editTitle') : t('pages:appointments.form.newTitle')}</h3>
           <form className="space-y-3" onSubmit={submitForm}>
             <Select value={formStudentId} onChange={(e) => setFormStudentId(e.target.value)} required>
               <option value="">{t('common:selectStudent')}</option>

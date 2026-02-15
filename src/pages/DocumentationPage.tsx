@@ -1,5 +1,6 @@
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
+import { Badge } from '../components/ui/badge'
 import { useAuth } from '../features/auth/auth-context'
 import { getActiveWorkspaceId } from '../lib/storage'
 
@@ -57,50 +58,56 @@ export function DocumentationPage({ area }: DocumentationPageProps) {
   )
 
   return (
-    <div className="panel page space-y-4">
-      <div>
-        <h2 className="text-xl font-semibold">{t('pages:documentation.title')}</h2>
+    <div className="space-y-5 fade-in">
+      <div className="panel">
+        <p className="text-xs uppercase tracking-[0.14em] text-muted">Guide</p>
+        <h2 className="text-2xl font-extrabold tracking-tight">{t('pages:documentation.title')}</h2>
         <p className="text-sm text-muted">{t('pages:documentation.description', { area })}</p>
       </div>
 
-      <div className="grid gap-2 text-sm">
-        <p>
-          <strong>{t('pages:documentation.user')}:</strong> {user?.name} ({user?.email})
-        </p>
-        <p>
-          <strong>{t('pages:documentation.systemRole')}:</strong> {systemRole ?? '-'}
-        </p>
-        <p>
-          <strong>{t('pages:documentation.workspaceRole')}:</strong> {workspaceRole ?? '-'}
-        </p>
-        <p>
-          <strong>{t('pages:documentation.activeWorkspaceId')}:</strong> {activeWorkspaceId ?? t('pages:documentation.notSelected')}
-        </p>
+      <div className="grid gap-3 md:grid-cols-2">
+        <div className="kpi-card">
+          <p className="text-xs uppercase tracking-[0.08em] text-muted">{t('pages:documentation.user')}</p>
+          <p className="mt-1 font-semibold">{user?.name ?? '-'}</p>
+          <p className="text-xs text-muted">{user?.email ?? '-'}</p>
+        </div>
+        <div className="kpi-card">
+          <p className="text-xs uppercase tracking-[0.08em] text-muted">{t('pages:documentation.activeWorkspaceId')}</p>
+          <p className="mt-1 text-lg font-semibold">{activeWorkspaceId ?? t('pages:documentation.notSelected')}</p>
+          <div className="mt-2 flex flex-wrap gap-2">
+            <Badge variant="muted">{systemRole ?? '-'}</Badge>
+            <Badge variant="muted">{workspaceRole ?? '-'}</Badge>
+          </div>
+        </div>
       </div>
 
-      <div className="space-y-2">
+      <div className="panel space-y-3">
         <h3 className="text-lg font-semibold">{t('pages:documentation.howToUse')}</h3>
-        <ol className="list-inside list-decimal space-y-2 text-sm">
-          {steps.map((step) => (
-            <li key={step.title}>
-              <strong>{step.title}:</strong> {step.detail}
-            </li>
+        <div className="grid gap-2">
+          {steps.map((step, index) => (
+            <div key={step.title} className="timeline-card text-sm">
+              <p className="font-semibold">
+                {index + 1}. {step.title}
+              </p>
+              <p className="mt-1 text-muted">{step.detail}</p>
+            </div>
           ))}
-        </ol>
+        </div>
       </div>
 
-      <div className="space-y-2 text-sm">
+      <div className="panel space-y-2 text-sm">
         <h3 className="text-lg font-semibold">{t('pages:documentation.quickLinks')}</h3>
-        <ul className="list-inside list-disc space-y-1">
+        <div className="grid gap-2 sm:grid-cols-2">
           {links.map((link) => (
-            <li key={link.path}>
-              <strong>{link.label}:</strong> <code>{link.path}</code>
-            </li>
+            <div key={link.path} className="rounded-xl border border-border/70 bg-background/55 px-3 py-2">
+              <p className="text-xs uppercase tracking-[0.08em] text-muted">{link.label}</p>
+              <code className="text-xs">{link.path}</code>
+            </div>
           ))}
-        </ul>
+        </div>
       </div>
 
-      <p className="rounded-md bg-muted/50 px-3 py-2 text-sm text-muted">
+      <p className="rounded-xl bg-muted/25 px-3 py-2 text-sm text-muted">
         <strong>{t('pages:documentation.helpTitle')}:</strong> {t('pages:documentation.helpBody')}
       </p>
     </div>

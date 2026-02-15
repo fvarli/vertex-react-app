@@ -15,7 +15,7 @@ export function StudentsTable({ students, onEdit, onStatus, onWhatsApp }: Studen
   const { t } = useTranslation(['pages', 'common'])
 
   return (
-    <div className="overflow-x-auto rounded-md border border-border">
+    <div className="overflow-x-auto">
       <Table>
         <THead>
           <tr>

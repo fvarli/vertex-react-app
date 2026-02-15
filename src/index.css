@@ -3,35 +3,35 @@
 @tailwind utilities;
 
 :root {
-  --background: 248 250 252;
-  --foreground: 15 23 42;
+  --background: 245 247 252;
+  --foreground: 21 26 48;
   --card: 255 255 255;
-  --border: 226 232 240;
-  --muted: 100 116 139;
-  --primary: 15 23 42;
-  --success: 21 128 61;
-  --danger: 220 38 38;
-  --sidebar: 15 23 42;
-  --sidebar-foreground: 248 250 252;
-  --sidebar-muted: 203 213 225;
-  --sidebar-active: 30 41 59;
+  --border: 215 223 237;
+  --muted: 94 106 133;
+  --primary: 38 82 255;
+  --success: 20 137 95;
+  --danger: 198 48 48;
+  --sidebar: 17 24 39;
+  --sidebar-foreground: 240 245 255;
+  --sidebar-muted: 165 178 207;
+  --sidebar-active: 41 58 94;
 
-  font-family: 'Inter', ui-sans-serif, system-ui, -apple-system, Segoe UI, sans-serif;
+  font-family: 'Manrope', 'DM Sans', 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
 .dark {
-  --background: 2 6 23;
-  --foreground: 226 232 240;
-  --card: 15 23 42;
-  --border: 51 65 85;
-  --muted: 148 163 184;
-  --primary: 56 189 248;
-  --success: 74 222 128;
-  --danger: 248 113 113;
-  --sidebar: 2 6 23;
-  --sidebar-foreground: 226 232 240;
-  --sidebar-muted: 148 163 184;
-  --sidebar-active: 30 41 59;
+  --background: 9 13 24;
+  --foreground: 227 233 248;
+  --card: 17 24 39;
+  --border: 51 64 96;
+  --muted: 148 161 190;
+  --primary: 104 143 255;
+  --success: 83 209 151;
+  --danger: 242 121 121;
+  --sidebar: 7 10 19;
+  --sidebar-foreground: 233 239 255;
+  --sidebar-muted: 138 154 193;
+  --sidebar-active: 35 50 83;
 }
 
 * {
@@ -45,7 +45,11 @@ body,
 }
 
 body {
-  @apply m-0 bg-background text-foreground;
+  @apply m-0 bg-background text-foreground antialiased;
+  background-image:
+    radial-gradient(circle at 10% 10%, rgb(var(--primary) / 0.09), transparent 42%),
+    radial-gradient(circle at 90% 0%, rgb(var(--success) / 0.08), transparent 30%),
+    linear-gradient(180deg, rgb(var(--background)) 0%, rgb(var(--background) / 0.96) 100%);
 }
 
 a {
@@ -54,23 +58,23 @@ a {
 }
 
 .app-shell {
-  @apply grid min-h-screen grid-cols-[240px_1fr] bg-background;
+  @apply grid min-h-screen grid-cols-[280px_1fr];
 }
 
 .sidebar {
-  @apply bg-sidebar p-5 text-sidebarForeground;
+  @apply sticky top-0 flex h-screen flex-col border-r border-sidebarActive/60 bg-sidebar/95 px-5 py-6 text-sidebarForeground backdrop-blur;
 }
 
 .sidebar h1 {
-  @apply mb-4 text-lg font-semibold;
+  @apply mb-1 text-xl font-extrabold tracking-tight;
 }
 
 .sidebar nav {
-  @apply grid gap-2;
+  @apply mt-6 grid gap-1.5;
 }
 
 .sidebar a {
-  @apply rounded-md px-3 py-2 text-sidebarMuted transition-colors;
+  @apply rounded-xl px-3 py-2.5 text-sm font-medium text-sidebarMuted transition-all duration-200;
 }
 
 .sidebar a:hover {
@@ -78,15 +82,15 @@ a {
 }
 
 .sidebar a.active {
-  @apply bg-sidebarActive text-sidebarForeground;
+  @apply bg-sidebarActive text-sidebarForeground shadow-[0_8px_24px_rgba(0,0,0,0.2)];
 }
 
 .main {
-  @apply p-4;
+  @apply px-5 py-6 lg:px-8;
 }
 
 .topbar {
-  @apply mb-4 flex items-center justify-between gap-3;
+  @apply mb-6 flex items-center justify-between gap-3 rounded-2xl border border-border/80 bg-card/70 px-4 py-3 shadow-[0_10px_24px_rgba(12,16,28,0.06)] backdrop-blur;
 }
 
 .topbar span {
@@ -98,7 +102,7 @@ a {
 }
 
 .theme-toggle {
-  @apply inline-flex items-center gap-2 rounded-md border border-border bg-card px-2 py-1 text-sm;
+  @apply inline-flex items-center gap-2 rounded-xl border border-border/80 bg-background/80 px-2.5 py-1.5 text-xs font-medium shadow-sm;
 }
 
 .theme-toggle-label {
@@ -106,7 +110,7 @@ a {
 }
 
 .theme-toggle select {
-  @apply rounded-md border border-border bg-background px-2 py-1 text-sm outline-none focus-visible:ring-2 focus-visible:ring-primary;
+  @apply rounded-lg border border-border bg-background px-2 py-1 text-xs outline-none focus-visible:ring-2 focus-visible:ring-primary/40;
 }
 
 .content {
@@ -118,7 +122,53 @@ a {
 }
 
 .panel {
-  @apply rounded-xl border border-border bg-card p-4;
+  @apply rounded-2xl border border-border/80 bg-card/80 p-5 shadow-[0_12px_32px_rgba(18,28,45,0.08)] backdrop-blur;
+}
+
+.kpi-card {
+  @apply relative overflow-hidden rounded-2xl border border-border/70 bg-card/90 p-4 shadow-[0_12px_30px_rgba(10,18,35,0.08)] transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_16px_38px_rgba(10,18,35,0.12)];
+}
+
+.kpi-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(120deg, transparent 0%, rgb(var(--primary) / 0.06) 100%);
+}
+
+.timeline-card {
+  @apply rounded-xl border border-border/70 bg-card/75 px-3 py-2.5 transition-colors duration-150 hover:bg-card;
+}
+
+.fade-in {
+  animation: fadeIn 220ms ease-out both;
+}
+
+.stagger-in {
+  animation: liftIn 320ms ease-out both;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes liftIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @media (max-width: 900px) {
@@ -127,6 +177,18 @@ a {
   }
 
   .sidebar {
-    display: none;
+    @apply static h-auto border-r-0 border-b px-4 py-4;
+  }
+
+  .sidebar nav {
+    @apply grid grid-cols-2 gap-2;
+  }
+
+  .main {
+    @apply px-4 py-4;
+  }
+
+  .topbar {
+    @apply flex-col items-start;
   }
 }

@@ -3,6 +3,7 @@ import dayjs from 'dayjs'
 import { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
+import { Badge } from '../components/ui/badge'
 import { Input } from '../components/ui/input'
 import { Select } from '../components/ui/select'
 import { Skeleton } from '../components/ui/skeleton'
@@ -50,12 +51,13 @@ export function CalendarPage() {
   const days = calendarQuery.data?.days ?? []
 
   return (
-    <div className="space-y-4">
-      <div className="rounded-lg border border-border bg-card p-4">
-        <h2 className="mb-2 text-xl font-semibold">{t('pages:calendar.title')}</h2>
+    <div className="space-y-5 fade-in">
+      <div className="panel">
+        <p className="text-xs uppercase tracking-[0.14em] text-muted">Schedule</p>
+        <h2 className="mb-2 text-2xl font-extrabold tracking-tight">{t('pages:calendar.title')}</h2>
         <p className="mb-4 text-sm text-muted">{t('pages:calendar.description')}</p>
 
-        <div className="mb-4 grid gap-3 sm:grid-cols-3">
+        <div className="mb-4 grid gap-3 rounded-2xl border border-border/70 bg-background/55 p-3 sm:grid-cols-3">
           <Input type="datetime-local" value={from} onChange={(e) => setFrom(e.target.value)} />
           <Input type="datetime-local" value={to} onChange={(e) => setTo(e.target.value)} />
           <Select
@@ -84,14 +86,21 @@ export function CalendarPage() {
               <p className="text-sm text-muted">{t('pages:calendar.empty')}</p>
             ) : (
               days.map((day) => (
-                <div key={day.date} className="rounded-md border border-border p-3">
+                <div key={day.date} className="rounded-2xl border border-border/70 bg-card/60 p-4">
                   <h3 className="mb-2 text-sm font-semibold">{dayjs(day.date).format('dddd, DD MMM YYYY')}</h3>
                   <div className="space-y-2">
                     {day.items.map((item) => (
-                      <div key={item.id} className="rounded-md bg-border/30 px-3 py-2 text-sm">
-                        <strong>{formatDateTime(item.starts_at)}</strong> - {formatDateTime(item.ends_at)} • {t('pages:calendar.student')} #{item.student_id} •{' '}
-                        {t(`common:${item.status}`)}
-                        {item.location ? ` • ${item.location}` : ''}
+                      <div key={item.id} className="timeline-card">
+                        <div className="flex flex-wrap items-center justify-between gap-2">
+                          <p className="text-sm">
+                            <strong>{formatDateTime(item.starts_at)}</strong> - {formatDateTime(item.ends_at)}
+                          </p>
+                          <Badge variant={item.status === 'done' ? 'success' : 'muted'}>{t(`common:${item.status}`)}</Badge>
+                        </div>
+                        <p className="mt-1 text-xs text-muted">
+                          {t('pages:calendar.student')} #{item.student_id}
+                        </p>
+                        {item.location ? <p className="text-xs text-muted">{item.location}</p> : null}
                       </div>
                     ))}
                   </div>

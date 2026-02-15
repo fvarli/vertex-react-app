@@ -189,3 +189,37 @@ Reporting-ready backend endpoints (for next UI modules):
 - Current split preserves backend policy enforcement; frontend route guards only shape UX.
 - Workspace guard rule:
   - if active workspace is missing, user is redirected to `/<area>/workspaces`
+
+## UI System
+
+- The app uses a shared premium panel layout (`sidebar + topbar + content`) for both roles.
+- Visual tokens (light/dark), spacing, shadows, and motion are centralized in `src/index.css`.
+- Reusable primitives are source of truth:
+  - `src/components/ui/button.tsx`
+  - `src/components/ui/input.tsx`
+  - `src/components/ui/select.tsx`
+  - `src/components/ui/table.tsx`
+- Core screen patterns:
+  - hero/header block
+  - filter block
+  - data block (table/list/cards)
+  - loading/error/empty/notice states
+
+## Navigation Matrix
+
+- Admin area:
+  - `/admin/workspaces`
+  - `/admin/dashboard`
+  - `/admin/students`
+  - `/admin/programs`
+  - `/admin/appointments`
+  - `/admin/calendar`
+  - `/admin/documentation`
+- Trainer area:
+  - `/trainer/workspaces`
+  - `/trainer/dashboard`
+  - `/trainer/students`
+  - `/trainer/programs`
+  - `/trainer/appointments`
+  - `/trainer/calendar`
+  - `/trainer/documentation`

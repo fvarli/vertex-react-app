@@ -138,12 +138,13 @@ export function StudentsPage() {
   const createOrUpdateSubmitting = createMutation.isPending || updateMutation.isPending
 
   return (
-    <div className="space-y-4">
-      <div className="rounded-lg border border-border bg-card p-4">
+    <div className="space-y-5 fade-in">
+      <div className="panel">
         <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
           <div>
-            <h2 className="text-xl font-semibold">{t('pages:students.title')}</h2>
-            <p className="text-sm text-muted">{t('pages:students.description')}</p>
+            <p className="text-xs uppercase tracking-[0.14em] text-muted">People</p>
+            <h2 className="text-2xl font-extrabold tracking-tight">{t('pages:students.title')}</h2>
+            <p className="mt-1 text-sm text-muted">{t('pages:students.description')}</p>
           </div>
           <Button
             onClick={() => {
@@ -156,7 +157,7 @@ export function StudentsPage() {
           </Button>
         </div>
 
-        <div className="mb-4 grid gap-3 sm:grid-cols-3">
+        <div className="mb-4 grid gap-3 rounded-2xl border border-border/70 bg-background/55 p-3 sm:grid-cols-3">
           <Input placeholder={t('pages:students.searchPlaceholder')} value={searchInput} onChange={(e) => setSearchInput(e.target.value)} />
           <Select
             value={status}
@@ -182,8 +183,8 @@ export function StudentsPage() {
           </Select>
         </div>
 
-        {notice ? <p className="mb-3 rounded-md bg-success/15 px-3 py-2 text-sm text-success">{notice}</p> : null}
-        {errorNotice ? <p className="mb-3 rounded-md bg-danger/15 px-3 py-2 text-sm text-danger">{errorNotice}</p> : null}
+        {notice ? <p className="mb-3 rounded-xl bg-success/15 px-3 py-2 text-sm text-success">{notice}</p> : null}
+        {errorNotice ? <p className="mb-3 rounded-xl bg-danger/15 px-3 py-2 text-sm text-danger">{errorNotice}</p> : null}
 
         {studentsQuery.isLoading ? (
           <div className="space-y-2">
@@ -195,21 +196,23 @@ export function StudentsPage() {
           <p className="text-sm text-danger">{extractApiMessage(studentsQuery.error, t('common:requestFailed'))}</p>
         ) : (
           <>
-            <StudentsTable
-              students={students}
-              onEdit={(student) => {
-                setFormMode('edit')
-                setActiveStudent(student)
-                setFormOpen(true)
-              }}
-              onStatus={(student) => {
-                setStatusTarget(student)
-                setStatusOpen(true)
-              }}
-              onWhatsApp={(student) => {
-                void whatsappMutation.mutateAsync(student.id)
-              }}
-            />
+            <div className="overflow-x-auto rounded-2xl border border-border/70 bg-card/50">
+              <StudentsTable
+                students={students}
+                onEdit={(student) => {
+                  setFormMode('edit')
+                  setActiveStudent(student)
+                  setFormOpen(true)
+                }}
+                onStatus={(student) => {
+                  setStatusTarget(student)
+                  setStatusOpen(true)
+                }}
+                onWhatsApp={(student) => {
+                  void whatsappMutation.mutateAsync(student.id)
+                }}
+              />
+            </div>
 
             <div className="mt-4 flex items-center justify-between">
               <p className="text-sm text-muted">

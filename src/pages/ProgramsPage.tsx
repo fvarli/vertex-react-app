@@ -2,6 +2,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
+import { Badge } from '../components/ui/badge'
 import { Button } from '../components/ui/button'
 import { Input } from '../components/ui/input'
 import { Select } from '../components/ui/select'
@@ -191,19 +192,20 @@ export function ProgramsPage() {
   }
 
   return (
-    <div className="space-y-4">
-      <div className="rounded-lg border border-border bg-card p-4">
+    <div className="space-y-5 fade-in">
+      <div className="panel">
         <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
           <div>
-            <h2 className="text-xl font-semibold">{t('pages:programs.title')}</h2>
-            <p className="text-sm text-muted">{t('pages:programs.description')}</p>
+            <p className="text-xs uppercase tracking-[0.14em] text-muted">Programming</p>
+            <h2 className="text-2xl font-extrabold tracking-tight">{t('pages:programs.title')}</h2>
+            <p className="mt-1 text-sm text-muted">{t('pages:programs.description')}</p>
           </div>
           <Button onClick={openCreateForm} disabled={!selectedStudentId}>
             {t('pages:programs.new')}
           </Button>
         </div>
 
-        <div className="mb-4 grid gap-3 sm:grid-cols-3">
+        <div className="mb-4 grid gap-3 rounded-2xl border border-border/70 bg-background/55 p-3 sm:grid-cols-3">
           <Select value={selectedStudentId ? String(selectedStudentId) : ''} onChange={(e) => setStudentId(e.target.value ? Number(e.target.value) : null)}>
             <option value="">{t('pages:programs.selectStudent')}</option>
             {students.map((student) => (
@@ -221,8 +223,8 @@ export function ProgramsPage() {
           <Input value={weekStartDate} onChange={(e) => setWeekStartDate(e.target.value)} type="date" placeholder={t('pages:programs.weekStart')} />
         </div>
 
-        {notice ? <p className="mb-3 rounded-md bg-success/15 px-3 py-2 text-sm text-success">{notice}</p> : null}
-        {errorNotice ? <p className="mb-3 rounded-md bg-danger/15 px-3 py-2 text-sm text-danger">{errorNotice}</p> : null}
+        {notice ? <p className="mb-3 rounded-xl bg-success/15 px-3 py-2 text-sm text-success">{notice}</p> : null}
+        {errorNotice ? <p className="mb-3 rounded-xl bg-danger/15 px-3 py-2 text-sm text-danger">{errorNotice}</p> : null}
 
         {!selectedStudentId ? (
           <p className="text-sm text-muted">{t('pages:programs.empty')}</p>
@@ -234,63 +236,67 @@ export function ProgramsPage() {
         ) : programsQuery.isError ? (
           <p className="text-sm text-danger">{extractApiMessage(programsQuery.error, t('common:requestFailed'))}</p>
         ) : (
-          <Table>
-            <THead>
-              <tr>
-                <TH>{t('pages:programs.table.id')}</TH>
-                <TH>{t('pages:programs.table.title')}</TH>
-                <TH>{t('pages:programs.table.week')}</TH>
-                <TH>{t('pages:programs.table.status')}</TH>
-                <TH>{t('pages:programs.table.items')}</TH>
-                <TH>{t('pages:programs.table.actions')}</TH>
-              </tr>
-            </THead>
-            <TBody>
-              {programs.map((program) => (
-                <tr key={program.id}>
-                  <TD>#{program.id}</TD>
-                  <TD>{program.title}</TD>
-                  <TD>{program.week_start_date}</TD>
-                  <TD>{t(`common:${program.status}`)}</TD>
-                  <TD>{program.items.length}</TD>
-                  <TD>
-                    <div className="flex flex-wrap gap-2">
-                      <Button size="sm" variant="outline" onClick={() => openEditForm(program)}>
-                        {t('common:edit')}
-                      </Button>
-                      <Button
-                        size="sm"
-                        variant="secondary"
-                        onClick={() => void statusMutation.mutateAsync({ programId: program.id, nextStatus: 'active' })}
-                      >
-                        {t('pages:programs.table.activate')}
-                      </Button>
-                      <Button
-                        size="sm"
-                        variant="outline"
-                        onClick={() => void statusMutation.mutateAsync({ programId: program.id, nextStatus: 'draft' })}
-                      >
-                        {t('common:draft')}
-                      </Button>
-                      <Button
-                        size="sm"
-                        variant="danger"
-                        onClick={() => void statusMutation.mutateAsync({ programId: program.id, nextStatus: 'archived' })}
-                      >
-                        {t('pages:programs.table.archive')}
-                      </Button>
-                    </div>
-                  </TD>
+          <div className="overflow-x-auto rounded-2xl border border-border/70 bg-card/50">
+            <Table>
+              <THead>
+                <tr>
+                  <TH>{t('pages:programs.table.id')}</TH>
+                  <TH>{t('pages:programs.table.title')}</TH>
+                  <TH>{t('pages:programs.table.week')}</TH>
+                  <TH>{t('pages:programs.table.status')}</TH>
+                  <TH>{t('pages:programs.table.items')}</TH>
+                  <TH>{t('pages:programs.table.actions')}</TH>
                 </tr>
-              ))}
-            </TBody>
-          </Table>
+              </THead>
+              <TBody>
+                {programs.map((program) => (
+                  <tr key={program.id}>
+                    <TD>#{program.id}</TD>
+                    <TD>{program.title}</TD>
+                    <TD>{program.week_start_date}</TD>
+                    <TD>
+                      <Badge variant={program.status === 'active' ? 'success' : 'muted'}>{t(`common:${program.status}`)}</Badge>
+                    </TD>
+                    <TD>{program.items.length}</TD>
+                    <TD>
+                      <div className="flex flex-wrap gap-2">
+                        <Button size="sm" variant="outline" onClick={() => openEditForm(program)}>
+                          {t('common:edit')}
+                        </Button>
+                        <Button
+                          size="sm"
+                          variant="secondary"
+                          onClick={() => void statusMutation.mutateAsync({ programId: program.id, nextStatus: 'active' })}
+                        >
+                          {t('pages:programs.table.activate')}
+                        </Button>
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          onClick={() => void statusMutation.mutateAsync({ programId: program.id, nextStatus: 'draft' })}
+                        >
+                          {t('common:draft')}
+                        </Button>
+                        <Button
+                          size="sm"
+                          variant="danger"
+                          onClick={() => void statusMutation.mutateAsync({ programId: program.id, nextStatus: 'archived' })}
+                        >
+                          {t('pages:programs.table.archive')}
+                        </Button>
+                      </div>
+                    </TD>
+                  </tr>
+                ))}
+              </TBody>
+            </Table>
+          </div>
         )}
       </div>
 
       {formOpen ? (
-        <div className="rounded-lg border border-border bg-card p-4">
-          <h3 className="mb-3 text-lg font-semibold">{editingProgram ? t('pages:programs.form.editTitle') : t('pages:programs.form.newTitle')}</h3>
+        <div className="panel">
+          <h3 className="mb-3 text-lg font-semibold tracking-tight">{editingProgram ? t('pages:programs.form.editTitle') : t('pages:programs.form.newTitle')}</h3>
           <form className="space-y-3" onSubmit={handleSubmit}>
             <Input value={title} onChange={(e) => setTitle(e.target.value)} placeholder={t('pages:programs.form.programTitle')} required />
             <Input value={goal} onChange={(e) => setGoal(e.target.value)} placeholder={t('pages:programs.form.goal')} />
@@ -303,7 +309,7 @@ export function ProgramsPage() {
               </Select>
             </div>
 
-            <div className="space-y-2 rounded-md border border-border p-3">
+            <div className="space-y-2 rounded-xl border border-border/70 bg-background/40 p-3">
               <div className="flex items-center justify-between">
                 <h4 className="text-sm font-semibold">{t('pages:programs.form.itemsTitle')}</h4>
                 <Button type="button" size="sm" variant="outline" onClick={() => setItems((prev) => [...prev, blankItem(prev.length + 1)])}>
@@ -312,7 +318,7 @@ export function ProgramsPage() {
               </div>
 
               {items.map((item, index) => (
-                <div key={`${item.order_no}-${index}`} className="grid gap-2 rounded-md border border-border p-2 sm:grid-cols-6">
+                <div key={`${item.order_no}-${index}`} className="grid gap-2 rounded-xl border border-border/70 bg-card/50 p-2 sm:grid-cols-6">
                   <Input
                     type="number"
                     min={1}

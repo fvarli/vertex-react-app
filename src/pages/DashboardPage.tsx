@@ -5,6 +5,7 @@ import { getDashboardSummary } from '../features/dashboard/api'
 import { listAppointments } from '../features/appointments/api'
 import { extractApiMessage } from '../lib/api-errors'
 import { Skeleton } from '../components/ui/skeleton'
+import { Badge } from '../components/ui/badge'
 
 function formatDateTime(value: string): string {
   return dayjs(value).format('DD MMM YYYY HH:mm')
@@ -35,19 +36,27 @@ export function DashboardPage() {
   const timeline = timelineQuery.data?.data ?? []
 
   return (
-    <div className="page space-y-4">
+    <div className="page space-y-5 fade-in">
       <div className="panel">
-        <h2 className="text-xl font-semibold">{t('pages:dashboard.title')}</h2>
-        <p className="text-sm text-muted">{t('pages:dashboard.description')}</p>
+        <div className="flex flex-wrap items-start justify-between gap-3">
+          <div>
+            <p className="text-xs uppercase tracking-[0.14em] text-muted">Control Center</p>
+            <h2 className="text-2xl font-extrabold tracking-tight">{t('pages:dashboard.title')}</h2>
+            <p className="mt-1 text-sm text-muted">{t('pages:dashboard.description')}</p>
+          </div>
+          <Badge variant="muted" className="rounded-lg px-3 py-1 text-[11px] tracking-[0.08em]">
+            {summary?.date ?? dayjs().format('YYYY-MM-DD')}
+          </Badge>
+        </div>
       </div>
 
       <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
         {summaryQuery.isLoading ? (
           <>
-            <Skeleton className="h-24 w-full" />
-            <Skeleton className="h-24 w-full" />
-            <Skeleton className="h-24 w-full" />
-            <Skeleton className="h-24 w-full" />
+            <Skeleton className="h-28 w-full rounded-2xl" />
+            <Skeleton className="h-28 w-full rounded-2xl" />
+            <Skeleton className="h-28 w-full rounded-2xl" />
+            <Skeleton className="h-28 w-full rounded-2xl" />
           </>
         ) : summaryQuery.isError ? (
           <p className="rounded-md bg-danger/15 px-3 py-2 text-sm text-danger">
@@ -55,34 +64,34 @@ export function DashboardPage() {
           </p>
         ) : (
           <>
-            <div className="rounded-lg border border-border bg-card p-4">
-              <p className="text-xs text-muted">{t('pages:dashboard.cards.activeStudents')}</p>
-              <p className="text-2xl font-semibold">{summary?.students.active ?? 0}</p>
+            <div className="kpi-card stagger-in">
+              <p className="text-xs uppercase tracking-[0.08em] text-muted">{t('pages:dashboard.cards.activeStudents')}</p>
+              <p className="mt-2 text-3xl font-extrabold">{summary?.students.active ?? 0}</p>
             </div>
-            <div className="rounded-lg border border-border bg-card p-4">
-              <p className="text-xs text-muted">{t('pages:dashboard.cards.passiveStudents')}</p>
-              <p className="text-2xl font-semibold">{summary?.students.passive ?? 0}</p>
+            <div className="kpi-card stagger-in">
+              <p className="text-xs uppercase tracking-[0.08em] text-muted">{t('pages:dashboard.cards.passiveStudents')}</p>
+              <p className="mt-2 text-3xl font-extrabold">{summary?.students.passive ?? 0}</p>
             </div>
-            <div className="rounded-lg border border-border bg-card p-4">
-              <p className="text-xs text-muted">{t('pages:dashboard.cards.todayAppointments')}</p>
-              <p className="text-2xl font-semibold">{summary?.appointments.today_total ?? 0}</p>
+            <div className="kpi-card stagger-in">
+              <p className="text-xs uppercase tracking-[0.08em] text-muted">{t('pages:dashboard.cards.todayAppointments')}</p>
+              <p className="mt-2 text-3xl font-extrabold">{summary?.appointments.today_total ?? 0}</p>
             </div>
-            <div className="rounded-lg border border-border bg-card p-4">
-              <p className="text-xs text-muted">{t('pages:dashboard.cards.upcomingAppointments')}</p>
-              <p className="text-2xl font-semibold">{summary?.appointments.upcoming_7d ?? 0}</p>
+            <div className="kpi-card stagger-in">
+              <p className="text-xs uppercase tracking-[0.08em] text-muted">{t('pages:dashboard.cards.upcomingAppointments')}</p>
+              <p className="mt-2 text-3xl font-extrabold">{summary?.appointments.upcoming_7d ?? 0}</p>
             </div>
           </>
         )}
       </div>
 
-      <div className="rounded-lg border border-border bg-card p-4">
-        <h3 className="mb-2 text-lg font-semibold">{t('pages:dashboard.timelineTitle')}</h3>
+      <div className="panel">
+        <h3 className="mb-2 text-lg font-semibold tracking-tight">{t('pages:dashboard.timelineTitle')}</h3>
         <p className="mb-3 text-sm text-muted">{t('pages:dashboard.timelineDescription')}</p>
 
         {timelineQuery.isLoading ? (
           <div className="space-y-2">
-            <Skeleton className="h-10 w-full" />
-            <Skeleton className="h-10 w-full" />
+            <Skeleton className="h-12 w-full rounded-xl" />
+            <Skeleton className="h-12 w-full rounded-xl" />
           </div>
         ) : timelineQuery.isError ? (
           <p className="text-sm text-danger">{extractApiMessage(timelineQuery.error, t('common:requestFailed'))}</p>
@@ -91,9 +100,14 @@ export function DashboardPage() {
         ) : (
           <ul className="space-y-2 text-sm">
             {timeline.map((item) => (
-              <li key={item.id} className="rounded-md border border-border/80 px-3 py-2">
-                <strong>{formatDateTime(item.starts_at)}</strong> - {formatDateTime(item.ends_at)} • {t(`common:${item.status}`)} • #
-                {item.student_id}
+              <li key={item.id} className="timeline-card">
+                <div className="flex flex-wrap items-center justify-between gap-2">
+                  <p>
+                    <strong>{formatDateTime(item.starts_at)}</strong> - {formatDateTime(item.ends_at)}
+                  </p>
+                  <Badge variant={item.status === 'done' ? 'success' : 'muted'}>{t(`common:${item.status}`)}</Badge>
+                </div>
+                <p className="mt-1 text-xs text-muted">Student #{item.student_id}</p>
               </li>
             ))}
           </ul>

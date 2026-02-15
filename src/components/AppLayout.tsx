@@ -26,7 +26,11 @@ export function AppLayout({ area }: AppLayoutProps) {
   return (
     <div className="app-shell">
       <aside className="sidebar">
-        <h1>{t('layout:appName')}</h1>
+        <div>
+          <p className="text-[11px] uppercase tracking-[0.16em] text-sidebarMuted">Vertex Platform</p>
+          <h1>{t('layout:appName')}</h1>
+          <p className="mt-1 text-xs text-sidebarMuted">{area === 'admin' ? 'Owner Admin Area' : 'Trainer Area'}</p>
+        </div>
         <nav>
           <NavLink to={`${base}/dashboard`}>{t('layout:menu.dashboard')}</NavLink>
           <NavLink to={`${base}/students`}>{t('layout:menu.students')}</NavLink>
@@ -36,11 +40,18 @@ export function AppLayout({ area }: AppLayoutProps) {
           <NavLink to={`${base}/workspaces`}>{t('layout:menu.workspaces')}</NavLink>
           <NavLink to={`${base}/documentation`}>{t('layout:menu.documentation')}</NavLink>
         </nav>
+
+        <div className="mt-auto rounded-xl border border-sidebarActive/60 bg-sidebarActive/50 p-3">
+          <p className="text-xs text-sidebarMuted">Signed in as</p>
+          <p className="text-sm font-semibold text-sidebarForeground">{user?.name}</p>
+          <p className="text-xs text-sidebarMuted">{user?.email}</p>
+        </div>
       </aside>
       <main className="main">
         <header className="topbar">
           <div>
-            <strong>{user?.name}</strong>
+            <p className="text-xs uppercase tracking-[0.12em] text-muted">{area}</p>
+            <strong className="text-base">{user?.name}</strong>
             <span>{user?.email}</span>
           </div>
           <div className="topbar-actions">
