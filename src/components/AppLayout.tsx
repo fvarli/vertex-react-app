@@ -29,6 +29,7 @@ export function AppLayout({ area }: AppLayoutProps) {
           <NavLink to={`${base}/appointments`}>Appointments</NavLink>
           <NavLink to={`${base}/calendar`}>Calendar</NavLink>
           <NavLink to={`${base}/workspaces`}>Workspaces</NavLink>
+          <NavLink to={`${base}/documentation`}>Documentation</NavLink>
         </nav>
       </aside>
       <main className="main">

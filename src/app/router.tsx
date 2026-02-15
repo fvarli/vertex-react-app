@@ -4,6 +4,7 @@ import { AdminRoute, ProtectedRoute, TrainerRoute, WorkspaceRoute } from '../com
 import { AppointmentsPage } from '../pages/AppointmentsPage'
 import { CalendarPage } from '../pages/CalendarPage'
 import { DashboardPage } from '../pages/DashboardPage'
+import { DocumentationPage } from '../pages/DocumentationPage'
 import { LoginPage } from '../pages/LoginPage'
 import { NotFoundPage } from '../pages/NotFoundPage'
 import { ProgramsPage } from '../pages/ProgramsPage'
@@ -12,6 +13,7 @@ import { WorkspacePage } from '../pages/WorkspacePage'
 
 const adminChildren = [
   { path: '/admin/workspaces', element: <WorkspacePage /> },
+  { path: '/admin/documentation', element: <DocumentationPage area="admin" /> },
   {
     element: <WorkspaceRoute area="admin" />,
     children: [
@@ -26,6 +28,7 @@ const adminChildren = [
 
 const trainerChildren = [
   { path: '/trainer/workspaces', element: <WorkspacePage /> },
+  { path: '/trainer/documentation', element: <DocumentationPage area="trainer" /> },
   {
     element: <WorkspaceRoute area="trainer" />,
     children: [
@@ -68,6 +71,7 @@ export const router = createBrowserRouter([
       { path: '/programs', element: <Navigate to="/trainer/programs" replace /> },
       { path: '/appointments', element: <Navigate to="/trainer/appointments" replace /> },
       { path: '/calendar', element: <Navigate to="/trainer/calendar" replace /> },
+      { path: '/documentation', element: <Navigate to="/trainer/documentation" replace /> },
     ],
   },
   { path: '*', element: <NotFoundPage /> },
