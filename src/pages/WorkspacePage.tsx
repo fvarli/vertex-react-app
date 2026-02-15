@@ -1,10 +1,12 @@
 import { useQuery } from '@tanstack/react-query'
 import { useNavigate } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import { useAuth } from '../features/auth/auth-context'
 import { fetchWorkspaces, switchWorkspace } from '../features/workspace/api'
 import { setActiveWorkspaceId } from '../lib/storage'
 
 export function WorkspacePage() {
+  const { t } = useTranslation(['pages'])
   const navigate = useNavigate()
   const { refreshProfile } = useAuth()
   const { data, isLoading, isError } = useQuery({
@@ -27,14 +29,14 @@ export function WorkspacePage() {
 
   return (
     <div className="panel page">
-      <h2>Workspaces</h2>
-      <p>Select active workspace to continue.</p>
-      {isLoading ? <p>Loading workspaces...</p> : null}
-      {isError ? <p className="error">Could not load workspaces.</p> : null}
+      <h2>{t('pages:workspace.title')}</h2>
+      <p>{t('pages:workspace.description')}</p>
+      {isLoading ? <p>{t('pages:workspace.loading')}</p> : null}
+      {isError ? <p className="error">{t('pages:workspace.error')}</p> : null}
       <div className="list">
         {data?.map((workspace) => (
           <button key={workspace.id} onClick={() => void handleSelect(workspace.id, workspace.role)}>
-            {workspace.name} ({workspace.role ?? 'member'})
+            {workspace.name} ({workspace.role ?? t('pages:workspace.member')})
           </button>
         ))}
       </div>

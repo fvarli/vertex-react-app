@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import { Badge } from '../../../components/ui/badge'
 import { Button } from '../../../components/ui/button'
 import { TBody, TD, TH, THead, Table } from '../../../components/ui/table'
@@ -11,15 +12,17 @@ type StudentsTableProps = {
 }
 
 export function StudentsTable({ students, onEdit, onStatus, onWhatsApp }: StudentsTableProps) {
+  const { t } = useTranslation(['pages', 'common'])
+
   return (
     <div className="overflow-x-auto rounded-md border border-border">
       <Table>
         <THead>
           <tr>
-            <TH>Name</TH>
-            <TH>Phone</TH>
-            <TH>Status</TH>
-            <TH>Actions</TH>
+            <TH>{t('pages:students.table.name')}</TH>
+            <TH>{t('pages:students.table.phone')}</TH>
+            <TH>{t('pages:students.table.status')}</TH>
+            <TH>{t('pages:students.table.actions')}</TH>
           </tr>
         </THead>
         <TBody>
@@ -31,18 +34,20 @@ export function StudentsTable({ students, onEdit, onStatus, onWhatsApp }: Studen
               </TD>
               <TD>{student.phone}</TD>
               <TD>
-                <Badge variant={student.status === 'active' ? 'success' : 'muted'}>{student.status}</Badge>
+                <Badge variant={student.status === 'active' ? 'success' : 'muted'}>{t(`common:${student.status}`)}</Badge>
               </TD>
               <TD>
                 <div className="flex flex-wrap gap-2">
                   <Button variant="outline" size="sm" onClick={() => onEdit(student)}>
-                    Edit
+                    {t('common:edit')}
                   </Button>
                   <Button variant="secondary" size="sm" onClick={() => onStatus(student)}>
-                    Set {student.status === 'active' ? 'Passive' : 'Active'}
+                    {t('pages:students.table.setStatus', {
+                      status: student.status === 'active' ? t('common:passive') : t('common:active'),
+                    })}
                   </Button>
                   <Button size="sm" onClick={() => onWhatsApp(student)}>
-                    WhatsApp
+                    {t('pages:students.table.whatsapp')}
                   </Button>
                 </div>
               </TD>

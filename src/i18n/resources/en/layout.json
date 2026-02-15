@@ -1,0 +1,30 @@
+{
+  "appName": "Vertex Coach",
+  "menu": {
+    "dashboard": "Dashboard",
+    "students": "Students",
+    "programs": "Programs",
+    "appointments": "Appointments",
+    "calendar": "Calendar",
+    "workspaces": "Workspaces",
+    "documentation": "Documentation"
+  },
+  "logout": "Logout",
+  "theme": {
+    "aria": "Theme mode selector",
+    "label": "Theme",
+    "options": {
+      "system": "System",
+      "light": "Light",
+      "dark": "Dark"
+    }
+  },
+  "language": {
+    "aria": "Language selector",
+    "label": "Lang",
+    "options": {
+      "tr": "TR",
+      "en": "EN"
+    }
+  }
+}

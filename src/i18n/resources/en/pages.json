@@ -1,0 +1,154 @@
+{
+  "dashboard": {
+    "title": "Dashboard",
+    "description": "Internal MVP panel ready. Next: connect KPI cards and today timeline."
+  },
+  "workspace": {
+    "title": "Workspaces",
+    "description": "Select active workspace to continue.",
+    "loading": "Loading workspaces...",
+    "error": "Could not load workspaces.",
+    "member": "member"
+  },
+  "notFound": {
+    "title": "Not Found",
+    "goDashboard": "Go to dashboard"
+  },
+  "documentation": {
+    "title": "Documentation",
+    "description": "Role-based usage guide for the {{area}} workspace experience in Vertex Coach.",
+    "user": "User",
+    "systemRole": "System Role",
+    "workspaceRole": "Workspace Role",
+    "activeWorkspaceId": "Active Workspace ID",
+    "notSelected": "Not selected",
+    "howToUse": "How to use the application",
+    "admin": {
+      "step1Title": "Select active workspace",
+      "step1Detail": "Go to Workspaces and pick the workspace you want to manage for this session.",
+      "step2Title": "Manage students",
+      "step2Detail": "Create and update students, set active/passive status, and use WhatsApp shortcut links.",
+      "step3Title": "Plan weekly programs",
+      "step3Detail": "Assign programs per student and keep week-by-week updates in a single place.",
+      "step4Title": "Control appointments and calendar",
+      "step4Detail": "Track reservations and review trainer schedule blocks directly in Calendar."
+    },
+    "trainer": {
+      "step1Title": "Select active workspace",
+      "step1Detail": "Start from Workspaces and continue with your active workspace context.",
+      "step2Title": "Add your students",
+      "step2Detail": "Register students and keep status current so active lists stay clean.",
+      "step3Title": "Publish weekly programs",
+      "step3Detail": "Create program rows by day, sets, reps, and notes for each student.",
+      "step4Title": "Run your booking flow",
+      "step4Detail": "Create appointments and monitor the day/week plan from Calendar."
+    }
+  },
+  "students": {
+    "title": "Students",
+    "description": "Manage active/passive students in your current workspace.",
+    "new": "New Student",
+    "searchPlaceholder": "Search name or phone...",
+    "noticeCreated": "Student created successfully.",
+    "noticeUpdated": "Student updated successfully.",
+    "noticeStatus": "Student status updated successfully.",
+    "noticeWhatsapp": "Opening WhatsApp link...",
+    "table": {
+      "name": "Name",
+      "phone": "Phone",
+      "status": "Status",
+      "actions": "Actions",
+      "whatsapp": "WhatsApp",
+      "setStatus": "Set {{status}}"
+    },
+    "pagination": "Page {{page}} / {{lastPage}} • Total {{total}}",
+    "form": {
+      "createTitle": "Create Student",
+      "editTitle": "Edit Student",
+      "description": "Student records are scoped to your active workspace",
+      "fullName": "Full Name",
+      "phone": "Phone",
+      "notes": "Notes"
+    },
+    "statusDialog": {
+      "setPassive": "Set Student Passive",
+      "setActive": "Set Student Active",
+      "description": "You can change this again later",
+      "confirmPassive": "Student will be marked as passive and hidden from default active lists.",
+      "confirmActive": "Student will be marked active and included in active lists again."
+    }
+  },
+  "programs": {
+    "title": "Programs",
+    "description": "Create and manage weekly student programs with ordered items.",
+    "new": "New Program",
+    "allStatus": "All Status",
+    "selectStudent": "Select student",
+    "weekStart": "Week start",
+    "noticeCreated": "Program created successfully.",
+    "noticeUpdated": "Program updated successfully.",
+    "noticeStatus": "Program status updated successfully.",
+    "needStudent": "Please select student.",
+    "empty": "Select a student to view programs.",
+    "table": {
+      "id": "ID",
+      "title": "Title",
+      "week": "Week",
+      "status": "Status",
+      "items": "Items",
+      "actions": "Actions",
+      "activate": "Activate",
+      "archive": "Archive"
+    },
+    "form": {
+      "newTitle": "New Program",
+      "editTitle": "Edit Program",
+      "programTitle": "Program title",
+      "goal": "Goal (optional)",
+      "itemsTitle": "Program Items",
+      "addItem": "Add Item",
+      "day": "Day",
+      "order": "Order",
+      "exercise": "Exercise",
+      "sets": "Sets",
+      "reps": "Reps",
+      "rest": "Rest(s)"
+    }
+  },
+  "appointments": {
+    "title": "Appointments",
+    "description": "Schedule sessions with conflict-aware backend validation.",
+    "new": "New Appointment",
+    "allStatus": "All Status",
+    "allStudents": "All Students",
+    "noticeCreated": "Appointment created successfully.",
+    "noticeUpdated": "Appointment updated successfully.",
+    "noticeStatus": "Appointment status updated.",
+    "needStudent": "Please select student.",
+    "table": {
+      "id": "ID",
+      "student": "Student",
+      "start": "Start",
+      "end": "End",
+      "status": "Status",
+      "actions": "Actions",
+      "noShow": "No Show",
+      "cancel": "Cancel"
+    },
+    "pagination": "Page {{page}} / {{lastPage}} • Total {{total}}",
+    "form": {
+      "newTitle": "New Appointment",
+      "editTitle": "Edit Appointment",
+      "location": "Location (optional)",
+      "notes": "Notes (optional)"
+    }
+  },
+  "calendar": {
+    "title": "Calendar",
+    "description": "Week/day schedule view from backend availability endpoint.",
+    "trainerFilter": "Current trainer/all",
+    "trainer": "Trainer #{{id}}",
+    "empty": "No appointments in selected range.",
+    "student": "Student"
+  }
+}

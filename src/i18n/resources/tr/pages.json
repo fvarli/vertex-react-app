@@ -1,0 +1,154 @@
+{
+  "dashboard": {
+    "title": "Panel",
+    "description": "Dahili MVP paneli hazir. Sonraki adim: KPI kartlari ve bugun zaman cizelgesi entegrasyonu."
+  },
+  "workspace": {
+    "title": "Calisma Alanlari",
+    "description": "Devam etmek icin aktif calisma alanini sec.",
+    "loading": "Calisma alanlari yukleniyor...",
+    "error": "Calisma alanlari yuklenemedi.",
+    "member": "uye"
+  },
+  "notFound": {
+    "title": "Bulunamadi",
+    "goDashboard": "Panele git"
+  },
+  "documentation": {
+    "title": "Dokumantasyon",
+    "description": "Vertex Coach icindeki {{area}} calisma alani deneyimi icin role dayali kullanim kilavuzu.",
+    "user": "Kullanici",
+    "systemRole": "Sistem Rolu",
+    "workspaceRole": "Calisma Alani Rolu",
+    "activeWorkspaceId": "Aktif Calisma Alani ID",
+    "notSelected": "Secilmedi",
+    "howToUse": "Uygulama nasil kullanilir",
+    "admin": {
+      "step1Title": "Aktif calisma alanini sec",
+      "step1Detail": "Calisma Alanlari sayfasindan bu oturumda yonetecegin alani sec.",
+      "step2Title": "Ogrencileri yonet",
+      "step2Detail": "Ogrenci ekle-guncelle, aktif/pasif durumunu degistir ve WhatsApp kisayollarini kullan.",
+      "step3Title": "Haftalik programlari planla",
+      "step3Detail": "Ogrenci bazli program atayip haftalik guncellemeleri tek yerde tut.",
+      "step4Title": "Randevu ve takvimi kontrol et",
+      "step4Detail": "Randevulari takip et ve antrenor takvim bloklarini dogrudan Takvimden gor."
+    },
+    "trainer": {
+      "step1Title": "Aktif calisma alanini sec",
+      "step1Detail": "Calisma Alanlari ekranindan basla ve aktif alan baglaminda devam et.",
+      "step2Title": "Ogrencilerini ekle",
+      "step2Detail": "Ogrenci kaydi olustur ve aktif listelerin temiz kalmasi icin durumlarini guncel tut.",
+      "step3Title": "Haftalik program yayinla",
+      "step3Detail": "Her ogrenci icin gun/set/tekrar/not bazli program satirlari olustur.",
+      "step4Title": "Rezervasyon akisini yonet",
+      "step4Detail": "Randevu olustur ve gun/hafta planini Takvimden takip et."
+    }
+  },
+  "students": {
+    "title": "Ogrenciler",
+    "description": "Aktif calisma alanindaki aktif/pasif ogrencileri yonet.",
+    "new": "Yeni Ogrenci",
+    "searchPlaceholder": "Isim veya telefon ara...",
+    "noticeCreated": "Ogrenci basariyla olusturuldu.",
+    "noticeUpdated": "Ogrenci basariyla guncellendi.",
+    "noticeStatus": "Ogrenci durumu basariyla guncellendi.",
+    "noticeWhatsapp": "WhatsApp baglantisi aciliyor...",
+    "table": {
+      "name": "Ad",
+      "phone": "Telefon",
+      "status": "Durum",
+      "actions": "Islemler",
+      "whatsapp": "WhatsApp",
+      "setStatus": "{{status}} yap"
+    },
+    "pagination": "Sayfa {{page}} / {{lastPage}} • Toplam {{total}}",
+    "form": {
+      "createTitle": "Ogrenci Olustur",
+      "editTitle": "Ogrenci Duzenle",
+      "description": "Ogrenci kayitlari aktif calisma alanina baglidir",
+      "fullName": "Ad Soyad",
+      "phone": "Telefon",
+      "notes": "Notlar"
+    },
+    "statusDialog": {
+      "setPassive": "Ogrenciyi Pasif Yap",
+      "setActive": "Ogrenciyi Aktif Yap",
+      "description": "Bunu daha sonra tekrar degistirebilirsin",
+      "confirmPassive": "Ogrenci pasif olarak isaretlenecek ve varsayilan aktif listelerden gizlenecek.",
+      "confirmActive": "Ogrenci aktif olarak isaretlenecek ve tekrar aktif listelere dahil edilecek."
+    }
+  },
+  "programs": {
+    "title": "Programlar",
+    "description": "Sirali maddelerle haftalik ogrenci programlarini olustur ve yonet.",
+    "new": "Yeni Program",
+    "allStatus": "Tum Durumlar",
+    "selectStudent": "Ogrenci sec",
+    "weekStart": "Hafta baslangici",
+    "noticeCreated": "Program basariyla olusturuldu.",
+    "noticeUpdated": "Program basariyla guncellendi.",
+    "noticeStatus": "Program durumu basariyla guncellendi.",
+    "needStudent": "Lutfen ogrenci secin.",
+    "empty": "Programlari gormek icin ogrenci secin.",
+    "table": {
+      "id": "ID",
+      "title": "Baslik",
+      "week": "Hafta",
+      "status": "Durum",
+      "items": "Maddeler",
+      "actions": "Islemler",
+      "activate": "Aktif Et",
+      "archive": "Arsivle"
+    },
+    "form": {
+      "newTitle": "Yeni Program",
+      "editTitle": "Program Duzenle",
+      "programTitle": "Program basligi",
+      "goal": "Hedef (opsiyonel)",
+      "itemsTitle": "Program Maddeleri",
+      "addItem": "Madde Ekle",
+      "day": "Gun",
+      "order": "Sira",
+      "exercise": "Hareket",
+      "sets": "Set",
+      "reps": "Tekrar",
+      "rest": "Dinlenme(sn)"
+    }
+  },
+  "appointments": {
+    "title": "Randevular",
+    "description": "Cakisma kontrollu backend dogrulamasi ile seans planlayin.",
+    "new": "Yeni Randevu",
+    "allStatus": "Tum Durumlar",
+    "allStudents": "Tum Ogrenciler",
+    "noticeCreated": "Randevu basariyla olusturuldu.",
+    "noticeUpdated": "Randevu basariyla guncellendi.",
+    "noticeStatus": "Randevu durumu guncellendi.",
+    "needStudent": "Lutfen ogrenci secin.",
+    "table": {
+      "id": "ID",
+      "student": "Ogrenci",
+      "start": "Baslangic",
+      "end": "Bitis",
+      "status": "Durum",
+      "actions": "Islemler",
+      "noShow": "Gelmedi",
+      "cancel": "Iptal Et"
+    },
+    "pagination": "Sayfa {{page}} / {{lastPage}} • Toplam {{total}}",
+    "form": {
+      "newTitle": "Yeni Randevu",
+      "editTitle": "Randevu Duzenle",
+      "location": "Konum (opsiyonel)",
+      "notes": "Notlar (opsiyonel)"
+    }
+  },
+  "calendar": {
+    "title": "Takvim",
+    "description": "Backend musaitlik endpointinden hafta/gun gorunumu.",
+    "trainerFilter": "Mevcut antrenor/tumu",
+    "trainer": "Antrenor #{{id}}",
+    "empty": "Secilen aralikta randevu yok.",
+    "student": "Ogrenci"
+  }
+}

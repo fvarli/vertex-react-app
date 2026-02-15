@@ -1,6 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { AxiosError } from 'axios'
 import { useEffect, useMemo, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 import { Button } from '../components/ui/button'
 import { Input } from '../components/ui/input'
@@ -17,16 +18,17 @@ function isWorkspaceForbidden(error: unknown): boolean {
   return error.response?.status === 403
 }
 
-function errorMessage(error: unknown): string {
+function errorMessage(error: unknown, fallback: string): string {
   if (error instanceof AxiosError) {
     const message = error.response?.data?.message
     if (typeof message === 'string') return message
   }
 
-  return 'Request failed. Please try again.'
+  return fallback
 }
 
 export function StudentsPage() {
+  const { t } = useTranslation(['pages', 'common'])
   const navigate = useNavigate()
   const queryClient = useQueryClient()
 
@@ -77,7 +79,7 @@ export function StudentsPage() {
   const createMutation = useMutation({
     mutationFn: createStudent,
     onSuccess: async () => {
-      setNotice('Student created successfully.')
+      setNotice(t('pages:students.noticeCreated'))
       setErrorNotice(null)
       setFormOpen(false)
       await queryClient.invalidateQueries({ queryKey: ['students'] })
@@ -87,14 +89,14 @@ export function StudentsPage() {
         navigate('/workspaces', { replace: true })
         return
       }
-      setErrorNotice(errorMessage(error))
+      setErrorNotice(errorMessage(error, t('common:requestFailed')))
     },
   })
 
   const updateMutation = useMutation({
     mutationFn: ({ studentId, payload }: { studentId: number; payload: Parameters<typeof updateStudent>[1] }) => updateStudent(studentId, payload),
     onSuccess: async () => {
-      setNotice('Student updated successfully.')
+      setNotice(t('pages:students.noticeUpdated'))
       setErrorNotice(null)
       setFormOpen(false)
       setActiveStudent(null)
@@ -105,7 +107,7 @@ export function StudentsPage() {
         navigate('/workspaces', { replace: true })
         return
       }
-      setErrorNotice(errorMessage(error))
+      setErrorNotice(errorMessage(error, t('common:requestFailed')))
     },
   })
 
@@ -113,7 +115,7 @@ export function StudentsPage() {
     mutationFn: ({ studentId, nextStatus }: { studentId: number; nextStatus: StudentStatus }) =>
       updateStudentStatus(studentId, { status: nextStatus }),
     onSuccess: async () => {
-      setNotice('Student status updated successfully.')
+      setNotice(t('pages:students.noticeStatus'))
       setErrorNotice(null)
       setStatusOpen(false)
       setStatusTarget(null)
@@ -124,14 +126,14 @@ export function StudentsPage() {
         navigate('/workspaces', { replace: true })
         return
       }
-      setErrorNotice(errorMessage(error))
+      setErrorNotice(errorMessage(error, t('common:requestFailed')))
     },
   })
 
   const whatsappMutation = useMutation({
     mutationFn: getStudentWhatsappLink,
     onSuccess: (url) => {
-      setNotice('Opening WhatsApp link...')
+      setNotice(t('pages:students.noticeWhatsapp'))
       setErrorNotice(null)
       window.open(url, '_blank', 'noopener,noreferrer')
     },
@@ -140,7 +142,7 @@ export function StudentsPage() {
         navigate('/workspaces', { replace: true })
         return
       }
-      setErrorNotice(errorMessage(error))
+      setErrorNotice(errorMessage(error, t('common:requestFailed')))
     },
   })
 
@@ -154,8 +156,8 @@ export function StudentsPage() {
       <div className="rounded-lg border border-border bg-card p-4">
         <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
           <div>
-            <h2 className="text-xl font-semibold">Students</h2>
-            <p className="text-sm text-muted">Manage active/passive students in your current workspace.</p>
+            <h2 className="text-xl font-semibold">{t('pages:students.title')}</h2>
+            <p className="text-sm text-muted">{t('pages:students.description')}</p>
           </div>
           <Button
             onClick={() => {
@@ -164,12 +166,12 @@ export function StudentsPage() {
               setFormOpen(true)
             }}
           >
-            New Student
+            {t('pages:students.new')}
           </Button>
         </div>
 
         <div className="mb-4 grid gap-3 sm:grid-cols-3">
-          <Input placeholder="Search name or phone..." value={searchInput} onChange={(e) => setSearchInput(e.target.value)} />
+          <Input placeholder={t('pages:students.searchPlaceholder')} value={searchInput} onChange={(e) => setSearchInput(e.target.value)} />
           <Select
             value={status}
             onChange={(e) => {
@@ -177,9 +179,9 @@ export function StudentsPage() {
               setPage(1)
             }}
           >
-            <option value="active">Active</option>
-            <option value="passive">Passive</option>
-            <option value="all">All</option>
+            <option value="active">{t('common:active')}</option>
+            <option value="passive">{t('common:passive')}</option>
+            <option value="all">{t('common:all')}</option>
           </Select>
           <Select
             value={String(perPage)}
@@ -204,7 +206,7 @@ export function StudentsPage() {
             <Skeleton className="h-10 w-full" />
           </div>
         ) : studentsQuery.isError ? (
-          <p className="text-sm text-danger">{errorMessage(studentsQuery.error)}</p>
+          <p className="text-sm text-danger">{errorMessage(studentsQuery.error, t('common:requestFailed'))}</p>
         ) : (
           <>
             <StudentsTable
@@ -225,7 +227,11 @@ export function StudentsPage() {
 
             <div className="mt-4 flex items-center justify-between">
               <p className="text-sm text-muted">
-                Page {pagination?.current_page ?? 1} / {pagination?.last_page ?? 1} • Total {pagination?.total ?? 0}
+                {t('pages:students.pagination', {
+                  page: pagination?.current_page ?? 1,
+                  lastPage: pagination?.last_page ?? 1,
+                  total: pagination?.total ?? 0,
+                })}
               </p>
               <div className="flex gap-2">
                 <Button
@@ -234,7 +240,7 @@ export function StudentsPage() {
                   disabled={(pagination?.current_page ?? 1) <= 1}
                   onClick={() => setPage((prev) => Math.max(1, prev - 1))}
                 >
-                  Prev
+                  {t('common:prev')}
                 </Button>
                 <Button
                   variant="outline"
@@ -242,7 +248,7 @@ export function StudentsPage() {
                   disabled={(pagination?.current_page ?? 1) >= (pagination?.last_page ?? 1)}
                   onClick={() => setPage((prev) => prev + 1)}
                 >
-                  Next
+                  {t('common:next')}
                 </Button>
               </div>
             </div>

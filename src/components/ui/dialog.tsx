@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import { Button } from './button'
 
 type DialogProps = {
@@ -10,6 +11,8 @@ type DialogProps = {
 }
 
 export function Dialog({ open, title, description, children, onClose, footer }: DialogProps) {
+  const { t } = useTranslation(['common'])
+
   if (!open) return null
 
   return (
@@ -21,7 +24,7 @@ export function Dialog({ open, title, description, children, onClose, footer }: 
             {description ? <p className="text-sm text-muted">{description}</p> : null}
           </div>
           <Button variant="outline" size="sm" onClick={onClose}>
-            Close
+            {t('common:close')}
           </Button>
         </div>
         <div>{children}</div>

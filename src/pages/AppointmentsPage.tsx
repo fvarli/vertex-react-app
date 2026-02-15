@@ -2,6 +2,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { AxiosError } from 'axios'
 import dayjs from 'dayjs'
 import { useMemo, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 import { Button } from '../components/ui/button'
 import { Input } from '../components/ui/input'
@@ -22,13 +23,13 @@ function isWorkspaceForbidden(error: unknown): boolean {
   return error.response?.status === 403
 }
 
-function errorMessage(error: unknown): string {
+function errorMessage(error: unknown, fallback: string): string {
   if (error instanceof AxiosError) {
     const message = error.response?.data?.message
     if (typeof message === 'string') return message
   }
 
-  return 'Request failed. Please try again.'
+  return fallback
 }
 
 function toLocalInput(value: string): string {
@@ -40,6 +41,7 @@ function formatDate(value: string): string {
 }
 
 export function AppointmentsPage() {
+  const { t } = useTranslation(['pages', 'common'])
   const navigate = useNavigate()
   const queryClient = useQueryClient()
 
@@ -87,7 +89,7 @@ export function AppointmentsPage() {
   const createMutation = useMutation({
     mutationFn: createAppointment,
     onSuccess: async () => {
-      setNotice('Appointment created successfully.')
+      setNotice(t('pages:appointments.noticeCreated'))
       setErrorNotice(null)
       setFormOpen(false)
       await queryClient.invalidateQueries({ queryKey: ['appointments'] })
@@ -98,7 +100,7 @@ export function AppointmentsPage() {
         navigate('/workspaces', { replace: true })
         return
       }
-      setErrorNotice(errorMessage(error))
+      setErrorNotice(errorMessage(error, t('common:requestFailed')))
     },
   })
 
@@ -106,7 +108,7 @@ export function AppointmentsPage() {
     mutationFn: ({ appointmentId, payload }: { appointmentId: number; payload: Parameters<typeof updateAppointment>[1] }) =>
       updateAppointment(appointmentId, payload),
     onSuccess: async () => {
-      setNotice('Appointment updated successfully.')
+      setNotice(t('pages:appointments.noticeUpdated'))
       setErrorNotice(null)
       setFormOpen(false)
       setActiveAppointment(null)
@@ -118,7 +120,7 @@ export function AppointmentsPage() {
         navigate('/workspaces', { replace: true })
         return
       }
-      setErrorNotice(errorMessage(error))
+      setErrorNotice(errorMessage(error, t('common:requestFailed')))
     },
   })
 
@@ -126,7 +128,7 @@ export function AppointmentsPage() {
     mutationFn: ({ appointmentId, nextStatus }: { appointmentId: number; nextStatus: AppointmentStatus }) =>
       updateAppointmentStatus(appointmentId, { status: nextStatus }),
     onSuccess: async () => {
-      setNotice('Appointment status updated.')
+      setNotice(t('pages:appointments.noticeStatus'))
       setErrorNotice(null)
       await queryClient.invalidateQueries({ queryKey: ['appointments'] })
       await queryClient.invalidateQueries({ queryKey: ['calendar'] })
@@ -136,7 +138,7 @@ export function AppointmentsPage() {
         navigate('/workspaces', { replace: true })
         return
       }
-      setErrorNotice(errorMessage(error))
+      setErrorNotice(errorMessage(error, t('common:requestFailed')))
     },
   })
 
@@ -170,7 +172,7 @@ export function AppointmentsPage() {
     event.preventDefault()
 
     if (!formStudentId) {
-      setErrorNotice('Please select student.')
+      setErrorNotice(t('pages:appointments.needStudent'))
       return
     }
 
@@ -195,27 +197,27 @@ export function AppointmentsPage() {
       <div className="rounded-lg border border-border bg-card p-4">
         <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
           <div>
-            <h2 className="text-xl font-semibold">Appointments</h2>
-            <p className="text-sm text-muted">Schedule sessions with conflict-aware backend validation.</p>
+            <h2 className="text-xl font-semibold">{t('pages:appointments.title')}</h2>
+            <p className="text-sm text-muted">{t('pages:appointments.description')}</p>
           </div>
-          <Button onClick={openCreateForm}>New Appointment</Button>
+          <Button onClick={openCreateForm}>{t('pages:appointments.new')}</Button>
         </div>
 
         <div className="mb-4 grid gap-3 sm:grid-cols-4">
           <Input type="datetime-local" value={from} onChange={(e) => setFrom(e.target.value)} />
           <Input type="datetime-local" value={to} onChange={(e) => setTo(e.target.value)} />
           <Select value={status} onChange={(e) => setStatus(e.target.value as AppointmentStatus | 'all')}>
-            <option value="all">All Status</option>
-            <option value="planned">Planned</option>
-            <option value="done">Done</option>
-            <option value="cancelled">Cancelled</option>
-            <option value="no_show">No Show</option>
+            <option value="all">{t('pages:appointments.allStatus')}</option>
+            <option value="planned">{t('common:planned')}</option>
+            <option value="done">{t('common:done')}</option>
+            <option value="cancelled">{t('common:cancelled')}</option>
+            <option value="no_show">{t('common:no_show')}</option>
           </Select>
           <Select
             value={studentId ? String(studentId) : ''}
             onChange={(e) => setStudentId(e.target.value ? Number(e.target.value) : null)}
           >
-            <option value="">All Students</option>
+            <option value="">{t('pages:appointments.allStudents')}</option>
             {students.map((student) => (
               <option key={student.id} value={student.id}>
                 {student.full_name}
@@ -234,18 +236,18 @@ export function AppointmentsPage() {
             <Skeleton className="h-10 w-full" />
           </div>
         ) : appointmentsQuery.isError ? (
-          <p className="text-sm text-danger">{errorMessage(appointmentsQuery.error)}</p>
+          <p className="text-sm text-danger">{errorMessage(appointmentsQuery.error, t('common:requestFailed'))}</p>
         ) : (
           <>
             <Table>
               <THead>
                 <tr>
-                  <TH>ID</TH>
-                  <TH>Student</TH>
-                  <TH>Start</TH>
-                  <TH>End</TH>
-                  <TH>Status</TH>
-                  <TH>Actions</TH>
+                  <TH>{t('pages:appointments.table.id')}</TH>
+                  <TH>{t('pages:appointments.table.student')}</TH>
+                  <TH>{t('pages:appointments.table.start')}</TH>
+                  <TH>{t('pages:appointments.table.end')}</TH>
+                  <TH>{t('pages:appointments.table.status')}</TH>
+                  <TH>{t('pages:appointments.table.actions')}</TH>
                 </tr>
               </THead>
               <TBody>
@@ -255,32 +257,32 @@ export function AppointmentsPage() {
                     <TD>{students.find((student) => student.id === appointment.student_id)?.full_name ?? appointment.student_id}</TD>
                     <TD>{formatDate(appointment.starts_at)}</TD>
                     <TD>{formatDate(appointment.ends_at)}</TD>
-                    <TD>{appointment.status}</TD>
+                    <TD>{t(`common:${appointment.status}`)}</TD>
                     <TD>
                       <div className="flex flex-wrap gap-2">
                         <Button size="sm" variant="outline" onClick={() => openEditForm(appointment)}>
-                          Edit
+                          {t('common:edit')}
                         </Button>
                         <Button
                           size="sm"
                           variant="secondary"
                           onClick={() => void statusMutation.mutateAsync({ appointmentId: appointment.id, nextStatus: 'done' })}
                         >
-                          Done
+                          {t('common:done')}
                         </Button>
                         <Button
                           size="sm"
                           variant="outline"
                           onClick={() => void statusMutation.mutateAsync({ appointmentId: appointment.id, nextStatus: 'no_show' })}
                         >
-                          No Show
+                          {t('pages:appointments.table.noShow')}
                         </Button>
                         <Button
                           size="sm"
                           variant="danger"
                           onClick={() => void statusMutation.mutateAsync({ appointmentId: appointment.id, nextStatus: 'cancelled' })}
                         >
-                          Cancel
+                          {t('pages:appointments.table.cancel')}
                         </Button>
                       </div>
                     </TD>
@@ -291,7 +293,11 @@ export function AppointmentsPage() {
 
             <div className="mt-4 flex items-center justify-between">
               <p className="text-sm text-muted">
-                Page {pagination?.current_page ?? 1} / {pagination?.last_page ?? 1} • Total {pagination?.total ?? 0}
+                {t('pages:appointments.pagination', {
+                  page: pagination?.current_page ?? 1,
+                  lastPage: pagination?.last_page ?? 1,
+                  total: pagination?.total ?? 0,
+                })}
               </p>
               <div className="flex gap-2">
                 <Button
@@ -300,7 +306,7 @@ export function AppointmentsPage() {
                   disabled={(pagination?.current_page ?? 1) <= 1}
                   onClick={() => setPage((prev) => Math.max(1, prev - 1))}
                 >
-                  Prev
+                  {t('common:prev')}
                 </Button>
                 <Button
                   variant="outline"
@@ -308,7 +314,7 @@ export function AppointmentsPage() {
                   disabled={(pagination?.current_page ?? 1) >= (pagination?.last_page ?? 1)}
                   onClick={() => setPage((prev) => prev + 1)}
                 >
-                  Next
+                  {t('common:next')}
                 </Button>
               </div>
             </div>
@@ -318,10 +324,10 @@ export function AppointmentsPage() {
 
       {formOpen ? (
         <div className="rounded-lg border border-border bg-card p-4">
-          <h3 className="mb-3 text-lg font-semibold">{isEditing ? 'Edit Appointment' : 'New Appointment'}</h3>
+          <h3 className="mb-3 text-lg font-semibold">{isEditing ? t('pages:appointments.form.editTitle') : t('pages:appointments.form.newTitle')}</h3>
           <form className="space-y-3" onSubmit={submitForm}>
             <Select value={formStudentId} onChange={(e) => setFormStudentId(e.target.value)} required>
-              <option value="">Select student</option>
+              <option value="">{t('common:selectStudent')}</option>
               {students.map((student) => (
                 <option key={student.id} value={student.id}>
                   {student.full_name}
@@ -332,11 +338,11 @@ export function AppointmentsPage() {
               <Input type="datetime-local" value={formStartsAt} onChange={(e) => setFormStartsAt(e.target.value)} required />
               <Input type="datetime-local" value={formEndsAt} onChange={(e) => setFormEndsAt(e.target.value)} required />
             </div>
-            <Input placeholder="Location (optional)" value={formLocation} onChange={(e) => setFormLocation(e.target.value)} />
-            <Input placeholder="Notes (optional)" value={formNotes} onChange={(e) => setFormNotes(e.target.value)} />
+            <Input placeholder={t('pages:appointments.form.location')} value={formLocation} onChange={(e) => setFormLocation(e.target.value)} />
+            <Input placeholder={t('pages:appointments.form.notes')} value={formNotes} onChange={(e) => setFormNotes(e.target.value)} />
             <div className="flex gap-2">
               <Button type="submit" disabled={createMutation.isPending || updateMutation.isPending}>
-                {createMutation.isPending || updateMutation.isPending ? 'Saving...' : 'Save'}
+                {createMutation.isPending || updateMutation.isPending ? t('common:saving') : t('common:save')}
               </Button>
               <Button
                 type="button"
@@ -346,7 +352,7 @@ export function AppointmentsPage() {
                   setActiveAppointment(null)
                 }}
               >
-                Close
+                {t('common:close')}
               </Button>
             </div>
           </form>

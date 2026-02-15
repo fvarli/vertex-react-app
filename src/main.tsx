@@ -6,6 +6,7 @@ import { AuthProvider } from './features/auth/auth-context'
 import { queryClient } from './app/query-client'
 import { router } from './app/router'
 import { initTheme } from './features/theme/theme'
+import './i18n'
 import './index.css'
 
 initTheme()

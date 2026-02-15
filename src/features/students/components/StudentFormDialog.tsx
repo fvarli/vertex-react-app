@@ -1,6 +1,7 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
+import { useTranslation } from 'react-i18next'
 import { Button } from '../../../components/ui/button'
 import { Dialog } from '../../../components/ui/dialog'
 import { Input } from '../../../components/ui/input'
@@ -17,6 +18,7 @@ type StudentFormDialogProps = {
 }
 
 export function StudentFormDialog({ open, mode, student, submitting, onClose, onSubmit }: StudentFormDialogProps) {
+  const { t } = useTranslation(['pages', 'common'])
   const {
     register,
     handleSubmit,
@@ -45,38 +47,38 @@ export function StudentFormDialog({ open, mode, student, submitting, onClose, on
     <Dialog
       open={open}
       onClose={onClose}
-      title={mode === 'create' ? 'Create Student' : 'Edit Student'}
-      description="Student records are scoped to your active workspace"
+      title={mode === 'create' ? t('pages:students.form.createTitle') : t('pages:students.form.editTitle')}
+      description={t('pages:students.form.description')}
       footer={
         <>
           <Button variant="outline" onClick={onClose} disabled={submitting}>
-            Cancel
+            {t('common:cancel')}
           </Button>
           <Button onClick={handleSubmit((values) => onSubmit(values))} disabled={submitting}>
-            {submitting ? 'Saving...' : 'Save'}
+            {submitting ? t('common:saving') : t('common:save')}
           </Button>
         </>
       }
     >
       <div className="grid gap-3">
         <label className="grid gap-1 text-sm">
-          Full Name
+          {t('pages:students.form.fullName')}
           <Input {...register('full_name')} />
           {errors.full_name ? <span className="text-xs text-danger">{errors.full_name.message}</span> : null}
         </label>
 
         <label className="grid gap-1 text-sm">
-          Phone
+          {t('pages:students.form.phone')}
           <Input {...register('phone')} />
           {errors.phone ? <span className="text-xs text-danger">{errors.phone.message}</span> : null}
         </label>
 
         <label className="grid gap-1 text-sm">
-          Notes
+          {t('pages:students.form.notes')}
           <textarea
             {...register('notes')}
             rows={3}
-            className="w-full rounded-md border border-border px-3 py-2 text-sm outline-none focus-visible:ring-2"
+            className="w-full rounded-md border border-border bg-background px-3 py-2 text-sm text-foreground outline-none focus-visible:ring-2 focus-visible:ring-primary"
           />
           {errors.notes ? <span className="text-xs text-danger">{errors.notes.message}</span> : null}
         </label>

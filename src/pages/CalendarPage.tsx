@@ -2,6 +2,7 @@ import { useQuery } from '@tanstack/react-query'
 import { AxiosError } from 'axios'
 import dayjs from 'dayjs'
 import { useEffect, useMemo, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 import { Input } from '../components/ui/input'
 import { Select } from '../components/ui/select'
@@ -14,13 +15,13 @@ function isWorkspaceForbidden(error: unknown): boolean {
   return error.response?.status === 403
 }
 
-function errorMessage(error: unknown): string {
+function errorMessage(error: unknown, fallback: string): string {
   if (error instanceof AxiosError) {
     const message = error.response?.data?.message
     if (typeof message === 'string') return message
   }
 
-  return 'Request failed. Please try again.'
+  return fallback
 }
 
 function formatDateTime(value: string): string {
@@ -28,6 +29,7 @@ function formatDateTime(value: string): string {
 }
 
 export function CalendarPage() {
+  const { t } = useTranslation(['pages', 'common'])
   const navigate = useNavigate()
   const [from, setFrom] = useState(dayjs().startOf('day').format('YYYY-MM-DDTHH:mm'))
   const [to, setTo] = useState(dayjs().add(7, 'day').endOf('day').format('YYYY-MM-DDTHH:mm'))
@@ -64,8 +66,8 @@ export function CalendarPage() {
   return (
     <div className="space-y-4">
       <div className="rounded-lg border border-border bg-card p-4">
-        <h2 className="mb-2 text-xl font-semibold">Calendar</h2>
-        <p className="mb-4 text-sm text-muted">Week/day schedule view from backend availability endpoint.</p>
+        <h2 className="mb-2 text-xl font-semibold">{t('pages:calendar.title')}</h2>
+        <p className="mb-4 text-sm text-muted">{t('pages:calendar.description')}</p>
 
         <div className="mb-4 grid gap-3 sm:grid-cols-3">
           <Input type="datetime-local" value={from} onChange={(e) => setFrom(e.target.value)} />
@@ -74,10 +76,10 @@ export function CalendarPage() {
             value={trainerId ? String(trainerId) : ''}
             onChange={(e) => setTrainerId(e.target.value ? Number(e.target.value) : null)}
           >
-            <option value="">Current trainer/all</option>
+            <option value="">{t('pages:calendar.trainerFilter')}</option>
             {Array.from(new Set(students.map((student) => student.trainer_user_id))).map((id) => (
               <option key={id} value={id}>
-                Trainer #{id}
+                {t('pages:calendar.trainer', { id })}
               </option>
             ))}
           </Select>
@@ -89,11 +91,11 @@ export function CalendarPage() {
             <Skeleton className="h-10 w-full" />
           </div>
         ) : calendarQuery.isError ? (
-          <p className="text-sm text-danger">{errorMessage(calendarQuery.error)}</p>
+          <p className="text-sm text-danger">{errorMessage(calendarQuery.error, t('common:requestFailed'))}</p>
         ) : (
           <div className="space-y-3">
             {days.length === 0 ? (
-              <p className="text-sm text-muted">No appointments in selected range.</p>
+              <p className="text-sm text-muted">{t('pages:calendar.empty')}</p>
             ) : (
               days.map((day) => (
                 <div key={day.date} className="rounded-md border border-border p-3">
@@ -101,8 +103,8 @@ export function CalendarPage() {
                   <div className="space-y-2">
                     {day.items.map((item) => (
                       <div key={item.id} className="rounded-md bg-border/30 px-3 py-2 text-sm">
-                        <strong>{formatDateTime(item.starts_at)}</strong> - {formatDateTime(item.ends_at)} • Student #{item.student_id} •{' '}
-                        {item.status}
+                        <strong>{formatDateTime(item.starts_at)}</strong> - {formatDateTime(item.ends_at)} • {t('pages:calendar.student')} #{item.student_id} •{' '}
+                        {t(`common:${item.status}`)}
                         {item.location ? ` • ${item.location}` : ''}
                       </div>
                     ))}

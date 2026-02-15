@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import axios from 'axios'
 import { useLocation, useNavigate } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import { useAuth } from '../features/auth/auth-context'
 import type { ApiUser } from '../features/auth/types'
 
@@ -15,6 +16,7 @@ function defaultRouteForUser(user: ApiUser): string {
 }
 
 export function LoginPage() {
+  const { t } = useTranslation(['auth'])
   const { login } = useAuth()
   const navigate = useNavigate()
   const location = useLocation()
@@ -35,7 +37,7 @@ export function LoginPage() {
       navigate(from ?? defaultRouteForUser(user), { replace: true })
     } catch (error) {
       const apiMessage = axios.isAxiosError<{ message?: string }>(error) ? error.response?.data?.message : undefined
-      setError(apiMessage ?? 'Login failed. Check email/password.')
+      setError(apiMessage ?? t('auth:failed'))
     } finally {
       setIsSubmitting(false)
     }
@@ -44,17 +46,17 @@ export function LoginPage() {
   return (
     <div className="centered-screen">
       <form className="panel" onSubmit={handleSubmit}>
-        <h2>Sign In</h2>
+        <h2>{t('auth:signIn')}</h2>
         <label>
-          Email
+          {t('auth:email')}
           <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
         </label>
         <label>
-          Password
+          {t('auth:password')}
           <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
         </label>
         {error ? <p className="error">{error}</p> : null}
-        <button disabled={isSubmitting}>{isSubmitting ? 'Signing in...' : 'Sign In'}</button>
+        <button disabled={isSubmitting}>{isSubmitting ? t('auth:submitting') : t('auth:signIn')}</button>
       </form>
     </div>
   )
