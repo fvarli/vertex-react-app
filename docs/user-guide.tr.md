@@ -17,7 +17,7 @@ Aktif çalışma alanı seçilmezse, korumalı domain sayfaları otomatik olarak
 3. Öğrenci bazlı haftalık `Programlar` planla ve takip et.
 4. Çakışma kontrollü doğrulama ile `Randevular` oluştur/güncelle.
 5. Gün/hafta görünümünü `Takvim` üzerinden takip et.
-6. Öğrenci tablosundan WhatsApp kısayol bağlantılarını kullan.
+6. `Randevular` ekranında randevu bazlı WhatsApp aksiyonlarını kullan (`WhatsApp Aç` + gönderildi/gönderilmedi durumu).
 
 ## Trainer hızlı akış
 1. Aktif çalışma alanını seç.

@@ -11,11 +11,13 @@ import { Skeleton } from '../components/ui/skeleton'
 import { TBody, TD, TH, THead, Table } from '../components/ui/table'
 import {
   createAppointment,
+  getAppointmentWhatsappLink,
   listAppointments,
   updateAppointment,
   updateAppointmentStatus,
+  updateAppointmentWhatsappStatus,
 } from '../features/appointments/api'
-import type { Appointment, AppointmentStatus } from '../features/appointments/types'
+import type { Appointment, AppointmentStatus, AppointmentWhatsappStatus } from '../features/appointments/types'
 import { listStudents } from '../features/students/api'
 import { extractApiMessage, extractValidationErrors, isForbidden, isValidationError } from '../lib/api-errors'
 
@@ -33,6 +35,7 @@ export function AppointmentsPage() {
   const queryClient = useQueryClient()
 
   const [status, setStatus] = useState<AppointmentStatus | 'all'>('all')
+  const [whatsappStatus, setWhatsappStatus] = useState<AppointmentWhatsappStatus | 'all'>('all')
   const [studentId, setStudentId] = useState<number | null>(null)
   const [from, setFrom] = useState(dayjs().startOf('day').format('YYYY-MM-DDTHH:mm'))
   const [to, setTo] = useState(dayjs().add(7, 'day').endOf('day').format('YYYY-MM-DDTHH:mm'))
@@ -54,13 +57,14 @@ export function AppointmentsPage() {
   const filters = useMemo(
     () => ({
       status,
+      whatsapp_status: whatsappStatus,
       student_id: studentId ?? undefined,
       date_from: dayjs(from).format('YYYY-MM-DD HH:mm:ss'),
       date_to: dayjs(to).format('YYYY-MM-DD HH:mm:ss'),
       page,
       per_page: 15,
     }),
-    [status, studentId, from, to, page],
+    [status, whatsappStatus, studentId, from, to, page],
   )
 
   const appointmentsQuery = useQuery({
@@ -153,6 +157,39 @@ export function AppointmentsPage() {
     },
   })
 
+  const whatsappStatusMutation = useMutation({
+    mutationFn: ({ appointmentId, nextStatus }: { appointmentId: number; nextStatus: AppointmentWhatsappStatus }) =>
+      updateAppointmentWhatsappStatus(appointmentId, { whatsapp_status: nextStatus }),
+    onSuccess: async () => {
+      setNotice(t('pages:appointments.noticeWhatsappStatus'))
+      setErrorNotice(null)
+      await queryClient.invalidateQueries({ queryKey: ['appointments'] })
+    },
+    onError: (error) => {
+      if (isForbidden(error)) {
+        navigate('/workspaces', { replace: true })
+        return
+      }
+      setErrorNotice(extractApiMessage(error, t('common:requestFailed')))
+    },
+  })
+
+  const whatsappLinkMutation = useMutation({
+    mutationFn: getAppointmentWhatsappLink,
+    onSuccess: (url) => {
+      setNotice(t('pages:appointments.noticeWhatsappOpened'))
+      setErrorNotice(null)
+      window.open(url, '_blank', 'noopener,noreferrer')
+    },
+    onError: (error) => {
+      if (isForbidden(error)) {
+        navigate('/workspaces', { replace: true })
+        return
+      }
+      setErrorNotice(extractApiMessage(error, t('common:requestFailed')))
+    },
+  })
+
   const pagination = appointmentsQuery.data
   const appointments = pagination?.data ?? []
   const students = studentsQuery.data?.data ?? []
@@ -215,7 +252,7 @@ export function AppointmentsPage() {
           <Button onClick={openCreateForm}>{t('pages:appointments.new')}</Button>
         </div>
 
-        <div className="filter-surface mb-4 grid gap-3 sm:grid-cols-4">
+        <div className="filter-surface mb-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
           <Input type="datetime-local" value={from} onChange={(e) => setFrom(e.target.value)} />
           <Input type="datetime-local" value={to} onChange={(e) => setTo(e.target.value)} />
           <Select value={status} onChange={(e) => setStatus(e.target.value as AppointmentStatus | 'all')}>
@@ -224,6 +261,11 @@ export function AppointmentsPage() {
             <option value="done">{t('common:done')}</option>
             <option value="cancelled">{t('common:cancelled')}</option>
             <option value="no_show">{t('common:no_show')}</option>
+          </Select>
+          <Select value={whatsappStatus} onChange={(e) => setWhatsappStatus(e.target.value as AppointmentWhatsappStatus | 'all')}>
+            <option value="all">{t('pages:appointments.whatsapp.filterAll')}</option>
+            <option value="sent">{t('pages:appointments.whatsapp.sent')}</option>
+            <option value="not_sent">{t('pages:appointments.whatsapp.notSent')}</option>
           </Select>
           <Select
             value={studentId ? String(studentId) : ''}
@@ -262,9 +304,29 @@ export function AppointmentsPage() {
                       <p className="text-xs text-muted">{formatDate(appointment.starts_at)}</p>
                       <p className="text-xs text-muted">{formatDate(appointment.ends_at)}</p>
                     </div>
-                    <Badge variant={appointment.status === 'done' ? 'success' : 'muted'}>{t(`common:${appointment.status}`)}</Badge>
+                    <div className="flex flex-col items-end gap-1">
+                      <Badge variant={appointment.status === 'done' ? 'success' : 'muted'}>{t(`common:${appointment.status}`)}</Badge>
+                      <Badge variant={appointment.whatsapp_status === 'sent' ? 'success' : 'muted'}>
+                        {appointment.whatsapp_status === 'sent' ? t('pages:appointments.whatsapp.sent') : t('pages:appointments.whatsapp.notSent')}
+                      </Badge>
+                    </div>
                   </div>
                   <div className="mt-3 grid gap-2">
+                    <Button size="sm" onClick={() => void whatsappLinkMutation.mutateAsync(appointment.id)}>
+                      {t('pages:appointments.whatsapp.open')}
+                    </Button>
+                    <Button
+                      size="sm"
+                      variant="secondary"
+                      onClick={() =>
+                        void whatsappStatusMutation.mutateAsync({
+                          appointmentId: appointment.id,
+                          nextStatus: appointment.whatsapp_status === 'sent' ? 'not_sent' : 'sent',
+                        })
+                      }
+                    >
+                      {appointment.whatsapp_status === 'sent' ? t('pages:appointments.whatsapp.markNotSent') : t('pages:appointments.whatsapp.markSent')}
+                    </Button>
                     <Button size="sm" variant="outline" onClick={() => openEditForm(appointment)}>
                       {t('common:edit')}
                     </Button>
@@ -291,6 +353,7 @@ export function AppointmentsPage() {
                     <TH>{t('pages:appointments.table.start')}</TH>
                     <TH>{t('pages:appointments.table.end')}</TH>
                     <TH>{t('pages:appointments.table.status')}</TH>
+                    <TH>{t('pages:appointments.whatsapp.column')}</TH>
                     <TH>{t('pages:appointments.table.actions')}</TH>
                   </tr>
                 </THead>
@@ -305,7 +368,27 @@ export function AppointmentsPage() {
                         <Badge variant={appointment.status === 'done' ? 'success' : 'muted'}>{t(`common:${appointment.status}`)}</Badge>
                       </TD>
                       <TD>
+                        <Badge variant={appointment.whatsapp_status === 'sent' ? 'success' : 'muted'}>
+                          {appointment.whatsapp_status === 'sent' ? t('pages:appointments.whatsapp.sent') : t('pages:appointments.whatsapp.notSent')}
+                        </Badge>
+                      </TD>
+                      <TD>
                         <div className="flex flex-wrap gap-2">
+                          <Button size="sm" onClick={() => void whatsappLinkMutation.mutateAsync(appointment.id)}>
+                            {t('pages:appointments.whatsapp.open')}
+                          </Button>
+                          <Button
+                            size="sm"
+                            variant="secondary"
+                            onClick={() =>
+                              void whatsappStatusMutation.mutateAsync({
+                                appointmentId: appointment.id,
+                                nextStatus: appointment.whatsapp_status === 'sent' ? 'not_sent' : 'sent',
+                              })
+                            }
+                          >
+                            {appointment.whatsapp_status === 'sent' ? t('pages:appointments.whatsapp.markNotSent') : t('pages:appointments.whatsapp.markSent')}
+                          </Button>
                           <Button size="sm" variant="outline" onClick={() => openEditForm(appointment)}>
                             {t('common:edit')}
                           </Button>

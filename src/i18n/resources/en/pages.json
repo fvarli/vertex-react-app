@@ -48,7 +48,7 @@
       "step1Title": "Select active workspace",
       "step1Detail": "Go to Workspaces and pick the workspace you want to manage for this session.",
       "step2Title": "Manage students",
-      "step2Detail": "Create and update students, set active/passive status, and use WhatsApp shortcut links.",
+      "step2Detail": "Create and update students and keep active/passive status accurate.",
       "step3Title": "Plan weekly programs",
       "step3Detail": "Assign programs per student and keep week-by-week updates in a single place.",
       "step4Title": "Control appointments and calendar",
@@ -147,6 +147,8 @@
     "noticeCreated": "Appointment created successfully.",
     "noticeUpdated": "Appointment updated successfully.",
     "noticeStatus": "Appointment status updated.",
+    "noticeWhatsappOpened": "Opening WhatsApp link...",
+    "noticeWhatsappStatus": "WhatsApp send status updated.",
     "needStudent": "Please select student.",
     "table": {
       "id": "ID",
@@ -168,6 +170,15 @@
     "errors": {
       "timeSlotConflict": "Selected time slot conflicts with existing trainer or student schedule.",
       "idempotencyMismatch": "Duplicate submit key reused with different payload. Please retry from fresh form state."
+    },
+    "whatsapp": {
+      "column": "WhatsApp",
+      "filterAll": "All WhatsApp",
+      "sent": "Sent",
+      "notSent": "Not sent",
+      "open": "Open WhatsApp",
+      "markSent": "Mark sent",
+      "markNotSent": "Mark not sent"
     }
   },
   "calendar": {

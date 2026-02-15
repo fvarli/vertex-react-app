@@ -48,7 +48,7 @@
       "step1Title": "Aktif çalışma alanını seç",
       "step1Detail": "Çalışma Alanları sayfasından bu oturumda yöneteceğin alanı seç.",
       "step2Title": "Öğrencileri yönet",
-      "step2Detail": "Öğrenci ekle-güncelle, aktif/pasif durumunu değiştir ve WhatsApp kısayollarını kullan.",
+      "step2Detail": "Öğrenci ekle-güncelle ve aktif/pasif durumunu güncel tut.",
       "step3Title": "Haftalık programları planla",
       "step3Detail": "Öğrenci bazlı program atayıp haftalık güncellemeleri tek yerde tut.",
       "step4Title": "Randevu ve takvimi kontrol et",
@@ -147,6 +147,8 @@
     "noticeCreated": "Randevu başarıyla oluşturuldu.",
     "noticeUpdated": "Randevu başarıyla güncellendi.",
     "noticeStatus": "Randevu durumu güncellendi.",
+    "noticeWhatsappOpened": "WhatsApp bağlantısı açılıyor...",
+    "noticeWhatsappStatus": "WhatsApp gönderim durumu güncellendi.",
     "needStudent": "Lütfen öğrenci seçin.",
     "table": {
       "id": "ID",
@@ -168,6 +170,15 @@
     "errors": {
       "timeSlotConflict": "Seçilen saat aralığı mevcut antrenör veya öğrenci planı ile çakışıyor.",
       "idempotencyMismatch": "Aynı tekrar anahtarı farklı içerikle gönderildi. Formu yenileyip tekrar deneyin."
+    },
+    "whatsapp": {
+      "column": "WhatsApp",
+      "filterAll": "Tüm WhatsApp",
+      "sent": "Gönderildi",
+      "notSent": "Gönderilmedi",
+      "open": "WhatsApp Aç",
+      "markSent": "Gönderildi işaretle",
+      "markNotSent": "Gönderilmedi işaretle"
     }
   },
   "calendar": {

@@ -34,10 +34,3 @@ export async function updateStudentStatus(studentId: number, payload: StudentSta
   const response = await api.patch<ApiEnvelope<Student>>(`/students/${studentId}/status`, payload)
   return response.data.data
 }
-
-export async function getStudentWhatsappLink(studentId: number): Promise<string> {
-  const response = await api.get<ApiEnvelope<{ url: string }>>(`/students/${studentId}/whatsapp-link`, {
-    params: { template: 'reminder' },
-  })
-  return response.data.data.url
-}

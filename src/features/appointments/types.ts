@@ -1,4 +1,5 @@
 export type AppointmentStatus = 'planned' | 'done' | 'cancelled' | 'no_show'
+export type AppointmentWhatsappStatus = 'sent' | 'not_sent'
 
 export type Appointment = {
   id: number
@@ -8,6 +9,9 @@ export type Appointment = {
   starts_at: string
   ends_at: string
   status: AppointmentStatus
+  whatsapp_status: AppointmentWhatsappStatus
+  whatsapp_marked_at: string | null
+  whatsapp_marked_by_user_id: number | null
   location: string | null
   notes: string | null
   created_at: string
@@ -28,6 +32,7 @@ export type AppointmentListParams = {
   date_to?: string
   search?: string
   status?: AppointmentStatus | 'all'
+  whatsapp_status?: AppointmentWhatsappStatus | 'all'
   student_id?: number
   page?: number
   per_page?: number
@@ -48,6 +53,10 @@ export type AppointmentUpdatePayload = Partial<AppointmentPayload>
 
 export type AppointmentStatusPayload = {
   status: AppointmentStatus
+}
+
+export type AppointmentWhatsappStatusPayload = {
+  whatsapp_status: AppointmentWhatsappStatus
 }
 
 export type CalendarDay = {

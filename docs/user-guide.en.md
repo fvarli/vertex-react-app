@@ -17,7 +17,7 @@ If no active workspace is selected, protected domain pages redirect to `*/worksp
 3. Assign or review weekly `Programs` per student.
 4. Create or update `Appointments` with conflict-aware validation.
 5. Track day/week view from `Calendar`.
-6. Use student WhatsApp shortcut links directly from students table actions.
+6. Open `Appointments` and use WhatsApp actions per appointment (`Open WhatsApp` + sent/not-sent status).
 
 ## Trainer quick flow
 1. Select active workspace.

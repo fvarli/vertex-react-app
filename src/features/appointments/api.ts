@@ -6,6 +6,7 @@ import type {
   AppointmentListParams,
   AppointmentPayload,
   AppointmentStatusPayload,
+  AppointmentWhatsappStatusPayload,
   AppointmentUpdatePayload,
   CalendarPayload,
   Paginated,
@@ -15,6 +16,7 @@ export async function listAppointments(params: AppointmentListParams): Promise<P
   const query = compactQuery({
     ...params,
     status: params.status === 'all' ? undefined : params.status,
+    whatsapp_status: params.whatsapp_status === 'all' ? undefined : params.whatsapp_status,
   })
 
   const response = await api.get<ApiEnvelope<Paginated<Appointment>>>('/appointments', { params: query })
@@ -39,6 +41,18 @@ export async function updateAppointment(appointmentId: number, payload: Appointm
 export async function updateAppointmentStatus(appointmentId: number, payload: AppointmentStatusPayload): Promise<Appointment> {
   const response = await api.patch<ApiEnvelope<Appointment>>(`/appointments/${appointmentId}/status`, payload)
   return response.data.data
+}
+
+export async function updateAppointmentWhatsappStatus(appointmentId: number, payload: AppointmentWhatsappStatusPayload): Promise<Appointment> {
+  const response = await api.patch<ApiEnvelope<Appointment>>(`/appointments/${appointmentId}/whatsapp-status`, payload)
+  return response.data.data
+}
+
+export async function getAppointmentWhatsappLink(appointmentId: number): Promise<string> {
+  const response = await api.get<ApiEnvelope<{ url: string }>>(`/appointments/${appointmentId}/whatsapp-link`, {
+    params: { template: 'reminder' },
+  })
+  return response.data.data.url
 }
 
 export async function fetchCalendar(params: { from: string; to: string; trainer_id?: number }): Promise<CalendarPayload> {

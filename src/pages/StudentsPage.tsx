@@ -6,7 +6,7 @@ import { Button } from '../components/ui/button'
 import { Input } from '../components/ui/input'
 import { Select } from '../components/ui/select'
 import { Skeleton } from '../components/ui/skeleton'
-import { createStudent, getStudentWhatsappLink, listStudents, updateStudent, updateStudentStatus } from '../features/students/api'
+import { createStudent, listStudents, updateStudent, updateStudentStatus } from '../features/students/api'
 import { StudentFormDialog } from '../features/students/components/StudentFormDialog'
 import { StatusDialog } from '../features/students/components/StatusDialog'
 import { StudentsTable } from '../features/students/components/StudentsTable'
@@ -116,22 +116,6 @@ export function StudentsPage() {
     },
   })
 
-  const whatsappMutation = useMutation({
-    mutationFn: getStudentWhatsappLink,
-    onSuccess: (url) => {
-      setNotice(t('pages:students.noticeWhatsapp'))
-      setErrorNotice(null)
-      window.open(url, '_blank', 'noopener,noreferrer')
-    },
-    onError: (error) => {
-      if (isForbidden(error)) {
-        navigate('/workspaces', { replace: true })
-        return
-      }
-      setErrorNotice(extractApiMessage(error, t('common:requestFailed')))
-    },
-  })
-
   const pagination = studentsQuery.data
   const students = pagination?.data ?? []
 
@@ -207,9 +191,6 @@ export function StudentsPage() {
                 onStatus={(student) => {
                   setStatusTarget(student)
                   setStatusOpen(true)
-                }}
-                onWhatsApp={(student) => {
-                  void whatsappMutation.mutateAsync(student.id)
                 }}
               />
             </div>

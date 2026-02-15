@@ -142,9 +142,15 @@ Each role guide explains workspace flow, domain usage order, and troubleshooting
   - `POST /appointments`
   - `PUT /appointments/{id}`
   - `PATCH /appointments/{id}/status`
+  - `PATCH /appointments/{id}/whatsapp-status`
+  - `GET /appointments/{id}/whatsapp-link`
 - `CalendarPage` consumes `GET /calendar` and renders grouped `days[]` payload.
 - Conflict validation from backend is surfaced in UI (`422`, `errors.code = time_slot_conflict`).
 - Appointment create supports optional `Idempotency-Key` header on backend to prevent duplicate inserts.
+- WhatsApp reminder flow is appointment-scoped in UI:
+  - open deep link from appointment row/card
+  - mark reminder as `sent` or `not_sent`
+  - filter appointments by WhatsApp send status
 
 ## Dashboard
 
