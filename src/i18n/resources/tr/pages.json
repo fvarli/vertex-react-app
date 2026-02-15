@@ -1,7 +1,16 @@
 {
   "dashboard": {
     "title": "Panel",
-    "description": "Dahili MVP paneli hazır. Sonraki adım: KPI kartları ve bugün zaman çizelgesi entegrasyonu."
+    "description": "Aktif çalışma alanı kapsamındaki KPI değerleri ve bugün zaman çizelgesi.",
+    "cards": {
+      "activeStudents": "Aktif Öğrenciler",
+      "passiveStudents": "Pasif Öğrenciler",
+      "todayAppointments": "Bugünkü Randevular",
+      "upcomingAppointments": "Yaklaşan (7g)"
+    },
+    "timelineTitle": "Bugün Zaman Çizelgesi",
+    "timelineDescription": "Mevcut çalışma alanı kapsamında bugüne planlanan seanslar.",
+    "timelineEmpty": "Bugün için randevu yok."
   },
   "workspace": {
     "title": "Çalışma Alanları",

@@ -93,6 +93,9 @@ Checks on push/PR to `main`:
 - test
 - build
 
+Recommended branch protection on `main`:
+- require all `Frontend CI` checks to pass before merge
+
 ## Backend Contract
 
 Backend source of truth:
@@ -141,6 +144,16 @@ Each role guide explains workspace flow, domain usage order, and troubleshooting
   - `PATCH /appointments/{id}/status`
 - `CalendarPage` consumes `GET /calendar` and renders grouped `days[]` payload.
 - Conflict validation from backend is surfaced in UI (`422`, `errors.code = time_slot_conflict`).
+- Appointment create supports optional `Idempotency-Key` header on backend to prevent duplicate inserts.
+
+## Dashboard
+
+- `DashboardPage` consumes:
+  - `GET /dashboard/summary` for KPI cards
+  - `GET /appointments` filtered to today range for timeline
+- Scope is role-aware through backend:
+  - owner admin -> workspace-wide
+  - trainer -> own records
 
 ## Programs
 
@@ -151,6 +164,14 @@ Each role guide explains workspace flow, domain usage order, and troubleshooting
   - `PATCH /programs/{id}/status`
 - Supports week-based program CRUD with ordered item rows.
 - Backend validation errors (including active-per-week and duplicate day/order rules) are shown in UI.
+
+## API Error Handling
+
+- Shared helpers live in `src/lib/api-errors.ts`.
+- Common behavior:
+  - `403` -> redirect user to workspace selection in protected domain screens.
+  - `422` -> API validation payload can be parsed through `extractValidationErrors`.
+  - fallback message -> `extractApiMessage(error, fallback)`.
 
 ## Role-Aware Routing
 

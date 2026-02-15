@@ -1,7 +1,16 @@
 {
   "dashboard": {
     "title": "Dashboard",
-    "description": "Internal MVP panel ready. Next: connect KPI cards and today timeline."
+    "description": "Workspace KPIs and today's timeline from live backend data.",
+    "cards": {
+      "activeStudents": "Active Students",
+      "passiveStudents": "Passive Students",
+      "todayAppointments": "Today Appointments",
+      "upcomingAppointments": "Upcoming (7d)"
+    },
+    "timelineTitle": "Today Timeline",
+    "timelineDescription": "Sessions planned for today in the current workspace scope.",
+    "timelineEmpty": "No appointments for today."
   },
   "workspace": {
     "title": "Workspaces",

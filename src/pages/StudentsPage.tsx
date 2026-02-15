@@ -1,5 +1,4 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { AxiosError } from 'axios'
 import { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
@@ -12,20 +11,7 @@ import { StudentFormDialog } from '../features/students/components/StudentFormDi
 import { StatusDialog } from '../features/students/components/StatusDialog'
 import { StudentsTable } from '../features/students/components/StudentsTable'
 import type { Student, StudentStatus } from '../features/students/types'
-
-function isWorkspaceForbidden(error: unknown): boolean {
-  if (!(error instanceof AxiosError)) return false
-  return error.response?.status === 403
-}
-
-function errorMessage(error: unknown, fallback: string): string {
-  if (error instanceof AxiosError) {
-    const message = error.response?.data?.message
-    if (typeof message === 'string') return message
-  }
-
-  return fallback
-}
+import { extractApiMessage, isForbidden } from '../lib/api-errors'
 
 export function StudentsPage() {
   const { t } = useTranslation(['pages', 'common'])
@@ -71,7 +57,7 @@ export function StudentsPage() {
   })
 
   useEffect(() => {
-    if (studentsQuery.error && isWorkspaceForbidden(studentsQuery.error)) {
+    if (studentsQuery.error && isForbidden(studentsQuery.error)) {
       navigate('/workspaces', { replace: true })
     }
   }, [studentsQuery.error, navigate])
@@ -85,11 +71,11 @@ export function StudentsPage() {
       await queryClient.invalidateQueries({ queryKey: ['students'] })
     },
     onError: (error) => {
-      if (isWorkspaceForbidden(error)) {
+      if (isForbidden(error)) {
         navigate('/workspaces', { replace: true })
         return
       }
-      setErrorNotice(errorMessage(error, t('common:requestFailed')))
+      setErrorNotice(extractApiMessage(error, t('common:requestFailed')))
     },
   })
 
@@ -103,11 +89,11 @@ export function StudentsPage() {
       await queryClient.invalidateQueries({ queryKey: ['students'] })
     },
     onError: (error) => {
-      if (isWorkspaceForbidden(error)) {
+      if (isForbidden(error)) {
         navigate('/workspaces', { replace: true })
         return
       }
-      setErrorNotice(errorMessage(error, t('common:requestFailed')))
+      setErrorNotice(extractApiMessage(error, t('common:requestFailed')))
     },
   })
 
@@ -122,11 +108,11 @@ export function StudentsPage() {
       await queryClient.invalidateQueries({ queryKey: ['students'] })
     },
     onError: (error) => {
-      if (isWorkspaceForbidden(error)) {
+      if (isForbidden(error)) {
         navigate('/workspaces', { replace: true })
         return
       }
-      setErrorNotice(errorMessage(error, t('common:requestFailed')))
+      setErrorNotice(extractApiMessage(error, t('common:requestFailed')))
     },
   })
 
@@ -138,11 +124,11 @@ export function StudentsPage() {
       window.open(url, '_blank', 'noopener,noreferrer')
     },
     onError: (error) => {
-      if (isWorkspaceForbidden(error)) {
+      if (isForbidden(error)) {
         navigate('/workspaces', { replace: true })
         return
       }
-      setErrorNotice(errorMessage(error, t('common:requestFailed')))
+      setErrorNotice(extractApiMessage(error, t('common:requestFailed')))
     },
   })
 
@@ -206,7 +192,7 @@ export function StudentsPage() {
             <Skeleton className="h-10 w-full" />
           </div>
         ) : studentsQuery.isError ? (
-          <p className="text-sm text-danger">{errorMessage(studentsQuery.error, t('common:requestFailed'))}</p>
+          <p className="text-sm text-danger">{extractApiMessage(studentsQuery.error, t('common:requestFailed'))}</p>
         ) : (
           <>
             <StudentsTable

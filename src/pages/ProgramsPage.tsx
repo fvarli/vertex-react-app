@@ -1,5 +1,4 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { AxiosError } from 'axios'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
@@ -11,20 +10,7 @@ import { TBody, TD, TH, THead, Table } from '../components/ui/table'
 import { createProgram, listPrograms, updateProgram, updateProgramStatus } from '../features/programs/api'
 import type { Program, ProgramItem, ProgramStatus } from '../features/programs/types'
 import { listStudents } from '../features/students/api'
-
-function isWorkspaceForbidden(error: unknown): boolean {
-  if (!(error instanceof AxiosError)) return false
-  return error.response?.status === 403
-}
-
-function errorMessage(error: unknown, fallback: string): string {
-  if (error instanceof AxiosError) {
-    const message = error.response?.data?.message
-    if (typeof message === 'string') return message
-  }
-
-  return fallback
-}
+import { extractApiMessage, isForbidden } from '../lib/api-errors'
 
 function blankItem(order: number): ProgramItem {
   return {
@@ -90,11 +76,11 @@ export function ProgramsPage() {
       await queryClient.invalidateQueries({ queryKey: ['programs', selectedStudentId] })
     },
     onError: (error) => {
-      if (isWorkspaceForbidden(error)) {
+      if (isForbidden(error)) {
         navigate('/workspaces', { replace: true })
         return
       }
-      setErrorNotice(errorMessage(error, t('common:requestFailed')))
+      setErrorNotice(extractApiMessage(error, t('common:requestFailed')))
     },
   })
 
@@ -109,11 +95,11 @@ export function ProgramsPage() {
       await queryClient.invalidateQueries({ queryKey: ['programs', selectedStudentId] })
     },
     onError: (error) => {
-      if (isWorkspaceForbidden(error)) {
+      if (isForbidden(error)) {
         navigate('/workspaces', { replace: true })
         return
       }
-      setErrorNotice(errorMessage(error, t('common:requestFailed')))
+      setErrorNotice(extractApiMessage(error, t('common:requestFailed')))
     },
   })
 
@@ -126,11 +112,11 @@ export function ProgramsPage() {
       await queryClient.invalidateQueries({ queryKey: ['programs', selectedStudentId] })
     },
     onError: (error) => {
-      if (isWorkspaceForbidden(error)) {
+      if (isForbidden(error)) {
         navigate('/workspaces', { replace: true })
         return
       }
-      setErrorNotice(errorMessage(error, t('common:requestFailed')))
+      setErrorNotice(extractApiMessage(error, t('common:requestFailed')))
     },
   })
 
@@ -246,7 +232,7 @@ export function ProgramsPage() {
             <Skeleton className="h-10 w-full" />
           </div>
         ) : programsQuery.isError ? (
-          <p className="text-sm text-danger">{errorMessage(programsQuery.error, t('common:requestFailed'))}</p>
+          <p className="text-sm text-danger">{extractApiMessage(programsQuery.error, t('common:requestFailed'))}</p>
         ) : (
           <Table>
             <THead>

@@ -1,9 +1,9 @@
 import { useState } from 'react'
-import axios from 'axios'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { useAuth } from '../features/auth/auth-context'
 import type { ApiUser } from '../features/auth/types'
+import { extractApiMessage } from '../lib/api-errors'
 
 type LocationState = { from?: { pathname?: string } }
 
@@ -36,8 +36,7 @@ export function LoginPage() {
       const user = await login({ email, password })
       navigate(from ?? defaultRouteForUser(user), { replace: true })
     } catch (error) {
-      const apiMessage = axios.isAxiosError<{ message?: string }>(error) ? error.response?.data?.message : undefined
-      setError(apiMessage ?? t('auth:failed'))
+      setError(extractApiMessage(error, t('auth:failed')))
     } finally {
       setIsSubmitting(false)
     }

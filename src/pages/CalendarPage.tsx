@@ -1,5 +1,4 @@
 import { useQuery } from '@tanstack/react-query'
-import { AxiosError } from 'axios'
 import dayjs from 'dayjs'
 import { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -9,20 +8,7 @@ import { Select } from '../components/ui/select'
 import { Skeleton } from '../components/ui/skeleton'
 import { fetchCalendar } from '../features/appointments/api'
 import { listStudents } from '../features/students/api'
-
-function isWorkspaceForbidden(error: unknown): boolean {
-  if (!(error instanceof AxiosError)) return false
-  return error.response?.status === 403
-}
-
-function errorMessage(error: unknown, fallback: string): string {
-  if (error instanceof AxiosError) {
-    const message = error.response?.data?.message
-    if (typeof message === 'string') return message
-  }
-
-  return fallback
-}
+import { extractApiMessage, isForbidden } from '../lib/api-errors'
 
 function formatDateTime(value: string): string {
   return dayjs(value).format('DD MMM HH:mm')
@@ -55,7 +41,7 @@ export function CalendarPage() {
   })
 
   useEffect(() => {
-    if (calendarQuery.error && isWorkspaceForbidden(calendarQuery.error)) {
+    if (calendarQuery.error && isForbidden(calendarQuery.error)) {
       navigate('/workspaces', { replace: true })
     }
   }, [calendarQuery.error, navigate])
@@ -91,7 +77,7 @@ export function CalendarPage() {
             <Skeleton className="h-10 w-full" />
           </div>
         ) : calendarQuery.isError ? (
-          <p className="text-sm text-danger">{errorMessage(calendarQuery.error, t('common:requestFailed'))}</p>
+          <p className="text-sm text-danger">{extractApiMessage(calendarQuery.error, t('common:requestFailed'))}</p>
         ) : (
           <div className="space-y-3">
             {days.length === 0 ? (
