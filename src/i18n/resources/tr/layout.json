@@ -2,25 +2,25 @@
   "appName": "Vertex Coach",
   "menu": {
     "dashboard": "Panel",
-    "students": "Ogrenciler",
+    "students": "Öğrenciler",
     "programs": "Programlar",
     "appointments": "Randevular",
     "calendar": "Takvim",
-    "workspaces": "Calisma Alanlari",
-    "documentation": "Dokumantasyon"
+    "workspaces": "Çalışma Alanları",
+    "documentation": "Dokümantasyon"
   },
-  "logout": "Cikis Yap",
+  "logout": "Çıkış Yap",
   "theme": {
-    "aria": "Tema secici",
+    "aria": "Tema seçici",
     "label": "Tema",
     "options": {
       "system": "Sistem",
-      "light": "Acik",
+      "light": "Açık",
       "dark": "Koyu"
     }
   },
   "language": {
-    "aria": "Dil secici",
+    "aria": "Dil seçici",
     "label": "Dil",
     "options": {
       "tr": "TR",
