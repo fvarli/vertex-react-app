@@ -24,7 +24,7 @@ function toLocalInput(value: string): string {
 }
 
 function formatDate(value: string): string {
-  return dayjs(value).format('DD MMM YYYY HH:mm')
+  return dayjs(value).format('DD.MM.YYYY HH:mm')
 }
 
 export function AppointmentsPage() {
@@ -208,7 +208,7 @@ export function AppointmentsPage() {
       <div className="panel">
         <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
           <div>
-            <p className="text-xs uppercase tracking-[0.14em] text-muted">Operations</p>
+            <p className="text-xs uppercase tracking-[0.14em] text-muted">{t('pages:appointments.sectionLabel')}</p>
             <h2 className="text-2xl font-extrabold tracking-tight">{t('pages:appointments.title')}</h2>
             <p className="mt-1 text-sm text-muted">{t('pages:appointments.description')}</p>
           </div>

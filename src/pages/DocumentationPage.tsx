@@ -60,7 +60,7 @@ export function DocumentationPage({ area }: DocumentationPageProps) {
   return (
     <div className="space-y-5 fade-in">
       <div className="panel">
-        <p className="text-xs uppercase tracking-[0.14em] text-muted">Guide</p>
+        <p className="text-xs uppercase tracking-[0.14em] text-muted">{t('pages:documentation.sectionLabel')}</p>
         <h2 className="text-2xl font-extrabold tracking-tight">{t('pages:documentation.title')}</h2>
         <p className="text-sm text-muted">{t('pages:documentation.description', { area })}</p>
       </div>

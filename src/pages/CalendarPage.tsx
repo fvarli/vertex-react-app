@@ -12,7 +12,7 @@ import { listStudents } from '../features/students/api'
 import { extractApiMessage, isForbidden } from '../lib/api-errors'
 
 function formatDateTime(value: string): string {
-  return dayjs(value).format('DD MMM HH:mm')
+  return dayjs(value).format('DD.MM.YYYY HH:mm')
 }
 
 export function CalendarPage() {
@@ -53,7 +53,7 @@ export function CalendarPage() {
   return (
     <div className="space-y-5 fade-in">
       <div className="panel">
-        <p className="text-xs uppercase tracking-[0.14em] text-muted">Schedule</p>
+        <p className="text-xs uppercase tracking-[0.14em] text-muted">{t('pages:calendar.sectionLabel')}</p>
         <h2 className="mb-2 text-2xl font-extrabold tracking-tight">{t('pages:calendar.title')}</h2>
         <p className="mb-4 text-sm text-muted">{t('pages:calendar.description')}</p>
 
@@ -87,7 +87,7 @@ export function CalendarPage() {
             ) : (
               days.map((day) => (
                 <div key={day.date} className="rounded-2xl border border-border/70 bg-card/60 p-4">
-                  <h3 className="mb-2 text-sm font-semibold">{dayjs(day.date).format('dddd, DD MMM YYYY')}</h3>
+                  <h3 className="mb-2 text-sm font-semibold">{dayjs(day.date).format('DD.MM.YYYY')}</h3>
                   <div className="space-y-2">
                     {day.items.map((item) => (
                       <div key={item.id} className="timeline-card">

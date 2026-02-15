@@ -1,5 +1,6 @@
 {
   "dashboard": {
+    "sectionLabel": "Control Center",
     "title": "Dashboard",
     "description": "Workspace KPIs and today's timeline from live backend data.",
     "cards": {
@@ -24,6 +25,7 @@
     "goDashboard": "Go to dashboard"
   },
   "documentation": {
+    "sectionLabel": "Guide",
     "title": "Documentation",
     "description": "Role-based usage guide for the {{area}} workspace experience in Vertex Coach.",
     "user": "User",
@@ -64,6 +66,7 @@
     }
   },
   "students": {
+    "sectionLabel": "People",
     "title": "Students",
     "description": "Manage active/passive students in your current workspace.",
     "new": "New Student",
@@ -135,6 +138,7 @@
     }
   },
   "appointments": {
+    "sectionLabel": "Operations",
     "title": "Appointments",
     "description": "Schedule sessions with conflict-aware backend validation.",
     "new": "New Appointment",
@@ -167,11 +171,15 @@
     }
   },
   "calendar": {
+    "sectionLabel": "Schedule",
     "title": "Calendar",
     "description": "Week/day schedule view from backend availability endpoint.",
     "trainerFilter": "Current trainer/all",
     "trainer": "Trainer #{{id}}",
     "empty": "No appointments in selected range.",
     "student": "Student"
+  },
+  "pagination": {
+    "perPage": "{{count}} / page"
   }
 }

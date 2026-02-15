@@ -98,7 +98,7 @@ describe('CalendarPage', () => {
 
     renderPage()
 
-    expect(await screen.findByText(/Saturday, 21 Feb 2026/i)).toBeInTheDocument()
+    expect(await screen.findByText('21.02.2026')).toBeInTheDocument()
     expect(screen.getByText(/Student #8/i)).toBeInTheDocument()
   })
 })

@@ -29,7 +29,9 @@ export function AppLayout({ area }: AppLayoutProps) {
         <div>
           <p className="text-[11px] uppercase tracking-[0.16em] text-sidebarMuted">Vertex Platform</p>
           <h1>{t('layout:appName')}</h1>
-          <p className="mt-1 text-xs text-sidebarMuted">{area === 'admin' ? 'Owner Admin Area' : 'Trainer Area'}</p>
+          <p className="mt-1 text-xs text-sidebarMuted">
+            {area === 'admin' ? t('layout:area.admin') : t('layout:area.trainer')}
+          </p>
         </div>
         <nav>
           <NavLink to={`${base}/dashboard`}>{t('layout:menu.dashboard')}</NavLink>
@@ -42,7 +44,7 @@ export function AppLayout({ area }: AppLayoutProps) {
         </nav>
 
         <div className="mt-auto rounded-xl border border-sidebarActive/60 bg-sidebarActive/50 p-3">
-          <p className="text-xs text-sidebarMuted">Signed in as</p>
+          <p className="text-xs text-sidebarMuted">{t('layout:signedInAs')}</p>
           <p className="text-sm font-semibold text-sidebarForeground">{user?.name}</p>
           <p className="text-xs text-sidebarMuted">{user?.email}</p>
         </div>
@@ -55,9 +57,11 @@ export function AppLayout({ area }: AppLayoutProps) {
             <span>{user?.email}</span>
           </div>
           <div className="topbar-actions">
-            <LanguageToggle />
-            <ThemeToggle />
-            <Button variant="outline" onClick={handleLogout}>
+            <div className="topbar-segment">
+              <LanguageToggle />
+              <ThemeToggle />
+            </div>
+            <Button className="topbar-logout" variant="outline" onClick={handleLogout}>
               {t('layout:logout')}
             </Button>
           </div>

@@ -1,5 +1,6 @@
 {
   "dashboard": {
+    "sectionLabel": "Kontrol Merkezi",
     "title": "Panel",
     "description": "Aktif çalışma alanı kapsamındaki KPI değerleri ve bugün zaman çizelgesi.",
     "cards": {
@@ -24,6 +25,7 @@
     "goDashboard": "Panele git"
   },
   "documentation": {
+    "sectionLabel": "Kılavuz",
     "title": "Dokümantasyon",
     "description": "Vertex Coach içindeki {{area}} çalışma alanı deneyimi için role dayalı kullanım kılavuzu.",
     "user": "Kullanıcı",
@@ -64,6 +66,7 @@
     }
   },
   "students": {
+    "sectionLabel": "Kişiler",
     "title": "Öğrenciler",
     "description": "Aktif çalışma alanındaki aktif/pasif öğrencileri yönet.",
     "new": "Yeni Öğrenci",
@@ -135,6 +138,7 @@
     }
   },
   "appointments": {
+    "sectionLabel": "Operasyon",
     "title": "Randevular",
     "description": "Çakışma kontrollü backend doğrulaması ile seans planlayın.",
     "new": "Yeni Randevu",
@@ -167,11 +171,15 @@
     }
   },
   "calendar": {
+    "sectionLabel": "Takvim Planı",
     "title": "Takvim",
     "description": "Backend müsaitlik endpointinden hafta/gün görünümü.",
     "trainerFilter": "Mevcut antrenör/tümü",
     "trainer": "Antrenör #{{id}}",
     "empty": "Seçilen aralıkta randevu yok.",
     "student": "Öğrenci"
+  },
+  "pagination": {
+    "perPage": "{{count}} / sayfa"
   }
 }

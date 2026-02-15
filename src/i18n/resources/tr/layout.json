@@ -1,5 +1,10 @@
 {
   "appName": "Vertex Coach",
+  "signedInAs": "Oturum",
+  "area": {
+    "admin": "Owner Admin Alanı",
+    "trainer": "Trainer Alanı"
+  },
   "menu": {
     "dashboard": "Panel",
     "students": "Öğrenciler",

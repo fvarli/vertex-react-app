@@ -101,16 +101,24 @@ a {
   @apply flex items-center gap-2;
 }
 
-.theme-toggle {
-  @apply inline-flex items-center gap-2 rounded-xl border border-border/80 bg-background/80 px-2.5 py-1.5 text-xs font-medium shadow-sm;
+.topbar-segment {
+  @apply inline-flex items-center gap-1 rounded-2xl border border-border/80 bg-background/65 p-1 shadow-[0_8px_20px_rgba(9,14,25,0.08)] backdrop-blur;
 }
 
-.theme-toggle-label {
+.topbar-control {
+  @apply inline-flex items-center gap-2 rounded-xl px-2 py-1 text-xs font-semibold text-foreground;
+}
+
+.topbar-control-label {
   @apply text-muted;
 }
 
-.theme-toggle select {
-  @apply rounded-lg border border-border bg-background px-2 py-1 text-xs outline-none focus-visible:ring-2 focus-visible:ring-primary/40;
+.topbar-control-select {
+  @apply rounded-lg border border-border/80 bg-card/85 px-2 py-1 text-xs font-semibold text-foreground outline-none focus-visible:border-primary/40 focus-visible:ring-2 focus-visible:ring-primary/40;
+}
+
+.topbar-logout {
+  @apply h-9;
 }
 
 .content {
@@ -123,6 +131,33 @@ a {
 
 .panel {
   @apply rounded-2xl border border-border/80 bg-card/80 p-5 shadow-[0_12px_32px_rgba(18,28,45,0.08)] backdrop-blur;
+}
+
+.page-surface {
+  @apply relative overflow-hidden rounded-3xl;
+}
+
+.page-surface::before {
+  content: '';
+  position: absolute;
+  inset: -20% auto auto -15%;
+  width: 300px;
+  height: 300px;
+  border-radius: 9999px;
+  background: radial-gradient(circle, rgb(var(--primary) / 0.1) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.page-surface::after {
+  content: '';
+  position: absolute;
+  right: -80px;
+  bottom: -120px;
+  width: 320px;
+  height: 320px;
+  border-radius: 9999px;
+  background: radial-gradient(circle, rgb(var(--success) / 0.09) 0%, transparent 72%);
+  pointer-events: none;
 }
 
 .kpi-card {
@@ -139,6 +174,35 @@ a {
 
 .timeline-card {
   @apply rounded-xl border border-border/70 bg-card/75 px-3 py-2.5 transition-colors duration-150 hover:bg-card;
+}
+
+.filter-surface {
+  @apply rounded-2xl border border-border/70 bg-gradient-to-r from-background/80 via-card/60 to-background/75 p-3;
+}
+
+.table-surface {
+  @apply overflow-x-auto rounded-2xl border border-border/70 bg-card/60 shadow-[inset_0_1px_0_rgba(255,255,255,0.12)];
+}
+
+input[type='date'],
+input[type='datetime-local'] {
+  color-scheme: light;
+}
+
+input[type='date']::-webkit-calendar-picker-indicator,
+input[type='datetime-local']::-webkit-calendar-picker-indicator {
+  opacity: 0.9;
+}
+
+.dark input[type='date'],
+.dark input[type='datetime-local'] {
+  color-scheme: dark;
+}
+
+.dark input[type='date']::-webkit-calendar-picker-indicator,
+.dark input[type='datetime-local']::-webkit-calendar-picker-indicator {
+  filter: invert(1) brightness(1.2);
+  opacity: 0.95;
 }
 
 .fade-in {
@@ -190,5 +254,13 @@ a {
 
   .topbar {
     @apply flex-col items-start;
+  }
+
+  .topbar-actions {
+    @apply w-full flex-wrap;
+  }
+
+  .topbar-segment {
+    @apply w-full justify-between;
   }
 }

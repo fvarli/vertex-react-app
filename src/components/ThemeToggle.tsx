@@ -21,9 +21,9 @@ export function ThemeToggle() {
   }, [mode])
 
   return (
-    <label className="theme-toggle" aria-label={t('layout:theme.aria')}>
-      <span className="theme-toggle-label">{t('layout:theme.label')}</span>
-      <select value={mode} onChange={(event) => setMode(event.target.value as ThemeMode)}>
+    <label className="topbar-control" aria-label={t('layout:theme.aria')}>
+      <span className="topbar-control-label">{t('layout:theme.label')}</span>
+      <select className="topbar-control-select" value={mode} onChange={(event) => setMode(event.target.value as ThemeMode)}>
         <option value="system">{t('layout:theme.options.system')}</option>
         <option value="light">{t('layout:theme.options.light')}</option>
         <option value="dark">{t('layout:theme.options.dark')}</option>

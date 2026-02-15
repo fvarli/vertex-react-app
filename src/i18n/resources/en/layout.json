@@ -1,5 +1,10 @@
 {
   "appName": "Vertex Coach",
+  "signedInAs": "Signed in as",
+  "area": {
+    "admin": "Owner Admin Area",
+    "trainer": "Trainer Area"
+  },
   "menu": {
     "dashboard": "Dashboard",
     "students": "Students",

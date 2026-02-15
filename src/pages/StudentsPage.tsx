@@ -138,11 +138,11 @@ export function StudentsPage() {
   const createOrUpdateSubmitting = createMutation.isPending || updateMutation.isPending
 
   return (
-    <div className="space-y-5 fade-in">
+    <div className="page-surface space-y-5 fade-in p-1">
       <div className="panel">
         <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
           <div>
-            <p className="text-xs uppercase tracking-[0.14em] text-muted">People</p>
+            <p className="text-xs uppercase tracking-[0.14em] text-muted">{t('pages:students.sectionLabel')}</p>
             <h2 className="text-2xl font-extrabold tracking-tight">{t('pages:students.title')}</h2>
             <p className="mt-1 text-sm text-muted">{t('pages:students.description')}</p>
           </div>
@@ -157,7 +157,7 @@ export function StudentsPage() {
           </Button>
         </div>
 
-        <div className="mb-4 grid gap-3 rounded-2xl border border-border/70 bg-background/55 p-3 sm:grid-cols-3">
+        <div className="filter-surface mb-4 grid gap-3 sm:grid-cols-3">
           <Input placeholder={t('pages:students.searchPlaceholder')} value={searchInput} onChange={(e) => setSearchInput(e.target.value)} />
           <Select
             value={status}
@@ -177,9 +177,9 @@ export function StudentsPage() {
               setPage(1)
             }}
           >
-            <option value="10">10 / page</option>
-            <option value="15">15 / page</option>
-            <option value="25">25 / page</option>
+            <option value="10">{t('pages:pagination.perPage', { count: 10 })}</option>
+            <option value="15">{t('pages:pagination.perPage', { count: 15 })}</option>
+            <option value="25">{t('pages:pagination.perPage', { count: 25 })}</option>
           </Select>
         </div>
 
@@ -196,7 +196,7 @@ export function StudentsPage() {
           <p className="text-sm text-danger">{extractApiMessage(studentsQuery.error, t('common:requestFailed'))}</p>
         ) : (
           <>
-            <div className="overflow-x-auto rounded-2xl border border-border/70 bg-card/50">
+            <div className="table-surface">
               <StudentsTable
                 students={students}
                 onEdit={(student) => {

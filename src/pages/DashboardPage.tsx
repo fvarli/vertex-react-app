@@ -8,7 +8,7 @@ import { Skeleton } from '../components/ui/skeleton'
 import { Badge } from '../components/ui/badge'
 
 function formatDateTime(value: string): string {
-  return dayjs(value).format('DD MMM YYYY HH:mm')
+  return dayjs(value).format('DD.MM.YYYY HH:mm')
 }
 
 export function DashboardPage() {
@@ -40,12 +40,12 @@ export function DashboardPage() {
       <div className="panel">
         <div className="flex flex-wrap items-start justify-between gap-3">
           <div>
-            <p className="text-xs uppercase tracking-[0.14em] text-muted">Control Center</p>
+            <p className="text-xs uppercase tracking-[0.14em] text-muted">{t('pages:dashboard.sectionLabel')}</p>
             <h2 className="text-2xl font-extrabold tracking-tight">{t('pages:dashboard.title')}</h2>
             <p className="mt-1 text-sm text-muted">{t('pages:dashboard.description')}</p>
           </div>
           <Badge variant="muted" className="rounded-lg px-3 py-1 text-[11px] tracking-[0.08em]">
-            {summary?.date ?? dayjs().format('YYYY-MM-DD')}
+            {dayjs(summary?.date ?? dayjs().format('YYYY-MM-DD')).format('DD.MM.YYYY')}
           </Badge>
         </div>
       </div>
