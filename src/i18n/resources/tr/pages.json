@@ -160,6 +160,10 @@
       "editTitle": "Randevu Düzenle",
       "location": "Konum (opsiyonel)",
       "notes": "Notlar (opsiyonel)"
+    },
+    "errors": {
+      "timeSlotConflict": "Seçilen saat aralığı mevcut antrenör veya öğrenci planı ile çakışıyor.",
+      "idempotencyMismatch": "Aynı tekrar anahtarı farklı içerikle gönderildi. Formu yenileyip tekrar deneyin."
     }
   },
   "calendar": {

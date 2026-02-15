@@ -160,6 +160,10 @@
       "editTitle": "Edit Appointment",
       "location": "Location (optional)",
       "notes": "Notes (optional)"
+    },
+    "errors": {
+      "timeSlotConflict": "Selected time slot conflicts with existing trainer or student schedule.",
+      "idempotencyMismatch": "Duplicate submit key reused with different payload. Please retry from fresh form state."
     }
   },
   "calendar": {

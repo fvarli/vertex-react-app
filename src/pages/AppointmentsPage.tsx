@@ -16,7 +16,7 @@ import {
 } from '../features/appointments/api'
 import type { Appointment, AppointmentStatus } from '../features/appointments/types'
 import { listStudents } from '../features/students/api'
-import { extractApiMessage, isForbidden } from '../lib/api-errors'
+import { extractApiMessage, extractValidationErrors, isForbidden, isValidationError } from '../lib/api-errors'
 
 function toLocalInput(value: string): string {
   return dayjs(value).format('YYYY-MM-DDTHH:mm')
@@ -86,6 +86,20 @@ export function AppointmentsPage() {
         navigate('/workspaces', { replace: true })
         return
       }
+
+      if (isValidationError(error)) {
+        const validation = extractValidationErrors(error)
+        const code = validation.code?.[0]
+        if (code === 'time_slot_conflict') {
+          setErrorNotice(t('pages:appointments.errors.timeSlotConflict'))
+          return
+        }
+        if (code === 'idempotency_payload_mismatch') {
+          setErrorNotice(t('pages:appointments.errors.idempotencyMismatch'))
+          return
+        }
+      }
+
       setErrorNotice(extractApiMessage(error, t('common:requestFailed')))
     },
   })
@@ -106,6 +120,16 @@ export function AppointmentsPage() {
         navigate('/workspaces', { replace: true })
         return
       }
+
+      if (isValidationError(error)) {
+        const validation = extractValidationErrors(error)
+        const code = validation.code?.[0]
+        if (code === 'time_slot_conflict') {
+          setErrorNotice(t('pages:appointments.errors.timeSlotConflict'))
+          return
+        }
+      }
+
       setErrorNotice(extractApiMessage(error, t('common:requestFailed')))
     },
   })

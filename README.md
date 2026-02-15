@@ -155,6 +155,11 @@ Each role guide explains workspace flow, domain usage order, and troubleshooting
   - owner admin -> workspace-wide
   - trainer -> own records
 
+Reporting-ready backend endpoints (for next UI modules):
+- `GET /reports/appointments`
+- `GET /reports/students`
+- `GET /reports/programs`
+
 ## Programs
 
 - `ProgramsPage` now consumes real endpoints:
@@ -172,6 +177,8 @@ Each role guide explains workspace flow, domain usage order, and troubleshooting
   - `403` -> redirect user to workspace selection in protected domain screens.
   - `422` -> API validation payload can be parsed through `extractValidationErrors`.
   - fallback message -> `extractApiMessage(error, fallback)`.
+- Appointment flow:
+  - `time_slot_conflict` and `idempotency_payload_mismatch` are surfaced with dedicated UI messages.
 
 ## Role-Aware Routing
 

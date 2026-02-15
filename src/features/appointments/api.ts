@@ -22,7 +22,12 @@ export async function listAppointments(params: AppointmentListParams): Promise<P
 }
 
 export async function createAppointment(payload: AppointmentPayload): Promise<Appointment> {
-  const response = await api.post<ApiEnvelope<Appointment>>('/appointments', payload)
+  const idemKey = buildAppointmentIdempotencyKey(payload)
+  const response = await api.post<ApiEnvelope<Appointment>>('/appointments', payload, {
+    headers: {
+      'Idempotency-Key': idemKey,
+    },
+  })
   return response.data.data
 }
 
@@ -39,4 +44,9 @@ export async function updateAppointmentStatus(appointmentId: number, payload: Ap
 export async function fetchCalendar(params: { from: string; to: string; trainer_id?: number }): Promise<CalendarPayload> {
   const response = await api.get<ApiEnvelope<CalendarPayload>>('/calendar', { params: compactQuery(params) })
   return response.data.data
+}
+
+function buildAppointmentIdempotencyKey(payload: AppointmentPayload): string {
+  const base = `appt:${payload.student_id}:${payload.starts_at}:${payload.ends_at}`
+  return base.replace(/\s+/g, '').slice(0, 120)
 }
