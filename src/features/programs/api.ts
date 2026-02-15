@@ -1,8 +1,15 @@
 import { api } from '../../lib/api'
-import type { ApiEnvelope, Program, ProgramPayload, ProgramStatusPayload, ProgramUpdatePayload } from './types'
+import type { ApiEnvelope } from '../../lib/contracts'
+import { compactQuery } from '../../lib/query'
+import type { Paginated, Program, ProgramListParams, ProgramPayload, ProgramStatusPayload, ProgramUpdatePayload } from './types'
 
-export async function listPrograms(studentId: number): Promise<Program[]> {
-  const response = await api.get<ApiEnvelope<Program[]>>(`/students/${studentId}/programs`)
+export async function listPrograms(studentId: number, params: ProgramListParams = {}): Promise<Paginated<Program>> {
+  const query = compactQuery({
+    ...params,
+    status: params.status === 'all' ? undefined : params.status,
+  })
+
+  const response = await api.get<ApiEnvelope<Paginated<Program>>>(`/students/${studentId}/programs`, { params: query })
   return response.data.data
 }
 

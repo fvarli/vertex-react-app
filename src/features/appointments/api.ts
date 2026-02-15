@@ -1,6 +1,7 @@
 import { api } from '../../lib/api'
+import type { ApiEnvelope } from '../../lib/contracts'
+import { compactQuery } from '../../lib/query'
 import type {
-  ApiEnvelope,
   Appointment,
   AppointmentListParams,
   AppointmentPayload,
@@ -11,10 +12,10 @@ import type {
 } from './types'
 
 export async function listAppointments(params: AppointmentListParams): Promise<Paginated<Appointment>> {
-  const query = {
+  const query = compactQuery({
     ...params,
     status: params.status === 'all' ? undefined : params.status,
-  }
+  })
 
   const response = await api.get<ApiEnvelope<Paginated<Appointment>>>('/appointments', { params: query })
   return response.data.data
@@ -36,6 +37,6 @@ export async function updateAppointmentStatus(appointmentId: number, payload: Ap
 }
 
 export async function fetchCalendar(params: { from: string; to: string; trainer_id?: number }): Promise<CalendarPayload> {
-  const response = await api.get<ApiEnvelope<CalendarPayload>>('/calendar', { params })
+  const response = await api.get<ApiEnvelope<CalendarPayload>>('/calendar', { params: compactQuery(params) })
   return response.data.data
 }

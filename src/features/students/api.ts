@@ -1,6 +1,7 @@
 import { api } from '../../lib/api'
+import type { ApiEnvelope } from '../../lib/contracts'
+import { compactQuery } from '../../lib/query'
 import type {
-  ApiEnvelope,
   Paginated,
   Student,
   StudentListParams,
@@ -10,7 +11,12 @@ import type {
 } from './types'
 
 export async function listStudents(params: StudentListParams): Promise<Paginated<Student>> {
-  const response = await api.get<ApiEnvelope<Paginated<Student>>>('/students', { params })
+  const query = compactQuery({
+    ...params,
+    status: params.status === 'all' ? undefined : params.status,
+  })
+
+  const response = await api.get<ApiEnvelope<Paginated<Student>>>('/students', { params: query })
   return response.data.data
 }
 

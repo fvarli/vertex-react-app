@@ -66,21 +66,27 @@ describe('ProgramsPage', () => {
       })
       .mockResolvedValueOnce({
         data: {
-          data: [
-            {
-              id: 5,
-              workspace_id: 1,
-              student_id: 10,
-              trainer_user_id: 1,
-              title: 'Strength Week',
-              goal: null,
-              week_start_date: '2026-02-16',
-              status: 'draft',
-              items: [],
-              created_at: '',
-              updated_at: '',
-            },
-          ],
+          data: {
+            data: [
+              {
+                id: 5,
+                workspace_id: 1,
+                student_id: 10,
+                trainer_user_id: 1,
+                title: 'Strength Week',
+                goal: null,
+                week_start_date: '2026-02-16',
+                status: 'draft',
+                items: [],
+                created_at: '',
+                updated_at: '',
+              },
+            ],
+            current_page: 1,
+            per_page: 100,
+            total: 1,
+            last_page: 1,
+          },
         },
       })
 

@@ -12,14 +12,6 @@ export type Student = {
   updated_at: string
 }
 
-export type ApiEnvelope<T> = {
-  success: boolean
-  message: string
-  data: T
-  request_id?: string
-  meta?: Record<string, unknown>
-  links?: Record<string, unknown>
-}
 
 export type Paginated<T> = {
   data: T[]
@@ -34,6 +26,8 @@ export type StudentListParams = {
   status?: StudentStatus | 'all'
   page?: number
   per_page?: number
+  sort?: 'id' | 'full_name' | 'status' | 'created_at'
+  direction?: 'asc' | 'desc'
 }
 
 export type StudentPayload = {

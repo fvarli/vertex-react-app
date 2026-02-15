@@ -1,3 +1,5 @@
+import type { ApiEnvelope } from '../../lib/contracts'
+
 export type SystemRole = 'platform_admin' | 'workspace_user'
 export type WorkspaceRole = 'owner_admin' | 'trainer' | null
 
@@ -11,14 +13,6 @@ export type ApiUser = {
   permissions: string[]
 }
 
-type ApiEnvelope<T> = {
-  success: boolean
-  message: string
-  data: T
-  request_id?: string
-  meta?: Record<string, unknown>
-  links?: Record<string, unknown>
-}
 
 export type LoginPayload = {
   email: string

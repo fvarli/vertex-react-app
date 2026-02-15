@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { AxiosError } from 'axios'
-import { useMemo, useState } from 'react'
+import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 import { Button } from '../components/ui/button'
@@ -67,16 +67,18 @@ export function ProgramsPage() {
   const selectedStudentId = studentId ?? students[0]?.id ?? null
 
   const programsQuery = useQuery({
-    queryKey: ['programs', selectedStudentId],
-    queryFn: () => listPrograms(selectedStudentId as number),
+    queryKey: ['programs', selectedStudentId, statusFilter],
+    queryFn: () =>
+      listPrograms(selectedStudentId as number, {
+        status: statusFilter,
+        sort: 'week_start_date',
+        direction: 'desc',
+        per_page: 100,
+      }),
     enabled: Boolean(selectedStudentId),
   })
 
-  const programs = useMemo(() => {
-    const list = programsQuery.data ?? []
-    if (statusFilter === 'all') return list
-    return list.filter((program) => program.status === statusFilter)
-  }, [programsQuery.data, statusFilter])
+  const programs = programsQuery.data?.data ?? []
 
   const createMutation = useMutation({
     mutationFn: ({ targetStudentId, payload }: { targetStudentId: number; payload: Parameters<typeof createProgram>[1] }) =>

@@ -25,13 +25,21 @@ export type Program = {
   updated_at: string
 }
 
-export type ApiEnvelope<T> = {
-  success: boolean
-  message: string
-  data: T
-  request_id?: string
-  meta?: Record<string, unknown>
-  links?: Record<string, unknown>
+export type Paginated<T> = {
+  data: T[]
+  current_page: number
+  per_page: number
+  total: number
+  last_page: number
+}
+
+export type ProgramListParams = {
+  search?: string
+  status?: ProgramStatus | 'all'
+  page?: number
+  per_page?: number
+  sort?: 'id' | 'title' | 'week_start_date' | 'created_at'
+  direction?: 'asc' | 'desc'
 }
 
 export type ProgramPayload = {

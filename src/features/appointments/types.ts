@@ -14,14 +14,6 @@ export type Appointment = {
   updated_at: string
 }
 
-export type ApiEnvelope<T> = {
-  success: boolean
-  message: string
-  data: T
-  request_id?: string
-  meta?: Record<string, unknown>
-  links?: Record<string, unknown>
-}
 
 export type Paginated<T> = {
   data: T[]
@@ -34,10 +26,13 @@ export type Paginated<T> = {
 export type AppointmentListParams = {
   date_from?: string
   date_to?: string
+  search?: string
   status?: AppointmentStatus | 'all'
   student_id?: number
   page?: number
   per_page?: number
+  sort?: 'id' | 'starts_at' | 'ends_at' | 'status' | 'created_at'
+  direction?: 'asc' | 'desc'
 }
 
 export type AppointmentPayload = {
