@@ -5,7 +5,8 @@ Validate end-user critical flows in 10-15 minutes after deployment.
 
 ## 1) Auth + Workspace
 1. Open `/login`, sign in with demo owner.
-2. Verify redirect to workspaces and successful active workspace selection.
+2. Verify role-safe redirect (`/` and `/dashboard` resolve to `/admin/*` for owner, `/trainer/*` for trainer).
+3. Verify successful active workspace selection.
 Expected:
 - No auth loop.
 - Domain pages become accessible.

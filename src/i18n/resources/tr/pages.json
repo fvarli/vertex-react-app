@@ -53,6 +53,7 @@
       "students": "Öğrenciler",
       "programs": "Programlar",
       "appointments": "Randevular",
+      "reminders": "Hatırlatmalar",
       "calendar": "Takvim"
     },
     "admin": {
@@ -63,7 +64,9 @@
       "step3Title": "Haftalık programları planla",
       "step3Detail": "Öğrenci bazlı program atayıp haftalık güncellemeleri tek yerde tut.",
       "step4Title": "Randevu ve takvimi kontrol et",
-      "step4Detail": "Randevuları takip et ve antrenör takvim bloklarını doğrudan Takvimden gör."
+      "step4Detail": "Randevuları ve tekrarlı seri akışını takip et, antrenör takvim bloklarını doğrudan Takvimden gör.",
+      "step5Title": "Hatırlatmaları ve WhatsApp takibini yönet",
+      "step5Detail": "Hatırlatmalar ekranında günlük kuyruğu yönet ve WhatsApp gönderim durumlarını güncel tut."
     },
     "trainer": {
       "step1Title": "Aktif çalışma alanını seç",
@@ -73,7 +76,9 @@
       "step3Title": "Haftalık program yayınla",
       "step3Detail": "Her öğrenci için gün/set/tekrar/not bazlı program satırları oluştur.",
       "step4Title": "Rezervasyon akışını yönet",
-      "step4Detail": "Randevu oluştur ve gün/hafta planını Takvimden takip et."
+      "step4Detail": "Randevu oluştur ve gün/hafta planını Takvimden takip et.",
+      "step5Title": "Hatırlatma kuyruğunu uygula",
+      "step5Detail": "WhatsApp bağlantısını açtıktan sonra gönderim durumunu manuel olarak gönderildi/gönderilmedi şeklinde işaretle."
     }
   },
   "students": {

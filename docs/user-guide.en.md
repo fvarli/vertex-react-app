@@ -8,8 +8,12 @@
 1. Sign in from `/login`.
 2. Choose active workspace from `Workspaces`.
 3. Continue to domain pages (Students, Programs, Appointments, Calendar).
+4. Open role-specific docs from left menu:
+   - `/admin/documentation`
+   - `/trainer/documentation`
 
 If no active workspace is selected, protected domain pages redirect to `*/workspaces`.
+If area-role mismatch happens, UI redirects to `/forbidden`.
 
 ## Owner Admin quick flow
 1. Check `Dashboard` KPIs and today's timeline first.
@@ -19,11 +23,11 @@ If no active workspace is selected, protected domain pages redirect to `*/worksp
    - save reusable templates from existing weeks
    - create new week from template
    - copy source week to target week
-4. Create or update `Appointments` with conflict-aware validation.
-5. Use recurring series creation from `Appointments` for repeated sessions.
-6. Manage reminder queue from `Reminders` and mark sent/cancelled actions.
-7. Use `Calendar` tabs (Month/Week/Day/List) to track planning in different scopes.
-8. WhatsApp flow is appointment/reminder based; student-level WhatsApp shortcut endpoint is not used.
+5. Create or update `Appointments` with conflict-aware validation.
+6. Use recurring series creation from `Appointments` for repeated sessions.
+7. Manage reminder queue from `Reminders` and mark sent/cancelled actions.
+8. Use `Calendar` tabs (Month/Week/Day/List) to track planning in different scopes.
+9. WhatsApp flow is appointment/reminder based; student-level WhatsApp shortcut endpoint is not used.
 
 ## Trainer quick flow
 1. Select active workspace.
@@ -32,9 +36,9 @@ If no active workspace is selected, protected domain pages redirect to `*/worksp
 4. Create weekly student programs.
 5. Run appointment booking (single or recurring).
 6. Use student timeline in `Students` page for quick history context.
-6. Use `Reminders` for daily follow-up queue.
-7. Follow schedule from `Calendar`.
-8. Manual confirmation is required after opening WhatsApp (hybrid model).
+7. Use `Reminders` for daily follow-up queue.
+8. Follow schedule from `Calendar`.
+9. Manual confirmation is required after opening WhatsApp (hybrid model).
 
 ## Status and constraints
 - Student status: `active` or `passive`.

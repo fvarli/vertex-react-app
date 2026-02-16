@@ -6,7 +6,7 @@
 - [ ] `npm run lint` passes.
 - [ ] `npm run test -- --run` passes.
 - [ ] `npm run build` passes.
-- [ ] README and user guide updates included when UX/API contract changes.
+- [ ] README, in-app docs texts, and user guide updates included when UX/API contract changes.
 
 ## Pre-deploy
 - [ ] `VITE_API_BASE_URL` points to target backend environment.
@@ -20,6 +20,7 @@
 
 ## Post-deploy verification
 - [ ] Login and workspace switch.
+- [ ] Role-safe redirects from `/` and generic routes resolve to correct area.
 - [ ] Dashboard shows attendance KPIs (`today_no_show`, `attendance_rate`).
 - [ ] Programs page template accelerator works (save template, create from template, copy week).
 - [ ] Student timeline opens and shows events.

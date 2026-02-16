@@ -8,8 +8,12 @@
 1. `/login` ekranından giriş yap.
 2. `Çalışma Alanları` sayfasından aktif alanı seç.
 3. Domain sayfalarına geç: Öğrenciler, Programlar, Randevular, Takvim.
+4. Sol menüden role özel dokümanı aç:
+   - `/admin/documentation`
+   - `/trainer/documentation`
 
 Aktif çalışma alanı seçilmezse, korumalı domain sayfaları otomatik olarak `*/workspaces` ekranına yönlendirir.
+Alan-rol uyuşmazlığı olursa UI kullanıcıyı `/forbidden` ekranına yönlendirir.
 
 ## Owner Admin hızlı akış
 1. Önce `Panel` ekranında KPI kartları ve bugünün zaman çizelgesini kontrol et.
@@ -19,11 +23,11 @@ Aktif çalışma alanı seçilmezse, korumalı domain sayfaları otomatik olarak
    - mevcut haftayı şablon olarak kaydet
    - şablondan yeni hafta oluştur
    - kaynak haftayı hedef haftaya kopyala
-4. Çakışma kontrollü doğrulama ile `Randevular` oluştur/güncelle.
-5. Tekrarlayan seanslar için `Randevular` ekranından seri oluştur.
-6. `Hatırlatmalar` ekranında günlük kuyruğu yönet ve gönderim durumunu işaretle.
-7. `Takvim` ekranında Ay/Hafta/Gün sekmeleri ve Liste görünümü ile planı takip et.
-8. WhatsApp akışı öğrenci kısayolu değil, randevu/hatırlatma temellidir.
+5. Çakışma kontrollü doğrulama ile `Randevular` oluştur/güncelle.
+6. Tekrarlayan seanslar için `Randevular` ekranından seri oluştur.
+7. `Hatırlatmalar` ekranında günlük kuyruğu yönet ve gönderim durumunu işaretle.
+8. `Takvim` ekranında Ay/Hafta/Gün sekmeleri ve Liste görünümü ile planı takip et.
+9. WhatsApp akışı öğrenci kısayolu değil, randevu/hatırlatma temellidir.
 
 ## Trainer hızlı akış
 1. Aktif çalışma alanını seç.
@@ -32,9 +36,9 @@ Aktif çalışma alanı seçilmezse, korumalı domain sayfaları otomatik olarak
 4. Haftalık öğrenci programlarını oluştur.
 5. Randevu planlamasını (tekil/seri) yap.
 6. `Öğrenciler` ekranındaki zaman tünelinden hızlı geçmiş özeti al.
-6. Günlük takip için `Hatırlatmalar` kuyruğunu kullan.
-7. Takvimden planı takip et.
-8. WhatsApp açıldıktan sonra gönderim manuel onaylanır (hibrit model).
+7. Günlük takip için `Hatırlatmalar` kuyruğunu kullan.
+8. Takvimden planı takip et.
+9. WhatsApp açıldıktan sonra gönderim manuel onaylanır (hibrit model).
 
 ## Durumlar ve kısıtlar
 - Öğrenci durumu: `active` veya `passive`.

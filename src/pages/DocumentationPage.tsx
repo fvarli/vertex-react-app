@@ -42,6 +42,10 @@ export function DocumentationPage({ area }: DocumentationPageProps) {
         title: t(`pages:documentation.${area}.step4Title`),
         detail: t(`pages:documentation.${area}.step4Detail`),
       },
+      {
+        title: t(`pages:documentation.${area}.step5Title`),
+        detail: t(`pages:documentation.${area}.step5Detail`),
+      },
     ],
     [area, t],
   )
@@ -52,6 +56,7 @@ export function DocumentationPage({ area }: DocumentationPageProps) {
       { label: t('pages:documentation.links.students'), path: `${areaBase}/students` },
       { label: t('pages:documentation.links.programs'), path: `${areaBase}/programs` },
       { label: t('pages:documentation.links.appointments'), path: `${areaBase}/appointments` },
+      { label: t('pages:documentation.links.reminders'), path: `${areaBase}/reminders` },
       { label: t('pages:documentation.links.calendar'), path: `${areaBase}/calendar` },
     ],
     [areaBase, t],

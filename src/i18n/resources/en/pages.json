@@ -53,6 +53,7 @@
       "students": "Students",
       "programs": "Programs",
       "appointments": "Appointments",
+      "reminders": "Reminders",
       "calendar": "Calendar"
     },
     "admin": {
@@ -63,7 +64,9 @@
       "step3Title": "Plan weekly programs",
       "step3Detail": "Assign programs per student and keep week-by-week updates in a single place.",
       "step4Title": "Control appointments and calendar",
-      "step4Detail": "Track reservations and review trainer schedule blocks directly in Calendar."
+      "step4Detail": "Track reservations, recurring series, and review trainer schedule blocks directly in Calendar.",
+      "step5Title": "Run reminders and WhatsApp follow-up",
+      "step5Detail": "Use Reminders for daily queue operations and keep WhatsApp send status updated."
     },
     "trainer": {
       "step1Title": "Select active workspace",
@@ -73,7 +76,9 @@
       "step3Title": "Publish weekly programs",
       "step3Detail": "Create program rows by day, sets, reps, and notes for each student.",
       "step4Title": "Run your booking flow",
-      "step4Detail": "Create appointments and monitor the day/week plan from Calendar."
+      "step4Detail": "Create appointments and monitor the day/week plan from Calendar.",
+      "step5Title": "Execute reminders with manual confirmation",
+      "step5Detail": "Open WhatsApp from appointment/reminder context and manually mark sent/not-sent status."
     }
   },
   "students": {

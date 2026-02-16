@@ -119,7 +119,10 @@ Frontend flow:
   - Admin: `/admin/documentation`
   - Trainer: `/trainer/documentation`
 
-Each role guide explains workspace flow, domain usage order, and troubleshooting.
+All three documentation sources are maintained together:
+- in-app docs (`/admin/documentation`, `/trainer/documentation`)
+- markdown guides (`docs/user-guide.en.md`, `docs/user-guide.tr.md`)
+- release QA docs (`docs/smoke-qa.md`, `docs/release-checklist.md`)
 
 ## Notes
 
@@ -232,6 +235,12 @@ Reporting-ready backend endpoints (for next UI modules):
 - Post-login routing is role-aware:
   - owner admin / platform admin -> `/admin/*`
   - trainer -> `/trainer/*`
+- Post-login `from` redirect is role-safe:
+  - if `from` path matches role area, it is used
+  - if it mismatches role area, frontend falls back to role default workspace route
+- Generic routes are role-aware redirects:
+  - `/`, `/dashboard`, `/students`, `/programs`, `/appointments`, `/reminders`, `/calendar`, `/documentation`
+  - admin users route to `/admin/*`, trainers to `/trainer/*`
 - Current split preserves backend policy enforcement; frontend route guards only shape UX.
 - Workspace guard rule:
   - if active workspace is missing, user is redirected to `/<area>/workspaces`

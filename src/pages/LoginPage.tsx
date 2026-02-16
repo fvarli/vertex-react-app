@@ -4,18 +4,10 @@ import { useTranslation } from 'react-i18next'
 import { Button } from '../components/ui/button'
 import { Input } from '../components/ui/input'
 import { useAuth } from '../features/auth/auth-context'
-import type { ApiUser } from '../features/auth/types'
+import { resolvePostLoginPath } from '../features/auth/redirects'
 import { extractApiMessage } from '../lib/api-errors'
 
 type LocationState = { from?: { pathname?: string } }
-
-function defaultRouteForUser(user: ApiUser): string {
-  if (user.system_role === 'platform_admin' || user.active_workspace_role === 'owner_admin') {
-    return '/admin/workspaces'
-  }
-
-  return '/trainer/workspaces'
-}
 
 export function LoginPage() {
   const { t } = useTranslation(['auth'])
@@ -36,7 +28,7 @@ export function LoginPage() {
 
     try {
       const user = await login({ email, password })
-      navigate(from ?? defaultRouteForUser(user), { replace: true })
+      navigate(resolvePostLoginPath(user, from), { replace: true })
     } catch (error) {
       setError(extractApiMessage(error, t('auth:failed')))
     } finally {

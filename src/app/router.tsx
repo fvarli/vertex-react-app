@@ -1,5 +1,6 @@
-import { createBrowserRouter, Navigate } from 'react-router-dom'
+import { createBrowserRouter } from 'react-router-dom'
 import { AppLayout } from '../components/AppLayout'
+import { RoleAwareRedirect } from '../components/RoleAwareRedirect'
 import { AdminRoute, ProtectedRoute, TrainerRoute, WorkspaceRoute } from '../components/RouteGuards'
 import { AppointmentsPage } from '../pages/AppointmentsPage'
 import { CalendarPage } from '../pages/CalendarPage'
@@ -68,15 +69,15 @@ export const router = createBrowserRouter([
           },
         ],
       },
-      { path: '/', element: <Navigate to="/trainer/workspaces" replace /> },
-      { path: '/dashboard', element: <Navigate to="/trainer/dashboard" replace /> },
-      { path: '/workspaces', element: <Navigate to="/trainer/workspaces" replace /> },
-      { path: '/students', element: <Navigate to="/trainer/students" replace /> },
-      { path: '/programs', element: <Navigate to="/trainer/programs" replace /> },
-      { path: '/appointments', element: <Navigate to="/trainer/appointments" replace /> },
-      { path: '/calendar', element: <Navigate to="/trainer/calendar" replace /> },
-      { path: '/reminders', element: <Navigate to="/trainer/reminders" replace /> },
-      { path: '/documentation', element: <Navigate to="/trainer/documentation" replace /> },
+      { path: '/', element: <RoleAwareRedirect adminPath="/admin/workspaces" trainerPath="/trainer/workspaces" /> },
+      { path: '/dashboard', element: <RoleAwareRedirect adminPath="/admin/dashboard" trainerPath="/trainer/dashboard" /> },
+      { path: '/workspaces', element: <RoleAwareRedirect adminPath="/admin/workspaces" trainerPath="/trainer/workspaces" /> },
+      { path: '/students', element: <RoleAwareRedirect adminPath="/admin/students" trainerPath="/trainer/students" /> },
+      { path: '/programs', element: <RoleAwareRedirect adminPath="/admin/programs" trainerPath="/trainer/programs" /> },
+      { path: '/appointments', element: <RoleAwareRedirect adminPath="/admin/appointments" trainerPath="/trainer/appointments" /> },
+      { path: '/calendar', element: <RoleAwareRedirect adminPath="/admin/calendar" trainerPath="/trainer/calendar" /> },
+      { path: '/reminders', element: <RoleAwareRedirect adminPath="/admin/reminders" trainerPath="/trainer/reminders" /> },
+      { path: '/documentation', element: <RoleAwareRedirect adminPath="/admin/documentation" trainerPath="/trainer/documentation" /> },
       { path: '/forbidden', element: <ForbiddenPage /> },
     ],
   },
