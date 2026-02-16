@@ -41,5 +41,5 @@ If no active workspace is selected, protected domain pages redirect to `*/worksp
 ## Troubleshooting
 - `401 Invalid credentials`: verify email/password exactly.
 - `401 Unauthenticated` on refresh token: token/session is missing or expired.
-- `403` on domain pages: active workspace not selected or role/workspace access missing.
+- `403` on API/domain actions: role/workspace access is missing. UI redirects to `/forbidden`.
 - API contract source of truth: sibling backend repo `vertex-laravel-api`.

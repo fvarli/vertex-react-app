@@ -24,6 +24,13 @@
     "title": "Bulunamadı",
     "goDashboard": "Panele git"
   },
+  "forbidden": {
+    "label": "Erişim",
+    "title": "Bu alana erişim yetkin yok",
+    "description": "Mevcut rolün veya aktif çalışma alanın bu sayfayı açamaz.",
+    "goWorkspaces": "Çalışma alanlarına git",
+    "goDashboard": "Panele git"
+  },
   "documentation": {
     "sectionLabel": "Kılavuz",
     "title": "Dokümantasyon",

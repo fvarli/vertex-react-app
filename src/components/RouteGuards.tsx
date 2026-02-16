@@ -15,9 +15,10 @@ export function ProtectedRoute() {
 
 export function AdminRoute() {
   const { isAdminArea } = useAuth()
+  const location = useLocation()
 
   if (!isAdminArea) {
-    return <Navigate to="/trainer/dashboard" replace />
+    return <Navigate to="/forbidden" replace state={{ from: location }} />
   }
 
   return <Outlet />
@@ -25,9 +26,10 @@ export function AdminRoute() {
 
 export function TrainerRoute() {
   const { isAdminArea } = useAuth()
+  const location = useLocation()
 
   if (isAdminArea) {
-    return <Navigate to="/admin/dashboard" replace />
+    return <Navigate to="/forbidden" replace state={{ from: location }} />
   }
 
   return <Outlet />

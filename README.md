@@ -195,7 +195,7 @@ Reporting-ready backend endpoints (for next UI modules):
 
 - Shared helpers live in `src/lib/api-errors.ts`.
 - Common behavior:
-  - `403` -> redirect user to workspace selection in protected domain screens.
+  - `403` -> route guards and domain UX send user to `/forbidden` with a clear access message.
   - `422` -> API validation payload can be parsed through `extractValidationErrors`.
   - fallback message -> `extractApiMessage(error, fallback)`.
 - Appointment flow:
@@ -210,6 +210,7 @@ Reporting-ready backend endpoints (for next UI modules):
 - Current split preserves backend policy enforcement; frontend route guards only shape UX.
 - Workspace guard rule:
   - if active workspace is missing, user is redirected to `/<area>/workspaces`
+  - if area-role mismatch occurs, user is redirected to `/forbidden`
 
 ## UI System
 

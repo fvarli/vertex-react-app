@@ -39,8 +39,15 @@ Expected:
 - Dropdown always appears above page content.
 - Selections persist and apply immediately.
 
+## 6) Role Guard + Forbidden UX
+1. Login as trainer and manually open an `/admin/*` route.
+2. Login as owner admin and manually open a `/trainer/*` route.
+Expected:
+- User is redirected to `/forbidden`.
+- Page explains role/workspace access mismatch.
+- Navigation back to dashboard/workspaces works.
+
 ## Failure Handling
 - Capture route, screenshot, and console error.
 - Include backend `request_id` where relevant.
 - Block release sign-off until issue is triaged.
-

@@ -24,6 +24,13 @@
     "title": "Not Found",
     "goDashboard": "Go to dashboard"
   },
+  "forbidden": {
+    "label": "Access",
+    "title": "You do not have permission",
+    "description": "Your current role or active workspace cannot access this area.",
+    "goWorkspaces": "Go to workspaces",
+    "goDashboard": "Go to dashboard"
+  },
   "documentation": {
     "sectionLabel": "Guide",
     "title": "Documentation",

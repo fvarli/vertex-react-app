@@ -5,6 +5,7 @@ import { AppointmentsPage } from '../pages/AppointmentsPage'
 import { CalendarPage } from '../pages/CalendarPage'
 import { DashboardPage } from '../pages/DashboardPage'
 import { DocumentationPage } from '../pages/DocumentationPage'
+import { ForbiddenPage } from '../pages/ForbiddenPage'
 import { LoginPage } from '../pages/LoginPage'
 import { NotFoundPage } from '../pages/NotFoundPage'
 import { ProgramsPage } from '../pages/ProgramsPage'
@@ -76,6 +77,7 @@ export const router = createBrowserRouter([
       { path: '/calendar', element: <Navigate to="/trainer/calendar" replace /> },
       { path: '/reminders', element: <Navigate to="/trainer/reminders" replace /> },
       { path: '/documentation', element: <Navigate to="/trainer/documentation" replace /> },
+      { path: '/forbidden', element: <ForbiddenPage /> },
     ],
   },
   { path: '*', element: <NotFoundPage /> },

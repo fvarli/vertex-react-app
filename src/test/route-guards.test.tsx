@@ -22,7 +22,7 @@ describe('RouteGuards', () => {
     mocks.getActiveWorkspaceId.mockReset()
   })
 
-  it('redirects non-admin users from admin area to trainer dashboard', async () => {
+  it('redirects non-admin users from admin area to forbidden page', async () => {
     mocks.useAuth.mockReturnValue({ isAdminArea: false })
 
     render(
@@ -31,15 +31,15 @@ describe('RouteGuards', () => {
           <Route element={<AdminRoute />}>
             <Route path="/admin/dashboard" element={<div>Admin page</div>} />
           </Route>
-          <Route path="/trainer/dashboard" element={<div>Trainer dashboard</div>} />
+          <Route path="/forbidden" element={<div>Forbidden page</div>} />
         </Routes>
       </MemoryRouter>,
     )
 
-    expect(await screen.findByText('Trainer dashboard')).toBeInTheDocument()
+    expect(await screen.findByText('Forbidden page')).toBeInTheDocument()
   })
 
-  it('redirects admin users from trainer area to admin dashboard', async () => {
+  it('redirects admin users from trainer area to forbidden page', async () => {
     mocks.useAuth.mockReturnValue({ isAdminArea: true })
 
     render(
@@ -48,12 +48,12 @@ describe('RouteGuards', () => {
           <Route element={<TrainerRoute />}>
             <Route path="/trainer/dashboard" element={<div>Trainer page</div>} />
           </Route>
-          <Route path="/admin/dashboard" element={<div>Admin dashboard</div>} />
+          <Route path="/forbidden" element={<div>Forbidden page</div>} />
         </Routes>
       </MemoryRouter>,
     )
 
-    expect(await screen.findByText('Admin dashboard')).toBeInTheDocument()
+    expect(await screen.findByText('Forbidden page')).toBeInTheDocument()
   })
 
   it('redirects to workspace selector when active workspace is missing', async () => {

@@ -41,5 +41,5 @@ Aktif çalışma alanı seçilmezse, korumalı domain sayfaları otomatik olarak
 ## Sorun giderme
 - `401 Invalid credentials`: e-posta ve şifreyi birebir kontrol et.
 - `401 Unauthenticated` (refresh-token): token/oturum eksik veya süresi dolmuş olabilir.
-- `403` domain sayfalarında: aktif çalışma alanı seçilmemiş veya rol/yetki erişimi yok.
+- `403` API/domain işlemlerinde: rol veya çalışma alanı erişimi yok. UI kullanıcıyı `/forbidden` ekranına yönlendirir.
 - API sözleşmesi kaynak repo: kardeş backend projesi `vertex-laravel-api`.
