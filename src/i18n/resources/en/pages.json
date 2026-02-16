@@ -155,6 +155,7 @@
       "student": "Student",
       "start": "Start",
       "end": "End",
+      "series": "Series",
       "status": "Status",
       "actions": "Actions",
       "noShow": "No Show",
@@ -171,6 +172,22 @@
       "timeSlotConflict": "Selected time slot conflicts with existing trainer or student schedule.",
       "idempotencyMismatch": "Duplicate submit key reused with different payload. Please retry from fresh form state."
     },
+    "series": {
+      "new": "New Series",
+      "title": "Create Recurring Series",
+      "description": "Generate multiple appointments with weekly or monthly recurrence.",
+      "startDate": "Start date",
+      "startTime": "Start time",
+      "endTime": "End time",
+      "frequency": "Frequency",
+      "interval": "Interval",
+      "count": "Count",
+      "until": "Until (optional)",
+      "weekly": "Weekly",
+      "monthly": "Monthly",
+      "weekdays": "Weekdays",
+      "created": "Series created successfully. Generated: {{generated}}"
+    },
     "whatsapp": {
       "column": "WhatsApp",
       "filterAll": "All WhatsApp",
@@ -179,6 +196,35 @@
       "open": "Open WhatsApp",
       "markSent": "Mark sent",
       "markNotSent": "Mark not sent"
+    }
+  },
+  "reminders": {
+    "sectionLabel": "Automation",
+    "title": "Reminders",
+    "description": "Track reminder queue and manually mark WhatsApp delivery state.",
+    "noticeOpened": "Reminder marked as opened.",
+    "noticeMarkedSent": "Reminder marked as sent.",
+    "noticeCancelled": "Reminder cancelled.",
+    "filters": {
+      "all": "All",
+      "pending": "Pending",
+      "ready": "Ready",
+      "sent": "Sent",
+      "missed": "Missed",
+      "cancelled": "Cancelled",
+      "failed": "Failed"
+    },
+    "table": {
+      "student": "Student",
+      "appointment": "Appointment",
+      "scheduledFor": "Scheduled",
+      "status": "Status",
+      "actions": "Actions"
+    },
+    "actions": {
+      "open": "Mark Opened",
+      "markSent": "Mark Sent",
+      "cancel": "Cancel"
     }
   },
   "calendar": {

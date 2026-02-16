@@ -109,7 +109,7 @@ Frontend flow:
 1. Login
 2. Fetch workspaces
 3. Switch active workspace
-4. Access domain pages (students/programs/appointments/calendar)
+4. Access domain pages (students/programs/appointments/reminders/calendar)
 
 ## User Documentation (TR/EN)
 
@@ -140,10 +140,12 @@ Each role guide explains workspace flow, domain usage order, and troubleshooting
 - `AppointmentsPage` now consumes real endpoints:
   - `GET /appointments`
   - `POST /appointments`
+  - `POST /appointments/series`
   - `PUT /appointments/{id}`
   - `PATCH /appointments/{id}/status`
   - `PATCH /appointments/{id}/whatsapp-status`
   - `GET /appointments/{id}/whatsapp-link`
+- Recurring series form supports weekly/monthly creation from UI.
 - `CalendarPage` consumes `GET /calendar` and renders grouped `days[]` payload.
 - Conflict validation from backend is surfaced in UI (`422`, `errors.code = time_slot_conflict`).
 - Appointment create supports optional `Idempotency-Key` header on backend to prevent duplicate inserts.
@@ -151,6 +153,19 @@ Each role guide explains workspace flow, domain usage order, and troubleshooting
   - open deep link from appointment row/card
   - mark reminder as `sent` or `not_sent`
   - filter appointments by WhatsApp send status
+- Student-level WhatsApp endpoint is intentionally not used/available in frontend flow.
+
+## Reminders
+
+- `RemindersPage` consumes:
+  - `GET /reminders`
+  - `PATCH /reminders/{id}/open`
+  - `PATCH /reminders/{id}/mark-sent`
+  - `PATCH /reminders/{id}/cancel`
+- This is a hybrid reminder model:
+  - backend generates reminder queue items
+  - trainer/admin manually confirms send state
+  - no automatic WhatsApp provider send in this sprint
 
 ## Dashboard
 
@@ -219,6 +234,7 @@ Reporting-ready backend endpoints (for next UI modules):
   - `/admin/students`
   - `/admin/programs`
   - `/admin/appointments`
+  - `/admin/reminders`
   - `/admin/calendar`
   - `/admin/documentation`
 - Trainer area:
@@ -227,5 +243,6 @@ Reporting-ready backend endpoints (for next UI modules):
   - `/trainer/students`
   - `/trainer/programs`
   - `/trainer/appointments`
+  - `/trainer/reminders`
   - `/trainer/calendar`
   - `/trainer/documentation`

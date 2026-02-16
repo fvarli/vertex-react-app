@@ -16,15 +16,20 @@ Aktif çalışma alanı seçilmezse, korumalı domain sayfaları otomatik olarak
 2. `Öğrenciler` ekranında öğrenci kayıtlarını oluştur/güncelle.
 3. Öğrenci bazlı haftalık `Programlar` planla ve takip et.
 4. Çakışma kontrollü doğrulama ile `Randevular` oluştur/güncelle.
-5. Gün/hafta görünümünü `Takvim` üzerinden takip et.
-6. `Randevular` ekranında randevu bazlı WhatsApp aksiyonlarını kullan (`WhatsApp Aç` + gönderildi/gönderilmedi durumu).
+5. Tekrarlayan seanslar için `Randevular` ekranından seri oluştur.
+6. `Hatırlatmalar` ekranında günlük kuyruğu yönet ve gönderim durumunu işaretle.
+7. Gün/hafta görünümünü `Takvim` üzerinden takip et.
+8. WhatsApp akışı öğrenci kısayolu değil, randevu/hatırlatma temellidir.
 
 ## Trainer hızlı akış
 1. Aktif çalışma alanını seç.
 2. Günlük plan için `Panel` KPI ve zaman çizelgesine bak.
 3. Sadece kendine bağlı öğrencileri ve durumlarını yönet.
 4. Haftalık öğrenci programlarını oluştur.
-5. Randevu planlamasını yap ve takvimden takip et.
+5. Randevu planlamasını (tekil/seri) yap.
+6. Günlük takip için `Hatırlatmalar` kuyruğunu kullan.
+7. Takvimden planı takip et.
+8. WhatsApp açıldıktan sonra gönderim manuel onaylanır (hibrit model).
 
 ## Durumlar ve kısıtlar
 - Öğrenci durumu: `active` veya `passive`.

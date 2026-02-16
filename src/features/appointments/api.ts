@@ -5,6 +5,8 @@ import type {
   Appointment,
   AppointmentListParams,
   AppointmentPayload,
+  AppointmentSeriesCreateResponse,
+  AppointmentSeriesPayload,
   AppointmentStatusPayload,
   AppointmentWhatsappStatusPayload,
   AppointmentUpdatePayload,
@@ -26,6 +28,16 @@ export async function listAppointments(params: AppointmentListParams): Promise<P
 export async function createAppointment(payload: AppointmentPayload): Promise<Appointment> {
   const idemKey = buildAppointmentIdempotencyKey(payload)
   const response = await api.post<ApiEnvelope<Appointment>>('/appointments', payload, {
+    headers: {
+      'Idempotency-Key': idemKey,
+    },
+  })
+  return response.data.data
+}
+
+export async function createAppointmentSeries(payload: AppointmentSeriesPayload): Promise<AppointmentSeriesCreateResponse> {
+  const idemKey = buildAppointmentSeriesIdempotencyKey(payload)
+  const response = await api.post<ApiEnvelope<AppointmentSeriesCreateResponse>>('/appointments/series', payload, {
     headers: {
       'Idempotency-Key': idemKey,
     },
@@ -62,5 +74,10 @@ export async function fetchCalendar(params: { from: string; to: string; trainer_
 
 function buildAppointmentIdempotencyKey(payload: AppointmentPayload): string {
   const base = `appt:${payload.student_id}:${payload.starts_at}:${payload.ends_at}`
+  return base.replace(/\s+/g, '').slice(0, 120)
+}
+
+function buildAppointmentSeriesIdempotencyKey(payload: AppointmentSeriesPayload): string {
+  const base = `series:${payload.student_id}:${payload.start_date}:${payload.starts_at_time}:${payload.ends_at_time}:${payload.recurrence_rule.freq}`
   return base.replace(/\s+/g, '').slice(0, 120)
 }

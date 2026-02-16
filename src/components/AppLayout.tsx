@@ -59,6 +59,9 @@ export function AppLayout({ area }: AppLayoutProps) {
       <NavLink to={`${base}/appointments`} onClick={onNavigate}>
         {t('layout:menu.appointments')}
       </NavLink>
+      <NavLink to={`${base}/reminders`} onClick={onNavigate}>
+        {t('layout:menu.reminders')}
+      </NavLink>
       <NavLink to={`${base}/calendar`} onClick={onNavigate}>
         {t('layout:menu.calendar')}
       </NavLink>

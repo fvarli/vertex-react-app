@@ -155,6 +155,7 @@
       "student": "Öğrenci",
       "start": "Başlangıç",
       "end": "Bitiş",
+      "series": "Seri",
       "status": "Durum",
       "actions": "İşlemler",
       "noShow": "Gelmedi",
@@ -171,6 +172,22 @@
       "timeSlotConflict": "Seçilen saat aralığı mevcut antrenör veya öğrenci planı ile çakışıyor.",
       "idempotencyMismatch": "Aynı tekrar anahtarı farklı içerikle gönderildi. Formu yenileyip tekrar deneyin."
     },
+    "series": {
+      "new": "Yeni Seri",
+      "title": "Tekrarlı Seri Oluştur",
+      "description": "Haftalık veya aylık tekrar kuralıyla çoklu randevu üret.",
+      "startDate": "Başlangıç tarihi",
+      "startTime": "Başlangıç saati",
+      "endTime": "Bitiş saati",
+      "frequency": "Sıklık",
+      "interval": "Aralık",
+      "count": "Adet",
+      "until": "Bitiş tarihi (opsiyonel)",
+      "weekly": "Haftalık",
+      "monthly": "Aylık",
+      "weekdays": "Hafta günleri",
+      "created": "Seri başarıyla oluşturuldu. Üretilen: {{generated}}"
+    },
     "whatsapp": {
       "column": "WhatsApp",
       "filterAll": "Tüm WhatsApp",
@@ -179,6 +196,35 @@
       "open": "WhatsApp Aç",
       "markSent": "Gönderildi işaretle",
       "markNotSent": "Gönderilmedi işaretle"
+    }
+  },
+  "reminders": {
+    "sectionLabel": "Otomasyon",
+    "title": "Hatırlatmalar",
+    "description": "Hatırlatma kuyruğunu takip et ve WhatsApp gönderim durumunu manuel güncelle.",
+    "noticeOpened": "Hatırlatma açıldı olarak işaretlendi.",
+    "noticeMarkedSent": "Hatırlatma gönderildi olarak işaretlendi.",
+    "noticeCancelled": "Hatırlatma iptal edildi.",
+    "filters": {
+      "all": "Tümü",
+      "pending": "Beklemede",
+      "ready": "Hazır",
+      "sent": "Gönderildi",
+      "missed": "Kaçırıldı",
+      "cancelled": "İptal",
+      "failed": "Hata"
+    },
+    "table": {
+      "student": "Öğrenci",
+      "appointment": "Randevu",
+      "scheduledFor": "Planlanan",
+      "status": "Durum",
+      "actions": "İşlemler"
+    },
+    "actions": {
+      "open": "Açıldı İşaretle",
+      "markSent": "Gönderildi İşaretle",
+      "cancel": "İptal Et"
     }
   },
   "calendar": {

@@ -11,6 +11,7 @@ import { Skeleton } from '../components/ui/skeleton'
 import { TBody, TD, TH, THead, Table } from '../components/ui/table'
 import {
   createAppointment,
+  createAppointmentSeries,
   getAppointmentWhatsappLink,
   listAppointments,
   updateAppointment,
@@ -44,12 +45,23 @@ export function AppointmentsPage() {
   const [isEditing, setIsEditing] = useState(false)
   const [activeAppointment, setActiveAppointment] = useState<Appointment | null>(null)
   const [formOpen, setFormOpen] = useState(false)
+  const [seriesFormOpen, setSeriesFormOpen] = useState(false)
 
   const [formStudentId, setFormStudentId] = useState('')
   const [formStartsAt, setFormStartsAt] = useState(dayjs().add(1, 'hour').minute(0).format('YYYY-MM-DDTHH:mm'))
   const [formEndsAt, setFormEndsAt] = useState(dayjs().add(2, 'hour').minute(0).format('YYYY-MM-DDTHH:mm'))
   const [formLocation, setFormLocation] = useState('')
   const [formNotes, setFormNotes] = useState('')
+
+  const [seriesStudentId, setSeriesStudentId] = useState('')
+  const [seriesStartDate, setSeriesStartDate] = useState(dayjs().add(1, 'day').format('YYYY-MM-DD'))
+  const [seriesStartsAtTime, setSeriesStartsAtTime] = useState('09:00:00')
+  const [seriesEndsAtTime, setSeriesEndsAtTime] = useState('10:00:00')
+  const [seriesFrequency, setSeriesFrequency] = useState<'weekly' | 'monthly'>('weekly')
+  const [seriesInterval, setSeriesInterval] = useState('1')
+  const [seriesCount, setSeriesCount] = useState('8')
+  const [seriesUntil, setSeriesUntil] = useState('')
+  const [seriesWeekdays, setSeriesWeekdays] = useState<number[]>([1, 3, 5])
 
   const [notice, setNotice] = useState<string | null>(null)
   const [errorNotice, setErrorNotice] = useState<string | null>(null)
@@ -139,6 +151,25 @@ export function AppointmentsPage() {
     },
   })
 
+  const createSeriesMutation = useMutation({
+    mutationFn: createAppointmentSeries,
+    onSuccess: async (data) => {
+      setNotice(t('pages:appointments.series.created', { generated: data.generated_count }))
+      setErrorNotice(null)
+      setSeriesFormOpen(false)
+      await queryClient.invalidateQueries({ queryKey: ['appointments'] })
+      await queryClient.invalidateQueries({ queryKey: ['reminders'] })
+      await queryClient.invalidateQueries({ queryKey: ['calendar'] })
+    },
+    onError: (error) => {
+      if (isForbidden(error)) {
+        navigate('/workspaces', { replace: true })
+        return
+      }
+      setErrorNotice(extractApiMessage(error, t('common:requestFailed')))
+    },
+  })
+
   const statusMutation = useMutation({
     mutationFn: ({ appointmentId, nextStatus }: { appointmentId: number; nextStatus: AppointmentStatus }) =>
       updateAppointmentStatus(appointmentId, { status: nextStatus }),
@@ -205,6 +236,19 @@ export function AppointmentsPage() {
     setFormOpen(true)
   }
 
+  function openCreateSeriesForm() {
+    setSeriesStudentId(students[0] ? String(students[0].id) : '')
+    setSeriesStartDate(dayjs().add(1, 'day').format('YYYY-MM-DD'))
+    setSeriesStartsAtTime('09:00:00')
+    setSeriesEndsAtTime('10:00:00')
+    setSeriesFrequency('weekly')
+    setSeriesInterval('1')
+    setSeriesCount('8')
+    setSeriesUntil('')
+    setSeriesWeekdays([1, 3, 5])
+    setSeriesFormOpen(true)
+  }
+
   function openEditForm(appointment: Appointment) {
     setIsEditing(true)
     setActiveAppointment(appointment)
@@ -240,6 +284,30 @@ export function AppointmentsPage() {
     await createMutation.mutateAsync(payload)
   }
 
+  async function submitSeriesForm(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault()
+    if (!seriesStudentId) {
+      setErrorNotice(t('pages:appointments.needStudent'))
+      return
+    }
+
+    await createSeriesMutation.mutateAsync({
+      student_id: Number(seriesStudentId),
+      start_date: seriesStartDate,
+      starts_at_time: seriesStartsAtTime,
+      ends_at_time: seriesEndsAtTime,
+      location: formLocation.trim() || null,
+      title: formNotes.trim() || null,
+      recurrence_rule: {
+        freq: seriesFrequency,
+        interval: Number(seriesInterval || '1'),
+        count: Number(seriesCount || '1'),
+        until: seriesUntil || undefined,
+        byweekday: seriesFrequency === 'weekly' ? seriesWeekdays : undefined,
+      },
+    })
+  }
+
   return (
     <div className="space-y-5 fade-in">
       <div className="panel">
@@ -249,7 +317,12 @@ export function AppointmentsPage() {
             <h2 className="text-2xl font-extrabold tracking-tight">{t('pages:appointments.title')}</h2>
             <p className="mt-1 text-sm text-muted">{t('pages:appointments.description')}</p>
           </div>
-          <Button onClick={openCreateForm}>{t('pages:appointments.new')}</Button>
+          <div className="flex flex-wrap gap-2">
+            <Button variant="outline" onClick={openCreateSeriesForm}>
+              {t('pages:appointments.series.new')}
+            </Button>
+            <Button onClick={openCreateForm}>{t('pages:appointments.new')}</Button>
+          </div>
         </div>
 
         <div className="filter-surface mb-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
@@ -303,6 +376,7 @@ export function AppointmentsPage() {
                       </p>
                       <p className="text-xs text-muted">{formatDate(appointment.starts_at)}</p>
                       <p className="text-xs text-muted">{formatDate(appointment.ends_at)}</p>
+                      {appointment.series_id ? <p className="text-xs text-primary">Series #{appointment.series_id}</p> : null}
                     </div>
                     <div className="flex flex-col items-end gap-1">
                       <Badge variant={appointment.status === 'done' ? 'success' : 'muted'}>{t(`common:${appointment.status}`)}</Badge>
@@ -352,6 +426,7 @@ export function AppointmentsPage() {
                     <TH>{t('pages:appointments.table.student')}</TH>
                     <TH>{t('pages:appointments.table.start')}</TH>
                     <TH>{t('pages:appointments.table.end')}</TH>
+                    <TH>{t('pages:appointments.table.series')}</TH>
                     <TH>{t('pages:appointments.table.status')}</TH>
                     <TH>{t('pages:appointments.whatsapp.column')}</TH>
                     <TH>{t('pages:appointments.table.actions')}</TH>
@@ -364,6 +439,7 @@ export function AppointmentsPage() {
                       <TD>{students.find((student) => student.id === appointment.student_id)?.full_name ?? appointment.student_id}</TD>
                       <TD>{formatDate(appointment.starts_at)}</TD>
                       <TD>{formatDate(appointment.ends_at)}</TD>
+                      <TD>{appointment.series_id ? `#${appointment.series_id}` : '-'}</TD>
                       <TD>
                         <Badge variant={appointment.status === 'done' ? 'success' : 'muted'}>{t(`common:${appointment.status}`)}</Badge>
                       </TD>
@@ -482,6 +558,86 @@ export function AppointmentsPage() {
                   setActiveAppointment(null)
                 }}
               >
+                {t('common:close')}
+              </Button>
+            </div>
+          </form>
+        </div>
+      ) : null}
+
+      {seriesFormOpen ? (
+        <div className="panel">
+          <h3 className="mb-1 text-lg font-semibold tracking-tight">{t('pages:appointments.series.title')}</h3>
+          <p className="mb-3 text-sm text-muted">{t('pages:appointments.series.description')}</p>
+          <form className="space-y-3" onSubmit={submitSeriesForm}>
+            <Select value={seriesStudentId} onChange={(e) => setSeriesStudentId(e.target.value)} required>
+              <option value="">{t('common:selectStudent')}</option>
+              {students.map((student) => (
+                <option key={student.id} value={student.id}>
+                  {student.full_name}
+                </option>
+              ))}
+            </Select>
+            <div className="grid gap-3 sm:grid-cols-3">
+              <div>
+                <p className="mb-1 text-xs text-muted">{t('pages:appointments.series.startDate')}</p>
+                <Input type="date" value={seriesStartDate} onChange={(e) => setSeriesStartDate(e.target.value)} required />
+              </div>
+              <div>
+                <p className="mb-1 text-xs text-muted">{t('pages:appointments.series.startTime')}</p>
+                <Input type="time" step={1} value={seriesStartsAtTime} onChange={(e) => setSeriesStartsAtTime(e.target.value)} required />
+              </div>
+              <div>
+                <p className="mb-1 text-xs text-muted">{t('pages:appointments.series.endTime')}</p>
+                <Input type="time" step={1} value={seriesEndsAtTime} onChange={(e) => setSeriesEndsAtTime(e.target.value)} required />
+              </div>
+            </div>
+            <div className="grid gap-3 sm:grid-cols-4">
+              <div>
+                <p className="mb-1 text-xs text-muted">{t('pages:appointments.series.frequency')}</p>
+                <Select value={seriesFrequency} onChange={(e) => setSeriesFrequency(e.target.value as 'weekly' | 'monthly')}>
+                  <option value="weekly">{t('pages:appointments.series.weekly')}</option>
+                  <option value="monthly">{t('pages:appointments.series.monthly')}</option>
+                </Select>
+              </div>
+              <div>
+                <p className="mb-1 text-xs text-muted">{t('pages:appointments.series.interval')}</p>
+                <Input type="number" min={1} max={12} value={seriesInterval} onChange={(e) => setSeriesInterval(e.target.value)} />
+              </div>
+              <div>
+                <p className="mb-1 text-xs text-muted">{t('pages:appointments.series.count')}</p>
+                <Input type="number" min={1} max={365} value={seriesCount} onChange={(e) => setSeriesCount(e.target.value)} />
+              </div>
+              <div>
+                <p className="mb-1 text-xs text-muted">{t('pages:appointments.series.until')}</p>
+                <Input type="date" value={seriesUntil} onChange={(e) => setSeriesUntil(e.target.value)} />
+              </div>
+            </div>
+            {seriesFrequency === 'weekly' ? (
+              <div>
+                <p className="mb-2 text-xs text-muted">{t('pages:appointments.series.weekdays')}</p>
+                <div className="flex flex-wrap gap-2">
+                  {[1, 2, 3, 4, 5, 6, 7].map((day) => (
+                    <Button
+                      key={day}
+                      type="button"
+                      size="sm"
+                      variant={seriesWeekdays.includes(day) ? 'secondary' : 'outline'}
+                      onClick={() =>
+                        setSeriesWeekdays((prev) => (prev.includes(day) ? prev.filter((v) => v !== day) : [...prev, day]))
+                      }
+                    >
+                      {day}
+                    </Button>
+                  ))}
+                </div>
+              </div>
+            ) : null}
+            <div className="flex flex-col gap-2 sm:flex-row">
+              <Button type="submit" disabled={createSeriesMutation.isPending}>
+                {createSeriesMutation.isPending ? t('common:saving') : t('common:save')}
+              </Button>
+              <Button type="button" variant="outline" onClick={() => setSeriesFormOpen(false)}>
                 {t('common:close')}
               </Button>
             </div>

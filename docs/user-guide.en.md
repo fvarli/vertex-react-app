@@ -16,15 +16,20 @@ If no active workspace is selected, protected domain pages redirect to `*/worksp
 2. Open `Students` and create/update student records.
 3. Assign or review weekly `Programs` per student.
 4. Create or update `Appointments` with conflict-aware validation.
-5. Track day/week view from `Calendar`.
-6. Open `Appointments` and use WhatsApp actions per appointment (`Open WhatsApp` + sent/not-sent status).
+5. Use recurring series creation from `Appointments` for repeated sessions.
+6. Manage reminder queue from `Reminders` and mark sent/cancelled actions.
+7. Track day/week view from `Calendar`.
+8. WhatsApp flow is appointment/reminder based; student-level WhatsApp shortcut endpoint is not used.
 
 ## Trainer quick flow
 1. Select active workspace.
 2. Check `Dashboard` KPI/timeline for the day.
 3. Manage only your own students and statuses.
 4. Create weekly student programs.
-5. Run appointment booking and follow-up from calendar.
+5. Run appointment booking (single or recurring).
+6. Use `Reminders` for daily follow-up queue.
+7. Follow schedule from `Calendar`.
+8. Manual confirmation is required after opening WhatsApp (hybrid model).
 
 ## Status and constraints
 - Student status: `active` or `passive`.

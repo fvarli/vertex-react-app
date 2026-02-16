@@ -8,6 +8,7 @@ import { DocumentationPage } from '../pages/DocumentationPage'
 import { LoginPage } from '../pages/LoginPage'
 import { NotFoundPage } from '../pages/NotFoundPage'
 import { ProgramsPage } from '../pages/ProgramsPage'
+import { RemindersPage } from '../pages/RemindersPage'
 import { StudentsPage } from '../pages/StudentsPage'
 import { WorkspacePage } from '../pages/WorkspacePage'
 
@@ -21,6 +22,7 @@ const adminChildren = [
       { path: '/admin/students', element: <StudentsPage /> },
       { path: '/admin/programs', element: <ProgramsPage /> },
       { path: '/admin/appointments', element: <AppointmentsPage /> },
+      { path: '/admin/reminders', element: <RemindersPage /> },
       { path: '/admin/calendar', element: <CalendarPage /> },
     ],
   },
@@ -36,6 +38,7 @@ const trainerChildren = [
       { path: '/trainer/students', element: <StudentsPage /> },
       { path: '/trainer/programs', element: <ProgramsPage /> },
       { path: '/trainer/appointments', element: <AppointmentsPage /> },
+      { path: '/trainer/reminders', element: <RemindersPage /> },
       { path: '/trainer/calendar', element: <CalendarPage /> },
     ],
   },
@@ -71,6 +74,7 @@ export const router = createBrowserRouter([
       { path: '/programs', element: <Navigate to="/trainer/programs" replace /> },
       { path: '/appointments', element: <Navigate to="/trainer/appointments" replace /> },
       { path: '/calendar', element: <Navigate to="/trainer/calendar" replace /> },
+      { path: '/reminders', element: <Navigate to="/trainer/reminders" replace /> },
       { path: '/documentation', element: <Navigate to="/trainer/documentation" replace /> },
     ],
   },
