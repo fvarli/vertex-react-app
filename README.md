@@ -215,6 +215,7 @@ Reporting-ready backend endpoints (for next UI modules):
 
 - The app uses a shared premium panel layout (`sidebar + topbar + content`) for both roles.
 - Visual tokens (light/dark), spacing, shadows, and motion are centralized in `src/index.css`.
+- Topbar controls (language/theme) are icon-first with dropdown panels (desktop + mobile drawer compatible).
 - Reusable primitives are source of truth:
   - `src/components/ui/button.tsx`
   - `src/components/ui/input.tsx`

@@ -90,7 +90,7 @@ a {
 }
 
 .topbar {
-  @apply mb-6 flex items-center justify-between gap-3 rounded-2xl border border-border/80 bg-card/70 px-4 py-3 shadow-[0_10px_24px_rgba(12,16,28,0.06)] backdrop-blur;
+  @apply relative z-[70] mb-6 flex items-center justify-between gap-3 rounded-2xl border border-border/80 bg-card/70 px-4 py-3 shadow-[0_10px_24px_rgba(12,16,28,0.06)] backdrop-blur;
 }
 
 .topbar span {
@@ -102,7 +102,7 @@ a {
 }
 
 .topbar-actions {
-  @apply flex items-center gap-2;
+  @apply relative z-[71] flex items-center gap-2;
 }
 
 .mobile-nav-toggle {
@@ -110,19 +110,36 @@ a {
 }
 
 .topbar-segment {
-  @apply inline-flex items-center gap-1 rounded-2xl border border-border/80 bg-background/65 p-1 shadow-[0_8px_20px_rgba(9,14,25,0.08)] backdrop-blur;
+  @apply inline-flex items-center gap-2 rounded-2xl border border-border/80 bg-background/65 p-1.5 shadow-[0_8px_20px_rgba(9,14,25,0.08)] backdrop-blur;
 }
 
-.topbar-control {
-  @apply inline-flex items-center gap-2 rounded-xl px-2 py-1 text-xs font-semibold text-foreground;
+.topbar-control-wrap {
+  @apply relative z-[72];
 }
 
-.topbar-control-label {
-  @apply text-muted;
+.topbar-icon-button {
+  @apply inline-flex h-9 items-center gap-2 rounded-xl border border-border/80 bg-card/80 px-2.5 text-xs font-semibold text-foreground transition-all duration-200 hover:border-foreground/30 hover:bg-card focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/70;
 }
 
-.topbar-control-select {
-  @apply rounded-lg border border-border/80 bg-card/85 px-2 py-1 text-xs font-semibold text-foreground outline-none focus-visible:border-primary/40 focus-visible:ring-2 focus-visible:ring-primary/40;
+.topbar-icon-button svg {
+  @apply h-4 w-4 text-muted;
+}
+
+.topbar-icon-value {
+  @apply max-w-[90px] truncate text-[11px] font-semibold tracking-[0.02em];
+}
+
+.topbar-dropdown {
+  @apply absolute right-0 z-[90] mt-2 min-w-[140px] rounded-xl border border-border/80 bg-card/95 p-1.5 shadow-[0_16px_34px_rgba(10,18,35,0.2)] backdrop-blur;
+}
+
+.topbar-dropdown-item {
+  @apply block w-full rounded-lg px-2.5 py-1.5 text-left text-xs font-medium text-foreground transition-colors duration-150 hover:bg-foreground/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/70;
+}
+
+.topbar-dropdown-item.is-active {
+  color: rgb(var(--primary));
+  background: rgb(var(--primary) / 0.12);
 }
 
 .topbar-logout {
@@ -161,16 +178,24 @@ a {
   @apply mt-4 grid gap-2 border-t border-sidebarActive/60 pt-4;
 }
 
-.mobile-drawer .topbar-control {
-  @apply justify-between rounded-xl border border-sidebarActive/70 bg-sidebarActive/40 px-3 py-2 text-sidebarForeground;
+.mobile-drawer .topbar-icon-button {
+  @apply w-full justify-between rounded-xl border-sidebarActive/70 bg-sidebarActive/40 px-3 py-2 text-sidebarForeground;
 }
 
-.mobile-drawer .topbar-control-label {
+.mobile-drawer .topbar-icon-button svg {
   @apply text-sidebarMuted;
 }
 
-.mobile-drawer .topbar-control-select {
-  @apply border-sidebarActive/80 bg-sidebar/80 text-sidebarForeground;
+.mobile-drawer .topbar-dropdown {
+  @apply left-0 right-auto z-[95] min-w-[100%] border-sidebarActive/80 bg-sidebar/95;
+}
+
+.mobile-drawer .topbar-dropdown-item {
+  @apply text-sidebarForeground hover:bg-sidebarActive/70;
+}
+
+.mobile-drawer .topbar-dropdown-item.is-active {
+  @apply bg-sidebarActive text-sidebarForeground;
 }
 
 .content {

@@ -59,10 +59,11 @@ describe('ThemeToggle', () => {
   it('changes and persists selected mode', () => {
     render(<ThemeToggle />)
 
-    const select = screen.getByRole('combobox', { name: /theme mode selector/i })
+    const trigger = screen.getByRole('button', { name: /theme mode selector/i })
     expect(getThemeMode()).toBe('system')
 
-    fireEvent.change(select, { target: { value: 'dark' } })
+    fireEvent.click(trigger)
+    fireEvent.click(screen.getByRole('button', { name: /dark/i }))
 
     expect(getThemeMode()).toBe('dark')
     expect(document.documentElement.classList.contains('dark')).toBe(true)
