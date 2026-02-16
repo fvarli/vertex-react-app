@@ -8,7 +8,16 @@ import { Input } from '../components/ui/input'
 import { Select } from '../components/ui/select'
 import { Skeleton } from '../components/ui/skeleton'
 import { TBody, TD, TH, THead, Table } from '../components/ui/table'
-import { createProgram, listPrograms, updateProgram, updateProgramStatus } from '../features/programs/api'
+import {
+  copyProgramWeek,
+  createProgram,
+  createProgramFromTemplate,
+  createProgramTemplate,
+  listProgramTemplates,
+  listPrograms,
+  updateProgram,
+  updateProgramStatus,
+} from '../features/programs/api'
 import type { Program, ProgramItem, ProgramStatus } from '../features/programs/types'
 import { listStudents } from '../features/students/api'
 import { extractApiMessage, isForbidden } from '../lib/api-errors'
@@ -41,6 +50,12 @@ export function ProgramsPage() {
   const [weekStartDate, setWeekStartDate] = useState('')
   const [status, setStatus] = useState<ProgramStatus>('draft')
   const [items, setItems] = useState<ProgramItem[]>([blankItem(1)])
+  const [templateId, setTemplateId] = useState('')
+  const [templateWeekStartDate, setTemplateWeekStartDate] = useState('')
+  const [templateStatus, setTemplateStatus] = useState<ProgramStatus>('draft')
+  const [copySourceWeek, setCopySourceWeek] = useState('')
+  const [copyTargetWeek, setCopyTargetWeek] = useState('')
+  const [copyStatus, setCopyStatus] = useState<ProgramStatus>('draft')
 
   const [notice, setNotice] = useState<string | null>(null)
   const [errorNotice, setErrorNotice] = useState<string | null>(null)
@@ -66,6 +81,11 @@ export function ProgramsPage() {
   })
 
   const programs = programsQuery.data?.data ?? []
+  const templatesQuery = useQuery({
+    queryKey: ['program-templates'],
+    queryFn: () => listProgramTemplates({ per_page: 100 }),
+  })
+  const templates = templatesQuery.data?.data ?? []
 
   const createMutation = useMutation({
     mutationFn: ({ targetStudentId, payload }: { targetStudentId: number; payload: Parameters<typeof createProgram>[1] }) =>
@@ -111,6 +131,56 @@ export function ProgramsPage() {
       setNotice(t('pages:programs.noticeStatus'))
       setErrorNotice(null)
       await queryClient.invalidateQueries({ queryKey: ['programs', selectedStudentId] })
+    },
+    onError: (error) => {
+      if (isForbidden(error)) {
+        navigate('/workspaces', { replace: true })
+        return
+      }
+      setErrorNotice(extractApiMessage(error, t('common:requestFailed')))
+    },
+  })
+
+  const fromTemplateMutation = useMutation({
+    mutationFn: ({ targetStudentId, payload }: { targetStudentId: number; payload: Parameters<typeof createProgramFromTemplate>[1] }) =>
+      createProgramFromTemplate(targetStudentId, payload),
+    onSuccess: async () => {
+      setNotice(t('pages:programs.noticeCreatedFromTemplate'))
+      setErrorNotice(null)
+      await queryClient.invalidateQueries({ queryKey: ['programs', selectedStudentId] })
+    },
+    onError: (error) => {
+      if (isForbidden(error)) {
+        navigate('/workspaces', { replace: true })
+        return
+      }
+      setErrorNotice(extractApiMessage(error, t('common:requestFailed')))
+    },
+  })
+
+  const copyWeekMutation = useMutation({
+    mutationFn: ({ targetStudentId, payload }: { targetStudentId: number; payload: Parameters<typeof copyProgramWeek>[1] }) =>
+      copyProgramWeek(targetStudentId, payload),
+    onSuccess: async () => {
+      setNotice(t('pages:programs.noticeCopiedWeek'))
+      setErrorNotice(null)
+      await queryClient.invalidateQueries({ queryKey: ['programs', selectedStudentId] })
+    },
+    onError: (error) => {
+      if (isForbidden(error)) {
+        navigate('/workspaces', { replace: true })
+        return
+      }
+      setErrorNotice(extractApiMessage(error, t('common:requestFailed')))
+    },
+  })
+
+  const templateMutation = useMutation({
+    mutationFn: createProgramTemplate,
+    onSuccess: async () => {
+      setNotice(t('pages:programs.noticeTemplateSaved'))
+      setErrorNotice(null)
+      await queryClient.invalidateQueries({ queryKey: ['program-templates'] })
     },
     onError: (error) => {
       if (isForbidden(error)) {
@@ -191,6 +261,60 @@ export function ProgramsPage() {
     setItems((prev) => prev.map((item, idx) => (idx === index ? { ...item, ...changes } : item)))
   }
 
+  async function handleCreateFromTemplate() {
+    if (!selectedStudentId || !templateId || !templateWeekStartDate) {
+      setErrorNotice(t('pages:programs.needTemplateFields'))
+      return
+    }
+
+    await fromTemplateMutation.mutateAsync({
+      targetStudentId: selectedStudentId,
+      payload: {
+        template_id: Number(templateId),
+        week_start_date: templateWeekStartDate,
+        status: templateStatus,
+      },
+    })
+  }
+
+  async function handleCopyWeek() {
+    if (!selectedStudentId || !copySourceWeek || !copyTargetWeek) {
+      setErrorNotice(t('pages:programs.needCopyFields'))
+      return
+    }
+
+    await copyWeekMutation.mutateAsync({
+      targetStudentId: selectedStudentId,
+      payload: {
+        source_week_start_date: copySourceWeek,
+        target_week_start_date: copyTargetWeek,
+        status: copyStatus,
+      },
+    })
+  }
+
+  async function handleSaveTemplate(program: Program) {
+    const templateName = window.prompt(t('pages:programs.templateNamePrompt'), `${program.title}-${program.week_start_date}`)
+    if (!templateName || templateName.trim().length === 0) {
+      return
+    }
+
+    await templateMutation.mutateAsync({
+      name: templateName.trim(),
+      title: program.title,
+      goal: program.goal,
+      items: program.items.map((item) => ({
+        day_of_week: item.day_of_week,
+        order_no: item.order_no,
+        exercise: item.exercise,
+        sets: item.sets,
+        reps: item.reps,
+        rest_seconds: item.rest_seconds,
+        notes: item.notes,
+      })),
+    })
+  }
+
   return (
     <div className="space-y-5 fade-in">
       <div className="panel">
@@ -223,6 +347,47 @@ export function ProgramsPage() {
           <Input value={weekStartDate} onChange={(e) => setWeekStartDate(e.target.value)} type="date" placeholder={t('pages:programs.weekStart')} />
         </div>
 
+        <div className="mb-4 grid gap-3 rounded-2xl border border-border/70 bg-background/55 p-3 lg:grid-cols-2">
+          <div className="space-y-2 rounded-xl border border-border/70 bg-card/60 p-3">
+            <p className="text-xs uppercase tracking-[0.08em] text-muted">{t('pages:programs.accelerator.templateTitle')}</p>
+            <div className="grid gap-2 sm:grid-cols-3">
+              <Select value={templateId} onChange={(e) => setTemplateId(e.target.value)}>
+                <option value="">{t('pages:programs.accelerator.selectTemplate')}</option>
+                {templates.map((template) => (
+                  <option key={template.id} value={template.id}>
+                    {template.name}
+                  </option>
+                ))}
+              </Select>
+              <Input type="date" value={templateWeekStartDate} onChange={(e) => setTemplateWeekStartDate(e.target.value)} />
+              <Select value={templateStatus} onChange={(e) => setTemplateStatus(e.target.value as ProgramStatus)}>
+                <option value="draft">{t('common:draft')}</option>
+                <option value="active">{t('common:active')}</option>
+                <option value="archived">{t('common:archived')}</option>
+              </Select>
+            </div>
+            <Button size="sm" onClick={() => void handleCreateFromTemplate()} disabled={fromTemplateMutation.isPending || !selectedStudentId}>
+              {t('pages:programs.accelerator.createFromTemplate')}
+            </Button>
+          </div>
+
+          <div className="space-y-2 rounded-xl border border-border/70 bg-card/60 p-3">
+            <p className="text-xs uppercase tracking-[0.08em] text-muted">{t('pages:programs.accelerator.copyTitle')}</p>
+            <div className="grid gap-2 sm:grid-cols-3">
+              <Input type="date" value={copySourceWeek} onChange={(e) => setCopySourceWeek(e.target.value)} placeholder={t('pages:programs.accelerator.sourceWeek')} />
+              <Input type="date" value={copyTargetWeek} onChange={(e) => setCopyTargetWeek(e.target.value)} placeholder={t('pages:programs.accelerator.targetWeek')} />
+              <Select value={copyStatus} onChange={(e) => setCopyStatus(e.target.value as ProgramStatus)}>
+                <option value="draft">{t('common:draft')}</option>
+                <option value="active">{t('common:active')}</option>
+                <option value="archived">{t('common:archived')}</option>
+              </Select>
+            </div>
+            <Button size="sm" variant="outline" onClick={() => void handleCopyWeek()} disabled={copyWeekMutation.isPending || !selectedStudentId}>
+              {t('pages:programs.accelerator.copyWeek')}
+            </Button>
+          </div>
+        </div>
+
         {notice ? <p className="mb-3 rounded-xl bg-success/15 px-3 py-2 text-sm text-success">{notice}</p> : null}
         {errorNotice ? <p className="mb-3 rounded-xl bg-danger/15 px-3 py-2 text-sm text-danger">{errorNotice}</p> : null}
 
@@ -251,6 +416,9 @@ export function ProgramsPage() {
                   <div className="mt-3 grid gap-2">
                     <Button size="sm" variant="outline" onClick={() => openEditForm(program)}>
                       {t('common:edit')}
+                    </Button>
+                    <Button size="sm" variant="outline" onClick={() => void handleSaveTemplate(program)}>
+                      {t('pages:programs.table.saveTemplate')}
                     </Button>
                     <Button size="sm" variant="secondary" onClick={() => void statusMutation.mutateAsync({ programId: program.id, nextStatus: 'active' })}>
                       {t('pages:programs.table.activate')}
@@ -292,6 +460,9 @@ export function ProgramsPage() {
                         <div className="flex flex-wrap gap-2">
                           <Button size="sm" variant="outline" onClick={() => openEditForm(program)}>
                             {t('common:edit')}
+                          </Button>
+                          <Button size="sm" variant="outline" onClick={() => void handleSaveTemplate(program)}>
+                            {t('pages:programs.table.saveTemplate')}
                           </Button>
                           <Button
                             size="sm"

@@ -1,12 +1,14 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import dayjs from 'dayjs'
 import { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
+import { Badge } from '../components/ui/badge'
 import { Button } from '../components/ui/button'
 import { Input } from '../components/ui/input'
 import { Select } from '../components/ui/select'
 import { Skeleton } from '../components/ui/skeleton'
-import { createStudent, listStudents, updateStudent, updateStudentStatus } from '../features/students/api'
+import { createStudent, getStudentTimeline, listStudents, updateStudent, updateStudentStatus } from '../features/students/api'
 import { StudentFormDialog } from '../features/students/components/StudentFormDialog'
 import { StatusDialog } from '../features/students/components/StatusDialog'
 import { StudentsTable } from '../features/students/components/StudentsTable'
@@ -30,6 +32,7 @@ export function StudentsPage() {
 
   const [statusOpen, setStatusOpen] = useState(false)
   const [statusTarget, setStatusTarget] = useState<Student | null>(null)
+  const [timelineTarget, setTimelineTarget] = useState<Student | null>(null)
 
   const [notice, setNotice] = useState<string | null>(null)
   const [errorNotice, setErrorNotice] = useState<string | null>(null)
@@ -118,6 +121,11 @@ export function StudentsPage() {
 
   const pagination = studentsQuery.data
   const students = pagination?.data ?? []
+  const timelineQuery = useQuery({
+    queryKey: ['students', 'timeline', timelineTarget?.id],
+    queryFn: () => getStudentTimeline(timelineTarget!.id, 25),
+    enabled: Boolean(timelineTarget?.id),
+  })
 
   const createOrUpdateSubmitting = createMutation.isPending || updateMutation.isPending
 
@@ -192,6 +200,9 @@ export function StudentsPage() {
                   setStatusTarget(student)
                   setStatusOpen(true)
                 }}
+                onTimeline={(student) => {
+                  setTimelineTarget(student)
+                }}
               />
             </div>
 
@@ -260,6 +271,46 @@ export function StudentsPage() {
           await statusMutation.mutateAsync({ studentId: statusTarget.id, nextStatus })
         }}
       />
+
+      {timelineTarget ? (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4">
+          <div className="w-full max-w-xl rounded-xl border border-border bg-card p-4 shadow-xl">
+            <div className="mb-3 flex items-start justify-between gap-3">
+              <div>
+                <h3 className="text-lg font-semibold text-foreground">{t('pages:students.timeline.title', { name: timelineTarget.full_name })}</h3>
+                <p className="text-sm text-muted">{t('pages:students.timeline.description')}</p>
+              </div>
+              <Button variant="outline" size="sm" onClick={() => setTimelineTarget(null)}>
+                {t('common:close')}
+              </Button>
+            </div>
+            {timelineQuery.isLoading ? (
+              <div className="space-y-2">
+                <Skeleton className="h-12 w-full" />
+                <Skeleton className="h-12 w-full" />
+              </div>
+            ) : timelineQuery.isError ? (
+              <p className="text-sm text-danger">{extractApiMessage(timelineQuery.error, t('common:requestFailed'))}</p>
+            ) : (timelineQuery.data?.items.length ?? 0) === 0 ? (
+              <p className="text-sm text-muted">{t('pages:students.timeline.empty')}</p>
+            ) : (
+              <ul className="space-y-2">
+                {timelineQuery.data?.items.map((item) => (
+                  <li key={`${item.type}-${item.id}`} className="rounded-xl border border-border/70 bg-background/70 p-3">
+                    <div className="flex flex-wrap items-center justify-between gap-2">
+                      <p className="text-sm font-semibold text-foreground">{item.title}</p>
+                      <Badge variant={item.status === 'done' || item.status === 'active' ? 'success' : 'muted'}>{item.status}</Badge>
+                    </div>
+                    <p className="mt-1 text-xs text-muted">
+                      {item.type} • {dayjs(item.event_at).format('DD.MM.YYYY HH:mm')}
+                    </p>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+        </div>
+      ) : null}
     </div>
   )
 }

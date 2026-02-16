@@ -7,6 +7,7 @@ import type {
   StudentListParams,
   StudentPayload,
   StudentStatusPayload,
+  StudentTimeline,
   UpdateStudentPayload,
 } from './types'
 
@@ -32,5 +33,12 @@ export async function updateStudent(studentId: number, payload: UpdateStudentPay
 
 export async function updateStudentStatus(studentId: number, payload: StudentStatusPayload): Promise<Student> {
   const response = await api.patch<ApiEnvelope<Student>>(`/students/${studentId}/status`, payload)
+  return response.data.data
+}
+
+export async function getStudentTimeline(studentId: number, limit = 30): Promise<StudentTimeline> {
+  const response = await api.get<ApiEnvelope<StudentTimeline>>(`/students/${studentId}/timeline`, {
+    params: compactQuery({ limit }),
+  })
   return response.data.data
 }

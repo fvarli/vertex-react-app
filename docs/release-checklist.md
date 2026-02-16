@@ -20,6 +20,9 @@
 
 ## Post-deploy verification
 - [ ] Login and workspace switch.
+- [ ] Dashboard shows attendance KPIs (`today_no_show`, `attendance_rate`).
+- [ ] Programs page template accelerator works (save template, create from template, copy week).
+- [ ] Student timeline opens and shows events.
 - [ ] Appointments series create flow visible and operational.
 - [ ] Reminders list/actions visible and operational.
 - [ ] Topbar language/theme icon dropdowns work on desktop + mobile.
@@ -29,4 +32,3 @@
 - [ ] Re-point to previous frontend artifact.
 - [ ] Invalidate cache if required.
 - [ ] Re-run smoke checks.
-

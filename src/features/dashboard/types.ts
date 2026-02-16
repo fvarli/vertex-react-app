@@ -8,13 +8,14 @@ export type DashboardSummary = {
   appointments: {
     today_total: number
     today_done: number
+    today_no_show: number
     today_planned: number
     today_cancelled: number
     upcoming_7d: number
+    today_attendance_rate: number | null
   }
   programs: {
     active_this_week: number
     draft_this_week: number
   }
 }
-

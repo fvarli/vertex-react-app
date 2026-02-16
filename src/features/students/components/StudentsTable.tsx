@@ -8,9 +8,10 @@ type StudentsTableProps = {
   students: Student[]
   onEdit: (student: Student) => void
   onStatus: (student: Student) => void
+  onTimeline: (student: Student) => void
 }
 
-export function StudentsTable({ students, onEdit, onStatus }: StudentsTableProps) {
+export function StudentsTable({ students, onEdit, onStatus, onTimeline }: StudentsTableProps) {
   const { t } = useTranslation(['pages', 'common'])
 
   return (
@@ -36,6 +37,9 @@ export function StudentsTable({ students, onEdit, onStatus }: StudentsTableProps
                 {t('pages:students.table.setStatus', {
                   status: student.status === 'active' ? t('common:passive') : t('common:active'),
                 })}
+              </Button>
+              <Button variant="outline" size="sm" onClick={() => onTimeline(student)}>
+                {t('pages:students.table.timeline')}
               </Button>
             </div>
           </div>
@@ -68,14 +72,17 @@ export function StudentsTable({ students, onEdit, onStatus }: StudentsTableProps
                     <Button variant="outline" size="sm" onClick={() => onEdit(student)}>
                       {t('common:edit')}
                     </Button>
-                  <Button variant="secondary" size="sm" onClick={() => onStatus(student)}>
-                    {t('pages:students.table.setStatus', {
-                      status: student.status === 'active' ? t('common:passive') : t('common:active'),
-                    })}
-                  </Button>
-                </div>
-              </TD>
-            </tr>
+                    <Button variant="secondary" size="sm" onClick={() => onStatus(student)}>
+                      {t('pages:students.table.setStatus', {
+                        status: student.status === 'active' ? t('common:passive') : t('common:active'),
+                      })}
+                    </Button>
+                    <Button variant="outline" size="sm" onClick={() => onTimeline(student)}>
+                      {t('pages:students.table.timeline')}
+                    </Button>
+                  </div>
+                </TD>
+              </tr>
             ))}
           </TBody>
         </Table>

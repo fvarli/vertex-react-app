@@ -15,6 +15,10 @@ Aktif çalışma alanı seçilmezse, korumalı domain sayfaları otomatik olarak
 1. Önce `Panel` ekranında KPI kartları ve bugünün zaman çizelgesini kontrol et.
 2. `Öğrenciler` ekranında öğrenci kayıtlarını oluştur/güncelle.
 3. Öğrenci bazlı haftalık `Programlar` planla ve takip et.
+4. Program hızlandırıcı akışı kullan:
+   - mevcut haftayı şablon olarak kaydet
+   - şablondan yeni hafta oluştur
+   - kaynak haftayı hedef haftaya kopyala
 4. Çakışma kontrollü doğrulama ile `Randevular` oluştur/güncelle.
 5. Tekrarlayan seanslar için `Randevular` ekranından seri oluştur.
 6. `Hatırlatmalar` ekranında günlük kuyruğu yönet ve gönderim durumunu işaretle.
@@ -27,6 +31,7 @@ Aktif çalışma alanı seçilmezse, korumalı domain sayfaları otomatik olarak
 3. Sadece kendine bağlı öğrencileri ve durumlarını yönet.
 4. Haftalık öğrenci programlarını oluştur.
 5. Randevu planlamasını (tekil/seri) yap.
+6. `Öğrenciler` ekranındaki zaman tünelinden hızlı geçmiş özeti al.
 6. Günlük takip için `Hatırlatmalar` kuyruğunu kullan.
 7. Takvimden planı takip et.
 8. WhatsApp açıldıktan sonra gönderim manuel onaylanır (hibrit model).
@@ -35,6 +40,7 @@ Aktif çalışma alanı seçilmezse, korumalı domain sayfaları otomatik olarak
 - Öğrenci durumu: `active` veya `passive`.
 - Program durumu: `draft`, `active`, `archived`.
 - Randevu durumu: `planned`, `done`, `cancelled`, `no_show`.
+- Durum geçişleri backend kurallarıyla korunur (geçersiz geçişler `422` döner).
 - Backend, antrenör/öğrenci saat çakışmalarını engeller.
 - Randevu oluştururken tekrarlı kayıtları engellemek için `Idempotency-Key` header kullanılabilir.
 

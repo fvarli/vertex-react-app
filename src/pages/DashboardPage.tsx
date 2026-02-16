@@ -50,9 +50,11 @@ export function DashboardPage() {
         </div>
       </div>
 
-      <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+      <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-6">
         {summaryQuery.isLoading ? (
           <>
+            <Skeleton className="h-28 w-full rounded-2xl" />
+            <Skeleton className="h-28 w-full rounded-2xl" />
             <Skeleton className="h-28 w-full rounded-2xl" />
             <Skeleton className="h-28 w-full rounded-2xl" />
             <Skeleton className="h-28 w-full rounded-2xl" />
@@ -75,6 +77,16 @@ export function DashboardPage() {
             <div className="kpi-card stagger-in">
               <p className="text-xs uppercase tracking-[0.08em] text-muted">{t('pages:dashboard.cards.todayAppointments')}</p>
               <p className="mt-2 text-3xl font-extrabold">{summary?.appointments.today_total ?? 0}</p>
+            </div>
+            <div className="kpi-card stagger-in">
+              <p className="text-xs uppercase tracking-[0.08em] text-muted">{t('pages:dashboard.cards.todayNoShow')}</p>
+              <p className="mt-2 text-3xl font-extrabold">{summary?.appointments.today_no_show ?? 0}</p>
+            </div>
+            <div className="kpi-card stagger-in">
+              <p className="text-xs uppercase tracking-[0.08em] text-muted">{t('pages:dashboard.cards.attendanceRate')}</p>
+              <p className="mt-2 text-3xl font-extrabold">
+                {summary?.appointments.today_attendance_rate == null ? '-' : `${summary.appointments.today_attendance_rate}%`}
+              </p>
             </div>
             <div className="kpi-card stagger-in">
               <p className="text-xs uppercase tracking-[0.08em] text-muted">{t('pages:dashboard.cards.upcomingAppointments')}</p>

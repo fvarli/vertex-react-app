@@ -175,6 +175,9 @@ Each role guide explains workspace flow, domain usage order, and troubleshooting
 - Scope is role-aware through backend:
   - owner admin -> workspace-wide
   - trainer -> own records
+- Attendance KPI set now includes:
+  - `today_no_show`
+  - `today_attendance_rate`
 
 Reporting-ready backend endpoints (for next UI modules):
 - `GET /reports/appointments`
@@ -186,10 +189,26 @@ Reporting-ready backend endpoints (for next UI modules):
 - `ProgramsPage` now consumes real endpoints:
   - `GET /students/{student}/programs`
   - `POST /students/{student}/programs`
+  - `POST /students/{student}/programs/from-template`
+  - `POST /students/{student}/programs/copy-week`
   - `PUT /programs/{id}`
   - `PATCH /programs/{id}/status`
+- Program templates:
+  - `GET /program-templates`
+  - `POST /program-templates`
 - Supports week-based program CRUD with ordered item rows.
+- Includes operations accelerator UI:
+  - create from saved template
+  - copy source week -> target week
+  - save an existing program as reusable template
 - Backend validation errors (including active-per-week and duplicate day/order rules) are shown in UI.
+
+## Students Timeline
+
+- `StudentsPage` now includes per-student timeline action.
+- Timeline endpoint:
+  - `GET /students/{id}/timeline`
+- Timeline panel merges recent program and appointment events for quick context.
 
 ## API Error Handling
 

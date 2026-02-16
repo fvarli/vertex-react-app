@@ -49,7 +49,23 @@ Expected:
 - Event cards/colors remain readable in light/dark mode.
 - List tab remains available as fallback operations view.
 
-## 7) Role Guard + Forbidden UX
+## 7) Program Template Accelerator
+1. Navigate to `/admin/programs` (or trainer area equivalent).
+2. Save an existing weekly program as template.
+3. Create a new week via "Create from Template".
+4. Copy source week to another week.
+Expected:
+- Template is listed in selector.
+- Generated/copy programs appear in list and keep item rows.
+
+## 8) Student Timeline
+1. Navigate to `/admin/students`.
+2. Open timeline for a student.
+Expected:
+- Modal/panel shows merged appointment + program events.
+- Empty state appears cleanly for students without history.
+
+## 9) Role Guard + Forbidden UX
 1. Login as trainer and manually open an `/admin/*` route.
 2. Login as owner admin and manually open a `/trainer/*` route.
 Expected:

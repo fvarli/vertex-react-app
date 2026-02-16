@@ -42,3 +42,17 @@ export type UpdateStudentPayload = Partial<StudentPayload>
 export type StudentStatusPayload = {
   status: StudentStatus
 }
+
+export type StudentTimelineItem = {
+  type: 'program' | 'appointment'
+  id: number
+  event_at: string
+  status: string
+  title: string
+  meta: Record<string, string | number | null>
+}
+
+export type StudentTimeline = {
+  student_id: number
+  items: StudentTimelineItem[]
+}

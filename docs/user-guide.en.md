@@ -15,6 +15,10 @@ If no active workspace is selected, protected domain pages redirect to `*/worksp
 1. Check `Dashboard` KPIs and today's timeline first.
 2. Open `Students` and create/update student records.
 3. Assign or review weekly `Programs` per student.
+4. Use program accelerator:
+   - save reusable templates from existing weeks
+   - create new week from template
+   - copy source week to target week
 4. Create or update `Appointments` with conflict-aware validation.
 5. Use recurring series creation from `Appointments` for repeated sessions.
 6. Manage reminder queue from `Reminders` and mark sent/cancelled actions.
@@ -27,6 +31,7 @@ If no active workspace is selected, protected domain pages redirect to `*/worksp
 3. Manage only your own students and statuses.
 4. Create weekly student programs.
 5. Run appointment booking (single or recurring).
+6. Use student timeline in `Students` page for quick history context.
 6. Use `Reminders` for daily follow-up queue.
 7. Follow schedule from `Calendar`.
 8. Manual confirmation is required after opening WhatsApp (hybrid model).
@@ -35,6 +40,7 @@ If no active workspace is selected, protected domain pages redirect to `*/worksp
 - Student status: `active` or `passive`.
 - Program status: `draft`, `active`, `archived`.
 - Appointment status: `planned`, `done`, `cancelled`, `no_show`.
+- Status transitions are guarded by backend rules (invalid transitions return `422`).
 - Backend blocks overlapping trainer/student time slots.
 - Appointment create can use `Idempotency-Key` header to avoid duplicate submissions.
 

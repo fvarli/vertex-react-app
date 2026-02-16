@@ -7,6 +7,8 @@
       "activeStudents": "Active Students",
       "passiveStudents": "Passive Students",
       "todayAppointments": "Today Appointments",
+      "todayNoShow": "Today No-Show",
+      "attendanceRate": "Attendance Rate",
       "upcomingAppointments": "Upcoming (7d)"
     },
     "timelineTitle": "Today Timeline",
@@ -88,7 +90,8 @@
       "status": "Status",
       "actions": "Actions",
       "whatsapp": "WhatsApp",
-      "setStatus": "Set {{status}}"
+      "setStatus": "Set {{status}}",
+      "timeline": "Timeline"
     },
     "pagination": "Page {{page}} / {{lastPage}} • Total {{total}}",
     "form": {
@@ -105,6 +108,11 @@
       "description": "You can change this again later",
       "confirmPassive": "Student will be marked as passive and hidden from default active lists.",
       "confirmActive": "Student will be marked active and included in active lists again."
+    },
+    "timeline": {
+      "title": "{{name}} Timeline",
+      "description": "Recent appointments and program updates for this student.",
+      "empty": "No timeline events yet."
     }
   },
   "programs": {
@@ -117,7 +125,13 @@
     "noticeCreated": "Program created successfully.",
     "noticeUpdated": "Program updated successfully.",
     "noticeStatus": "Program status updated successfully.",
+    "noticeCreatedFromTemplate": "Program created from template.",
+    "noticeCopiedWeek": "Program week copied successfully.",
+    "noticeTemplateSaved": "Template saved from selected program.",
     "needStudent": "Please select student.",
+    "needTemplateFields": "Select template and week date first.",
+    "needCopyFields": "Select source and target week first.",
+    "templateNamePrompt": "Template name",
     "empty": "Select a student to view programs.",
     "table": {
       "id": "ID",
@@ -127,7 +141,17 @@
       "items": "Items",
       "actions": "Actions",
       "activate": "Activate",
-      "archive": "Archive"
+      "archive": "Archive",
+      "saveTemplate": "Save Template"
+    },
+    "accelerator": {
+      "templateTitle": "Template to Program",
+      "selectTemplate": "Select template",
+      "createFromTemplate": "Create from Template",
+      "copyTitle": "Copy Week",
+      "sourceWeek": "Source week",
+      "targetWeek": "Target week",
+      "copyWeek": "Copy Week"
     },
     "form": {
       "newTitle": "New Program",

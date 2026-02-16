@@ -40,55 +40,77 @@ describe('ProgramsPage', () => {
   })
 
   it('loads student programs after student list is fetched', async () => {
-    apiMock.get
-      .mockResolvedValueOnce({
-        data: {
+    apiMock.get.mockImplementation((url: string) => {
+      if (url === '/students') {
+        return Promise.resolve({
           data: {
-            data: [
-              {
-                id: 10,
-                workspace_id: 1,
-                trainer_user_id: 1,
-                full_name: 'Ali Veli',
-                phone: '+905551234567',
-                notes: null,
-                status: 'active',
-                created_at: '',
-                updated_at: '',
-              },
-            ],
-            current_page: 1,
-            per_page: 100,
-            total: 1,
-            last_page: 1,
+            data: {
+              data: [
+                {
+                  id: 10,
+                  workspace_id: 1,
+                  trainer_user_id: 1,
+                  full_name: 'Ali Veli',
+                  phone: '+905551234567',
+                  notes: null,
+                  status: 'active',
+                  created_at: '',
+                  updated_at: '',
+                },
+              ],
+              current_page: 1,
+              per_page: 100,
+              total: 1,
+              last_page: 1,
+            },
           },
-        },
-      })
-      .mockResolvedValueOnce({
-        data: {
+        })
+      }
+
+      if (url === '/program-templates') {
+        return Promise.resolve({
           data: {
-            data: [
-              {
-                id: 5,
-                workspace_id: 1,
-                student_id: 10,
-                trainer_user_id: 1,
-                title: 'Strength Week',
-                goal: null,
-                week_start_date: '2026-02-16',
-                status: 'draft',
-                items: [],
-                created_at: '',
-                updated_at: '',
-              },
-            ],
-            current_page: 1,
-            per_page: 100,
-            total: 1,
-            last_page: 1,
+            data: {
+              data: [],
+              current_page: 1,
+              per_page: 100,
+              total: 0,
+              last_page: 1,
+            },
           },
-        },
-      })
+        })
+      }
+
+      if (url === '/students/10/programs') {
+        return Promise.resolve({
+          data: {
+            data: {
+              data: [
+                {
+                  id: 5,
+                  workspace_id: 1,
+                  student_id: 10,
+                  trainer_user_id: 1,
+                  title: 'Strength Week',
+                  goal: null,
+                  week_start_date: '2026-02-16',
+                  status: 'draft',
+                  items: [],
+                  created_at: '',
+                  updated_at: '',
+                },
+              ],
+              current_page: 1,
+              per_page: 100,
+              total: 1,
+              last_page: 1,
+            },
+          },
+        })
+      }
+
+      return Promise.reject(new Error(`Unhandled GET ${url}`))
+    })
 
     renderPage()
 

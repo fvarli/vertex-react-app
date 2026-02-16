@@ -7,6 +7,8 @@
       "activeStudents": "Aktif Öğrenciler",
       "passiveStudents": "Pasif Öğrenciler",
       "todayAppointments": "Bugünkü Randevular",
+      "todayNoShow": "Bugün Gelmedi",
+      "attendanceRate": "Katılım Oranı",
       "upcomingAppointments": "Yaklaşan (7g)"
     },
     "timelineTitle": "Bugün Zaman Çizelgesi",
@@ -88,7 +90,8 @@
       "status": "Durum",
       "actions": "İşlemler",
       "whatsapp": "WhatsApp",
-      "setStatus": "{{status}} yap"
+      "setStatus": "{{status}} yap",
+      "timeline": "Zaman Tüneli"
     },
     "pagination": "Sayfa {{page}} / {{lastPage}} • Toplam {{total}}",
     "form": {
@@ -105,6 +108,11 @@
       "description": "Bunu daha sonra tekrar değiştirebilirsin",
       "confirmPassive": "Öğrenci pasif olarak işaretlenecek ve varsayılan aktif listelerden gizlenecek.",
       "confirmActive": "Öğrenci aktif olarak işaretlenecek ve tekrar aktif listelere dahil edilecek."
+    },
+    "timeline": {
+      "title": "{{name}} Zaman Tüneli",
+      "description": "Bu öğrenciye ait son randevu ve program güncellemeleri.",
+      "empty": "Henüz zaman tüneli kaydı yok."
     }
   },
   "programs": {
@@ -117,7 +125,13 @@
     "noticeCreated": "Program başarıyla oluşturuldu.",
     "noticeUpdated": "Program başarıyla güncellendi.",
     "noticeStatus": "Program durumu başarıyla güncellendi.",
+    "noticeCreatedFromTemplate": "Program şablondan oluşturuldu.",
+    "noticeCopiedWeek": "Program haftası başarıyla kopyalandı.",
+    "noticeTemplateSaved": "Seçilen program şablon olarak kaydedildi.",
     "needStudent": "Lütfen öğrenci seçin.",
+    "needTemplateFields": "Önce şablon ve hafta tarihi seçin.",
+    "needCopyFields": "Önce kaynak ve hedef hafta seçin.",
+    "templateNamePrompt": "Şablon adı",
     "empty": "Programları görmek için öğrenci seçin.",
     "table": {
       "id": "ID",
@@ -127,7 +141,17 @@
       "items": "Maddeler",
       "actions": "İşlemler",
       "activate": "Aktif Et",
-      "archive": "Arşivle"
+      "archive": "Arşivle",
+      "saveTemplate": "Şablon Kaydet"
+    },
+    "accelerator": {
+      "templateTitle": "Şablondan Program",
+      "selectTemplate": "Şablon seç",
+      "createFromTemplate": "Şablondan Oluştur",
+      "copyTitle": "Hafta Kopyala",
+      "sourceWeek": "Kaynak hafta",
+      "targetWeek": "Hedef hafta",
+      "copyWeek": "Haftayı Kopyala"
     },
     "form": {
       "newTitle": "Yeni Program",
