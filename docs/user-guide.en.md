@@ -18,7 +18,7 @@ If no active workspace is selected, protected domain pages redirect to `*/worksp
 4. Create or update `Appointments` with conflict-aware validation.
 5. Use recurring series creation from `Appointments` for repeated sessions.
 6. Manage reminder queue from `Reminders` and mark sent/cancelled actions.
-7. Track day/week view from `Calendar`.
+7. Use `Calendar` tabs (Month/Week/Day/List) to track planning in different scopes.
 8. WhatsApp flow is appointment/reminder based; student-level WhatsApp shortcut endpoint is not used.
 
 ## Trainer quick flow

@@ -39,7 +39,17 @@ Expected:
 - Dropdown always appears above page content.
 - Selections persist and apply immediately.
 
-## 6) Role Guard + Forbidden UX
+## 6) Modern Calendar Tabs
+1. Navigate to `/admin/calendar`.
+2. Verify `Month` default, switch to `Week`, `Day`, `List`.
+3. Use quick actions: Today, This Week, This Month.
+4. Click a calendar event and confirm detail panel updates.
+Expected:
+- Tab switching updates view without page reload.
+- Event cards/colors remain readable in light/dark mode.
+- List tab remains available as fallback operations view.
+
+## 7) Role Guard + Forbidden UX
 1. Login as trainer and manually open an `/admin/*` route.
 2. Login as owner admin and manually open a `/trainer/*` route.
 Expected:

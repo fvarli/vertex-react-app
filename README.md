@@ -228,6 +228,17 @@ Reporting-ready backend endpoints (for next UI modules):
   - data block (table/list/cards)
   - loading/error/empty/notice states
 
+## Calendar Experience
+
+- `CalendarPage` now supports modern tabs:
+  - Month (default)
+  - Week
+  - Day
+  - List (legacy-friendly grouped list)
+- Quick controls: Today, This Week, This Month.
+- Calendar events are powered by FullCalendar and styled with project design tokens.
+- Selecting an event shows detail panel (status, time, location, notes).
+
 ## Navigation Matrix
 
 - Admin area:

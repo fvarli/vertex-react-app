@@ -237,11 +237,29 @@
   "calendar": {
     "sectionLabel": "Takvim Planı",
     "title": "Takvim",
-    "description": "Backend müsaitlik endpointinden hafta/gün görünümü.",
+    "description": "Modern ay/hafta/gün görünümleri ve operasyon listesi ile planı yönet.",
     "trainerFilter": "Mevcut antrenör/tümü",
     "trainer": "Antrenör #{{id}}",
     "empty": "Seçilen aralıkta randevu yok.",
-    "student": "Öğrenci"
+    "student": "Öğrenci",
+    "clearSelection": "Seçimi temizle",
+    "tabs": {
+      "month": "Ay",
+      "week": "Hafta",
+      "day": "Gün",
+      "list": "Liste"
+    },
+    "quick": {
+      "today": "Bugün",
+      "thisWeek": "Bu Hafta",
+      "thisMonth": "Bu Ay"
+    },
+    "detail": {
+      "title": "Seçili Randevu",
+      "empty": "Detay görmek için takvimden bir randevu seç.",
+      "location": "Konum",
+      "notes": "Not"
+    }
   },
   "pagination": {
     "perPage": "{{count}} / sayfa"

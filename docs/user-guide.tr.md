@@ -18,7 +18,7 @@ Aktif çalışma alanı seçilmezse, korumalı domain sayfaları otomatik olarak
 4. Çakışma kontrollü doğrulama ile `Randevular` oluştur/güncelle.
 5. Tekrarlayan seanslar için `Randevular` ekranından seri oluştur.
 6. `Hatırlatmalar` ekranında günlük kuyruğu yönet ve gönderim durumunu işaretle.
-7. Gün/hafta görünümünü `Takvim` üzerinden takip et.
+7. `Takvim` ekranında Ay/Hafta/Gün sekmeleri ve Liste görünümü ile planı takip et.
 8. WhatsApp akışı öğrenci kısayolu değil, randevu/hatırlatma temellidir.
 
 ## Trainer hızlı akış

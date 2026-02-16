@@ -237,11 +237,29 @@
   "calendar": {
     "sectionLabel": "Schedule",
     "title": "Calendar",
-    "description": "Week/day schedule view from backend availability endpoint.",
+    "description": "Manage the plan with modern month/week/day views plus an operations list.",
     "trainerFilter": "Current trainer/all",
     "trainer": "Trainer #{{id}}",
     "empty": "No appointments in selected range.",
-    "student": "Student"
+    "student": "Student",
+    "clearSelection": "Clear selection",
+    "tabs": {
+      "month": "Month",
+      "week": "Week",
+      "day": "Day",
+      "list": "List"
+    },
+    "quick": {
+      "today": "Today",
+      "thisWeek": "This Week",
+      "thisMonth": "This Month"
+    },
+    "detail": {
+      "title": "Selected Appointment",
+      "empty": "Select an appointment from the calendar to see details.",
+      "location": "Location",
+      "notes": "Notes"
+    }
   },
   "pagination": {
     "perPage": "{{count}} / page"
