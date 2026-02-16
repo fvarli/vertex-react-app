@@ -9,7 +9,9 @@
       "todayAppointments": "Today Appointments",
       "todayNoShow": "Today No-Show",
       "attendanceRate": "Attendance Rate",
-      "upcomingAppointments": "Upcoming (7d)"
+      "upcomingAppointments": "Upcoming (7d)",
+      "todaySentReminders": "Reminders Sent Today",
+      "todayEscalatedReminders": "Escalated Today"
     },
     "timelineTitle": "Today Timeline",
     "timelineDescription": "Sessions planned for today in the current workspace scope.",
@@ -89,6 +91,7 @@
       "phone": "Phone",
       "status": "Status",
       "actions": "Actions",
+      "retry": "Retry",
       "whatsapp": "WhatsApp",
       "setStatus": "Set {{status}}",
       "timeline": "Timeline"
@@ -236,6 +239,9 @@
     "noticeOpened": "Reminder marked as opened.",
     "noticeMarkedSent": "Reminder marked as sent.",
     "noticeCancelled": "Reminder cancelled.",
+    "noticeRequeued": "Reminder requeued.",
+    "noticeBulkApplied": "Bulk action applied for {{count}} reminders.",
+    "noticeExported": "CSV export started.",
     "filters": {
       "all": "All",
       "pending": "Pending",
@@ -243,20 +249,34 @@
       "sent": "Sent",
       "missed": "Missed",
       "cancelled": "Cancelled",
-      "failed": "Failed"
+      "failed": "Failed",
+      "escalated": "Escalated",
+      "escalatedOnlyOff": "Escalated: Off",
+      "escalatedOnlyOn": "Escalated: On",
+      "retryDueOnlyOff": "Retry Due: Off",
+      "retryDueOnlyOn": "Retry Due: On"
+    },
+    "actions": {
+      "open": "Mark Opened",
+      "markSent": "Mark Sent",
+      "requeue": "Requeue",
+      "cancel": "Cancel",
+      "bulkMarkSent": "Bulk Mark Sent",
+      "bulkRequeue": "Bulk Requeue",
+      "bulkCancel": "Bulk Cancel",
+      "export": "Export CSV"
     },
     "table": {
       "student": "Student",
       "appointment": "Appointment",
       "scheduledFor": "Scheduled",
       "status": "Status",
-      "actions": "Actions"
+      "retry": "Retry",
+      "actions": "Actions",
+      "attempts": "Attempts: {{count}}",
+      "nextRetry": "Next Retry"
     },
-    "actions": {
-      "open": "Mark Opened",
-      "markSent": "Mark Sent",
-      "cancel": "Cancel"
-    }
+    "needSelection": "Select at least one reminder."
   },
   "calendar": {
     "sectionLabel": "Schedule",

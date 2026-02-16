@@ -18,4 +18,10 @@ export type DashboardSummary = {
     active_this_week: number
     draft_this_week: number
   }
+  reminders: {
+    today_total: number
+    today_sent: number
+    today_missed: number
+    today_escalated: number
+  }
 }

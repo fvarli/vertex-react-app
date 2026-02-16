@@ -161,7 +161,10 @@ Each role guide explains workspace flow, domain usage order, and troubleshooting
   - `GET /reminders`
   - `PATCH /reminders/{id}/open`
   - `PATCH /reminders/{id}/mark-sent`
+  - `PATCH /reminders/{id}/requeue`
   - `PATCH /reminders/{id}/cancel`
+  - `POST /reminders/bulk`
+  - `GET /reminders/export.csv`
 - This is a hybrid reminder model:
   - backend generates reminder queue items
   - trainer/admin manually confirms send state
@@ -178,11 +181,14 @@ Each role guide explains workspace flow, domain usage order, and troubleshooting
 - Attendance KPI set now includes:
   - `today_no_show`
   - `today_attendance_rate`
+  - `reminders.today_sent`
+  - `reminders.today_escalated`
 
 Reporting-ready backend endpoints (for next UI modules):
 - `GET /reports/appointments`
 - `GET /reports/students`
 - `GET /reports/programs`
+- `GET /reports/reminders`
 
 ## Programs
 

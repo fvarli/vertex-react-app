@@ -20,7 +20,9 @@ Expected:
 ## 3) Reminders Queue
 1. Navigate to `/admin/reminders`.
 2. Confirm reminders are listed.
-3. Execute `Open`, `Mark Sent`, `Cancel` actions on sample reminder.
+3. Execute `Open`, `Mark Sent`, `Requeue`, `Cancel` actions on sample reminder.
+4. Select multiple rows and run bulk actions.
+5. Export CSV from reminders page.
 Expected:
 - State transitions reflected in table and follow-up views.
 

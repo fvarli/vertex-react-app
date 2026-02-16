@@ -1,11 +1,11 @@
 import { useQuery } from '@tanstack/react-query'
 import dayjs from 'dayjs'
 import { useTranslation } from 'react-i18next'
-import { getDashboardSummary } from '../features/dashboard/api'
-import { listAppointments } from '../features/appointments/api'
-import { extractApiMessage } from '../lib/api-errors'
-import { Skeleton } from '../components/ui/skeleton'
 import { Badge } from '../components/ui/badge'
+import { Skeleton } from '../components/ui/skeleton'
+import { listAppointments } from '../features/appointments/api'
+import { getDashboardSummary } from '../features/dashboard/api'
+import { extractApiMessage } from '../lib/api-errors'
 
 function formatDateTime(value: string): string {
   return dayjs(value).format('DD.MM.YYYY HH:mm')
@@ -50,9 +50,11 @@ export function DashboardPage() {
         </div>
       </div>
 
-      <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-6">
+      <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
         {summaryQuery.isLoading ? (
           <>
+            <Skeleton className="h-28 w-full rounded-2xl" />
+            <Skeleton className="h-28 w-full rounded-2xl" />
             <Skeleton className="h-28 w-full rounded-2xl" />
             <Skeleton className="h-28 w-full rounded-2xl" />
             <Skeleton className="h-28 w-full rounded-2xl" />
@@ -91,6 +93,14 @@ export function DashboardPage() {
             <div className="kpi-card stagger-in">
               <p className="text-xs uppercase tracking-[0.08em] text-muted">{t('pages:dashboard.cards.upcomingAppointments')}</p>
               <p className="mt-2 text-3xl font-extrabold">{summary?.appointments.upcoming_7d ?? 0}</p>
+            </div>
+            <div className="kpi-card stagger-in">
+              <p className="text-xs uppercase tracking-[0.08em] text-muted">{t('pages:dashboard.cards.todaySentReminders')}</p>
+              <p className="mt-2 text-3xl font-extrabold">{summary?.reminders?.today_sent ?? 0}</p>
+            </div>
+            <div className="kpi-card stagger-in">
+              <p className="text-xs uppercase tracking-[0.08em] text-muted">{t('pages:dashboard.cards.todayEscalatedReminders')}</p>
+              <p className="mt-2 text-3xl font-extrabold">{summary?.reminders?.today_escalated ?? 0}</p>
             </div>
           </>
         )}

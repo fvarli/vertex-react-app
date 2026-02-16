@@ -2,6 +2,18 @@
 
 All notable changes to this project are documented in this file.
 
+## v0.5.0 - 2026-02-16
+
+### Added
+- Reminder automation UI enhancements (requeue, bulk actions, CSV export).
+- Dashboard reminder KPI cards (`today_sent`, `today_escalated`).
+- Reminder filters for escalated-only and retry-due-only views.
+
+### Changed
+- Reminders API client/types extended for retry and escalation fields.
+- Reminders table now displays retry metadata (attempt count, next retry).
+- QA and release docs updated for reminder automation checks.
+
 ## v0.4.0 - 2026-02-16
 
 ### Added

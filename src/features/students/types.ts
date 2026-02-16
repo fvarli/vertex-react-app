@@ -12,7 +12,6 @@ export type Student = {
   updated_at: string
 }
 
-
 export type Paginated<T> = {
   data: T[]
   current_page: number
@@ -44,7 +43,7 @@ export type StudentStatusPayload = {
 }
 
 export type StudentTimelineItem = {
-  type: 'program' | 'appointment'
+  type: 'program' | 'appointment' | 'reminder'
   id: number
   event_at: string
   status: string

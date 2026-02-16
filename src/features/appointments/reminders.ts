@@ -2,7 +2,7 @@ import { api } from '../../lib/api'
 import type { ApiEnvelope } from '../../lib/contracts'
 import { compactQuery } from '../../lib/query'
 
-export type ReminderStatus = 'pending' | 'ready' | 'sent' | 'missed' | 'cancelled' | 'failed'
+export type ReminderStatus = 'pending' | 'ready' | 'sent' | 'missed' | 'cancelled' | 'failed' | 'escalated'
 
 export type Reminder = {
   id: number
@@ -12,6 +12,10 @@ export type Reminder = {
   scheduled_for: string
   status: ReminderStatus
   attempt_count: number
+  last_attempted_at: string | null
+  next_retry_at: string | null
+  escalated_at: string | null
+  failure_reason: string | null
   opened_at: string | null
   marked_sent_at: string | null
   marked_sent_by_user_id: number | null
@@ -40,6 +44,8 @@ export type ReminderListParams = {
   trainer_id?: number
   from?: string
   to?: string
+  escalated_only?: boolean
+  retry_due_only?: boolean
   page?: number
   per_page?: number
 }
@@ -69,3 +75,20 @@ export async function cancelReminder(reminderId: number): Promise<Reminder> {
   return response.data.data
 }
 
+export async function requeueReminder(reminderId: number, payload: { failure_reason?: string } = {}): Promise<Reminder> {
+  const response = await api.patch<ApiEnvelope<Reminder>>(`/reminders/${reminderId}/requeue`, payload)
+  return response.data.data
+}
+
+export async function bulkReminderAction(payload: { ids: number[]; action: 'mark-sent' | 'cancel' | 'requeue'; failure_reason?: string }): Promise<{
+  affected: number
+  action: string
+  items: Reminder[]
+}> {
+  const response = await api.post<ApiEnvelope<{ affected: number; action: string; items: Reminder[] }>>('/reminders/bulk', payload)
+  return response.data.data
+}
+
+export function reminderExportUrl(): string {
+  return '/reminders/export.csv'
+}

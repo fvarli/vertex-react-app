@@ -9,7 +9,9 @@
       "todayAppointments": "Bugünkü Randevular",
       "todayNoShow": "Bugün Gelmedi",
       "attendanceRate": "Katılım Oranı",
-      "upcomingAppointments": "Yaklaşan (7g)"
+      "upcomingAppointments": "Yaklaşan (7g)",
+      "todaySentReminders": "Bugün Gönderilen Hatırlatma",
+      "todayEscalatedReminders": "Bugün Eskale"
     },
     "timelineTitle": "Bugün Zaman Çizelgesi",
     "timelineDescription": "Mevcut çalışma alanı kapsamında bugüne planlanan seanslar.",
@@ -236,6 +238,9 @@
     "noticeOpened": "Hatırlatma açıldı olarak işaretlendi.",
     "noticeMarkedSent": "Hatırlatma gönderildi olarak işaretlendi.",
     "noticeCancelled": "Hatırlatma iptal edildi.",
+    "noticeRequeued": "Hatırlatma yeniden kuyruğa alındı.",
+    "noticeBulkApplied": "{{count}} hatırlatma için toplu işlem uygulandı.",
+    "noticeExported": "CSV dışa aktarma başlatıldı.",
     "filters": {
       "all": "Tümü",
       "pending": "Beklemede",
@@ -243,20 +248,34 @@
       "sent": "Gönderildi",
       "missed": "Kaçırıldı",
       "cancelled": "İptal",
-      "failed": "Hata"
+      "failed": "Hata",
+      "escalated": "Eskale",
+      "escalatedOnlyOff": "Eskale: Kapalı",
+      "escalatedOnlyOn": "Eskale: Açık",
+      "retryDueOnlyOff": "Retry Due: Kapalı",
+      "retryDueOnlyOn": "Retry Due: Açık"
     },
     "table": {
       "student": "Öğrenci",
       "appointment": "Randevu",
       "scheduledFor": "Planlanan",
       "status": "Durum",
-      "actions": "İşlemler"
+      "retry": "Retry",
+      "actions": "İşlemler",
+      "attempts": "Deneme: {{count}}",
+      "nextRetry": "Sonraki Retry"
     },
     "actions": {
       "open": "Açıldı İşaretle",
       "markSent": "Gönderildi İşaretle",
-      "cancel": "İptal Et"
-    }
+      "requeue": "Yeniden Kuyrukla",
+      "cancel": "İptal Et",
+      "bulkMarkSent": "Toplu Gönderildi",
+      "bulkRequeue": "Toplu Yeniden Kuyrukla",
+      "bulkCancel": "Toplu İptal",
+      "export": "CSV Dışa Aktar"
+    },
+    "needSelection": "En az bir hatırlatma seçin."
   },
   "calendar": {
     "sectionLabel": "Takvim Planı",

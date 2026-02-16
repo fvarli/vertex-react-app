@@ -24,7 +24,8 @@
 - [ ] Programs page template accelerator works (save template, create from template, copy week).
 - [ ] Student timeline opens and shows events.
 - [ ] Appointments series create flow visible and operational.
-- [ ] Reminders list/actions visible and operational.
+- [ ] Reminders list/actions (open, mark-sent, requeue, cancel) visible and operational.
+- [ ] Reminders bulk actions and CSV export work.
 - [ ] Topbar language/theme icon dropdowns work on desktop + mobile.
 - [ ] No blocking console/runtime errors.
 
