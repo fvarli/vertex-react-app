@@ -247,3 +247,18 @@ Reporting-ready backend endpoints (for next UI modules):
   - `/trainer/reminders`
   - `/trainer/calendar`
   - `/trainer/documentation`
+
+## Release Ops
+
+- Release docs:
+  - `CHANGELOG.md`
+  - `docs/release-checklist.md`
+  - `docs/smoke-qa.md`
+- Recommended version tag for this release line: `v0.3.0`.
+- Tag after backend + frontend `main` branches are both green.
+
+## Known Limitations
+
+- WhatsApp provider integration is not automatic in this release (hybrid/manual confirmation).
+- Provider delivery receipt sync is not yet implemented.
+- Build emits a non-blocking chunk-size warning; optimization can be handled in a dedicated perf sprint.
