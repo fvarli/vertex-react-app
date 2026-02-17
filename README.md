@@ -96,6 +96,28 @@ Checks on push/PR to `main`:
 Recommended branch protection on `main`:
 - require all `Frontend CI` checks to pass before merge
 
+## CD
+
+GitHub Actions workflow: `.github/workflows/deploy.yml`
+
+Deploy is triggered when:
+- `Frontend CI` succeeds on `main` (`workflow_run`)
+- or manually via `workflow_dispatch`
+
+Production deploy steps:
+- SSH into server (`deploy` user)
+- pull `origin/main` in `/var/www/vertex-react-app`
+- write `.env.production` with `VITE_API_BASE_URL=https://api.vertex.ferzendervarli.com/api/v1`
+- `npm ci`
+- `npm run build`
+- smoke check against `https://vertex.ferzendervarli.com`
+
+Required repository secrets:
+- `PROD_HOST`
+- `PROD_USER`
+- `PROD_SSH_KEY`
+- `PROD_SSH_PORT` (optional, defaults to `22`)
+
 ## Backend Contract
 
 Backend source of truth:

@@ -12,11 +12,12 @@
 - [ ] `VITE_API_BASE_URL` points to target backend environment.
 - [ ] HTTPS domain/proxy config validated (`vertex-ui.local` for local).
 - [ ] Browser cache strategy reviewed (new build hash rollout).
+- [ ] GitHub Actions production secrets are configured (`PROD_HOST`, `PROD_USER`, `PROD_SSH_KEY`, optional `PROD_SSH_PORT`).
 
 ## Deploy
-- [ ] Build artifact generated from clean branch tip.
-- [ ] Static files uploaded/synced.
-- [ ] Reverse proxy points to current artifact.
+- [ ] Merge PR to `main` and confirm `Frontend CI` is green.
+- [ ] Confirm `Frontend Deploy` workflow started automatically (or run manually).
+- [ ] Confirm deploy job completed (`npm ci`, `npm run build`, smoke check).
 
 ## Post-deploy verification
 - [ ] Login and workspace switch.
@@ -29,6 +30,7 @@
 - [ ] Reminders bulk actions and CSV export work.
 - [ ] Topbar language/theme icon dropdowns work on desktop + mobile.
 - [ ] No blocking console/runtime errors.
+- [ ] Login request URL points to `https://api.vertex.ferzendervarli.com/api/v1/login` (not local loopback).
 
 ## Rollback
 - [ ] Re-point to previous frontend artifact.
