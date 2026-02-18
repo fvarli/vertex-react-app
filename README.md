@@ -122,7 +122,8 @@ Required repository secrets:
 
 GitHub Actions workflow (`.github/workflows/security-audit.yml`) runs weekly (Monday 07:15 UTC):
 - installs dependencies
-- runs `npm audit --audit-level=moderate`
+- reports full `npm audit --audit-level=moderate` output (non-blocking)
+- enforces gate on production-impacting deps: `npm audit --omit=dev --audit-level=moderate`
 
 Manual run is available via `workflow_dispatch`.
 Operational response guidance is documented in:

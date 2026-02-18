@@ -28,9 +28,10 @@
 ## 5) Weekly security maintenance
 - `Frontend Security Audit` workflow runs weekly (Monday 07:15 UTC).
 - On failure:
-  - review `npm audit` output
+  - review runtime gate output (`npm audit --omit=dev`)
   - apply dependency updates
   - rerun workflow manually
+- Full `npm audit` output is logged for visibility but does not block deploy by itself.
 
 ## 6) Runtime validation after deploy
 - Confirm login request target:
@@ -56,4 +57,3 @@
 ## 10) Post-incident closeout
 - Record root cause, impact window, and preventive action.
 - Update this runbook/checklists with any new operational lessons.
-

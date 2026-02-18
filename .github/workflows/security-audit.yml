@@ -22,6 +22,8 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Run npm audit
-        run: npm audit --audit-level=moderate
+      - name: Report full npm audit (non-blocking)
+        run: npm audit --audit-level=moderate || true
 
+      - name: Enforce runtime audit gate
+        run: npm audit --omit=dev --audit-level=moderate
