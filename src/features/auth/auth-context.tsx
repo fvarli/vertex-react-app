@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useMemo, useState } from 'react'
-import { api } from '../../lib/api'
+import { AUTH_EXPIRED_EVENT, api } from '../../lib/api'
 import { getToken, setToken } from '../../lib/storage'
 import type { ApiUser, LoginPayload, LoginResponse, MeResponse, WorkspaceRole } from './types'
 
@@ -44,6 +44,21 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
     void bootstrap()
   }, [token])
+
+  useEffect(() => {
+    const onAuthExpired = () => {
+      setToken(null)
+      setTokenState(null)
+      setUser(null)
+      setIsReady(true)
+    }
+
+    window.addEventListener(AUTH_EXPIRED_EVENT, onAuthExpired)
+
+    return () => {
+      window.removeEventListener(AUTH_EXPIRED_EVENT, onAuthExpired)
+    }
+  }, [])
 
   async function login(payload: LoginPayload): Promise<ApiUser> {
     const response = await api.post<LoginResponse>('/login', payload)
