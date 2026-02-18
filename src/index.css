@@ -407,7 +407,11 @@ input[type='datetime-local']::-webkit-calendar-picker-indicator {
 }
 
 .calendar-surface {
-  @apply overflow-x-auto rounded-2xl border border-border/70 bg-card/70 p-2;
+  @apply overflow-visible rounded-2xl border border-border/70 bg-card/70 p-2;
+}
+
+.calendar-scroll-x {
+  @apply overflow-x-auto;
   overflow-y: visible;
 }
 
@@ -416,6 +420,7 @@ input[type='datetime-local']::-webkit-calendar-picker-indicator {
 }
 
 .fc {
+  position: relative;
   --fc-border-color: rgb(var(--border) / 0.8);
   --fc-page-bg-color: transparent;
   --fc-neutral-bg-color: rgb(var(--foreground) / 0.04);
@@ -427,12 +432,12 @@ input[type='datetime-local']::-webkit-calendar-picker-indicator {
 }
 
 .fc .fc-popover {
-  z-index: 100;
+  z-index: 160;
 }
 
 .mobile-drawer-backdrop .fc .fc-popover,
 .mobile-drawer .fc .fc-popover {
-  z-index: 119;
+  z-index: 160;
 }
 
 .fc .fc-col-header-cell-cushion,
@@ -460,6 +465,16 @@ input[type='datetime-local']::-webkit-calendar-picker-indicator {
 @media (max-width: 900px) {
   .calendar-grid {
     @apply grid-cols-1;
+  }
+
+  .calendar-surface,
+  .calendar-scroll-x,
+  .calendar-surface .fc,
+  .calendar-surface .fc-view-harness,
+  .calendar-surface .fc-scroller,
+  .calendar-surface .fc-daygrid-body,
+  .calendar-surface .fc-daygrid-body-unbalanced {
+    overflow-y: visible !important;
   }
 }
 

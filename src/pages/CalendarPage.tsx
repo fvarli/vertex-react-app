@@ -275,24 +275,26 @@ export function CalendarPage() {
             ) : (
               <div className="calendar-grid">
                 <div className="calendar-surface">
-                  <FullCalendar
-                    key={`${viewMode}-${focusDate.format('YYYY-MM-DD')}`}
-                    plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
-                    locales={[trLocale]}
-                    locale={i18n.language === 'tr' ? 'tr' : 'en'}
-                    initialDate={focusDate.toDate()}
-                    initialView={viewMode === 'month' ? 'dayGridMonth' : viewMode === 'week' ? 'timeGridWeek' : 'timeGridDay'}
-                    headerToolbar={false}
-                    allDaySlot={false}
-                    dayMaxEvents={3}
-                    events={events}
-                    eventClick={(info) => {
-                      const id = Number(info.event.id)
-                      const selected = appointments.find((item) => item.id === id) ?? null
-                      setSelectedAppointment(selected)
-                    }}
-                    height="auto"
-                  />
+                  <div className="calendar-scroll-x">
+                    <FullCalendar
+                      key={`${viewMode}-${focusDate.format('YYYY-MM-DD')}`}
+                      plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
+                      locales={[trLocale]}
+                      locale={i18n.language === 'tr' ? 'tr' : 'en'}
+                      initialDate={focusDate.toDate()}
+                      initialView={viewMode === 'month' ? 'dayGridMonth' : viewMode === 'week' ? 'timeGridWeek' : 'timeGridDay'}
+                      headerToolbar={false}
+                      allDaySlot={false}
+                      dayMaxEvents={3}
+                      events={events}
+                      eventClick={(info) => {
+                        const id = Number(info.event.id)
+                        const selected = appointments.find((item) => item.id === id) ?? null
+                        setSelectedAppointment(selected)
+                      }}
+                      height="auto"
+                    />
+                  </div>
                 </div>
                 <aside className="calendar-detail">
                   {selectedAppointment ? (
