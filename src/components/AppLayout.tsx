@@ -127,15 +127,15 @@ export function AppLayout({ area }: AppLayoutProps) {
           <aside className="mobile-drawer" onClick={(event) => event.stopPropagation()}>
             <div className="mobile-drawer-header">
               <div>
-                <p className="text-[11px] uppercase tracking-[0.16em] text-sidebarMuted">Vertex Platform</p>
-                <h2 className="text-lg font-extrabold text-sidebarForeground">{t('layout:appName')}</h2>
+                <p className="mobile-drawer-kicker text-[11px] uppercase tracking-[0.16em] text-sidebarMuted">Vertex Platform</p>
+                <h2 className="mobile-drawer-title text-lg font-extrabold text-sidebarForeground">{t('layout:appName')}</h2>
               </div>
               <Button variant="outline" size="sm" aria-label={t('layout:menu.close')} onClick={() => setIsMobileMenuOpen(false)}>
                 {t('layout:menu.close')}
               </Button>
             </div>
 
-            <p className="mt-1 text-xs text-sidebarMuted">{area === 'admin' ? t('layout:area.admin') : t('layout:area.trainer')}</p>
+            <p className="mobile-drawer-area mt-1 text-xs text-sidebarMuted">{area === 'admin' ? t('layout:area.admin') : t('layout:area.trainer')}</p>
             <nav className="mobile-drawer-nav">{renderNavLinks(() => setIsMobileMenuOpen(false))}</nav>
             <div className="mobile-drawer-controls">
               <LanguageToggle />

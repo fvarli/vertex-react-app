@@ -59,19 +59,33 @@ sudo cp vertex-ui.local-key.pem /etc/nginx/ssl/vertex-ui.local-key.pem
 4. Enable Nginx configs from `ops/nginx`:
 
 - `vertex-ui.local.http.conf` (80 -> 443 redirect)
-- `vertex-ui.local.https.conf` (TLS + Vite proxy)
+- `vertex-ui.local.https.conf` (TLS + static `dist` serve)
 
 5. Reload Nginx.
 
-6. Run frontend dev server:
+6. Build frontend assets:
 
 ```bash
-npm run dev -- --host 127.0.0.1 --port 5173
+npm run build
 ```
 
 7. Open:
 
 - `https://vertex-ui.local`
+
+### Optional: Vite HMR mode
+
+If you want hot-reload development with Nginx proxy mode, use:
+
+```bash
+npm run dev -- --host 127.0.0.1 --port 5173
+```
+
+Or use the dedicated script:
+
+```bash
+npm run dev:https
+```
 
 ## Scripts
 

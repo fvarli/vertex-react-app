@@ -114,7 +114,7 @@ a {
 }
 
 .topbar-control-wrap {
-  @apply relative z-[72];
+  @apply relative z-[80];
 }
 
 .topbar-icon-button {
@@ -130,7 +130,11 @@ a {
 }
 
 .topbar-dropdown {
-  @apply absolute right-0 z-[90] mt-2 min-w-[140px] rounded-xl border border-border/80 bg-card/95 p-1.5 shadow-[0_16px_34px_rgba(10,18,35,0.2)] backdrop-blur;
+  @apply min-w-[140px] rounded-xl border border-border/80 bg-card/95 p-1.5 shadow-[0_16px_34px_rgba(10,18,35,0.2)] backdrop-blur;
+}
+
+.topbar-dropdown-portal {
+  @apply fixed z-[220] mt-0;
 }
 
 .topbar-dropdown-item {
@@ -147,11 +151,15 @@ a {
 }
 
 .mobile-drawer-backdrop {
-  @apply fixed inset-0 z-50 bg-slate-950/60 backdrop-blur-[1px];
+  @apply fixed inset-0 z-[120] bg-slate-950/60 backdrop-blur-[1px];
 }
 
 .mobile-drawer {
-  @apply h-full w-[88%] max-w-[360px] border-r border-sidebarActive/60 bg-sidebar/95 px-4 py-4 text-sidebarForeground shadow-[0_20px_40px_rgba(0,0,0,0.36)];
+  @apply relative z-[121] h-full w-[88%] max-w-[360px] border-r border-sidebarActive/60 bg-sidebar/95 px-4 py-4 text-sidebarForeground shadow-[0_20px_40px_rgba(0,0,0,0.36)];
+}
+
+.mobile-drawer .topbar-control-wrap {
+  @apply z-[122];
 }
 
 .mobile-drawer-header {
@@ -187,7 +195,7 @@ a {
 }
 
 .mobile-drawer .topbar-dropdown {
-  @apply left-0 right-auto z-[95] min-w-[100%] border-sidebarActive/80 bg-sidebar/95;
+  @apply left-0 right-auto z-[130] min-w-[100%] border-sidebarActive/80 bg-sidebar/95;
 }
 
 .mobile-drawer .topbar-dropdown-item {
@@ -195,6 +203,102 @@ a {
 }
 
 .mobile-drawer .topbar-dropdown-item.is-active {
+  @apply bg-sidebarActive text-sidebarForeground;
+}
+
+:root .mobile-drawer {
+  @apply border-border/80 bg-card/95 text-foreground;
+}
+
+:root .mobile-drawer-kicker,
+:root .mobile-drawer-area {
+  color: rgb(var(--muted));
+}
+
+:root .mobile-drawer-title {
+  color: rgb(var(--foreground));
+}
+
+:root .mobile-drawer-nav a {
+  @apply text-muted;
+}
+
+:root .mobile-drawer-nav a:hover,
+:root .mobile-drawer-nav a.active {
+  @apply bg-foreground/5 text-foreground shadow-none;
+}
+
+:root .mobile-drawer-controls {
+  @apply border-border/70;
+}
+
+:root .mobile-drawer .topbar-icon-button {
+  @apply border-border/80 bg-background/80 text-foreground;
+}
+
+:root .mobile-drawer .topbar-icon-button svg {
+  @apply text-muted;
+}
+
+:root .mobile-drawer .topbar-dropdown {
+  @apply border-border/80 bg-card/95;
+}
+
+:root .mobile-drawer .topbar-dropdown-item {
+  @apply text-foreground hover:bg-foreground/5;
+}
+
+:root .mobile-drawer .topbar-dropdown-item.is-active {
+  color: rgb(var(--primary));
+  background: rgb(var(--primary) / 0.12);
+}
+
+.dark .mobile-drawer {
+  @apply border-sidebarActive/60 bg-sidebar/95 text-sidebarForeground;
+}
+
+.dark .mobile-drawer-kicker,
+.dark .mobile-drawer-area {
+  color: rgb(var(--sidebar-muted));
+}
+
+.dark .mobile-drawer-title {
+  color: rgb(var(--sidebar-foreground));
+}
+
+.dark .mobile-drawer-nav a {
+  @apply text-sidebarMuted;
+}
+
+.dark .mobile-drawer-nav a:hover {
+  @apply bg-sidebarActive/70 text-sidebarForeground;
+}
+
+.dark .mobile-drawer-nav a.active {
+  @apply bg-sidebarActive text-sidebarForeground shadow-[0_8px_24px_rgba(0,0,0,0.2)];
+}
+
+.dark .mobile-drawer-controls {
+  @apply border-sidebarActive/60;
+}
+
+.dark .mobile-drawer .topbar-icon-button {
+  @apply border-sidebarActive/70 bg-sidebarActive/40 text-sidebarForeground;
+}
+
+.dark .mobile-drawer .topbar-icon-button svg {
+  @apply text-sidebarMuted;
+}
+
+.dark .mobile-drawer .topbar-dropdown {
+  @apply border-sidebarActive/80 bg-sidebar/95;
+}
+
+.dark .mobile-drawer .topbar-dropdown-item {
+  @apply text-sidebarForeground hover:bg-sidebarActive/70;
+}
+
+.dark .mobile-drawer .topbar-dropdown-item.is-active {
   @apply bg-sidebarActive text-sidebarForeground;
 }
 
@@ -303,7 +407,8 @@ input[type='datetime-local']::-webkit-calendar-picker-indicator {
 }
 
 .calendar-surface {
-  @apply overflow-hidden rounded-2xl border border-border/70 bg-card/70 p-2;
+  @apply overflow-x-auto rounded-2xl border border-border/70 bg-card/70 p-2;
+  overflow-y: visible;
 }
 
 .calendar-detail {
@@ -319,6 +424,15 @@ input[type='datetime-local']::-webkit-calendar-picker-indicator {
   --fc-event-bg-color: rgb(var(--primary));
   --fc-event-border-color: rgb(var(--primary));
   --fc-event-text-color: #fff;
+}
+
+.fc .fc-popover {
+  z-index: 100;
+}
+
+.mobile-drawer-backdrop .fc .fc-popover,
+.mobile-drawer .fc .fc-popover {
+  z-index: 119;
 }
 
 .fc .fc-col-header-cell-cushion,

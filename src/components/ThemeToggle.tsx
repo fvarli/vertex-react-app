@@ -1,13 +1,17 @@
 import { useEffect, useRef, useState } from 'react'
+import { createPortal } from 'react-dom'
 import { useTranslation } from 'react-i18next'
 import { getThemeMode, setThemeMode as persistThemeMode, type ThemeMode } from '../lib/storage'
 import { applyThemeMode, onSystemThemeChange } from '../features/theme/theme'
+import { useAnchoredDropdown } from './useAnchoredDropdown'
 
 export function ThemeToggle() {
   const { t } = useTranslation(['layout'])
   const [mode, setMode] = useState<ThemeMode>(() => getThemeMode())
   const [open, setOpen] = useState(false)
   const rootRef = useRef<HTMLDivElement | null>(null)
+  const menuRef = useRef<HTMLDivElement | null>(null)
+  const menuStyle = useAnchoredDropdown(open, rootRef)
 
   useEffect(() => {
     persistThemeMode(mode)
@@ -26,7 +30,10 @@ export function ThemeToggle() {
     if (!open) return
 
     const onDocumentClick = (event: MouseEvent) => {
-      if (rootRef.current && !rootRef.current.contains(event.target as Node)) {
+      const target = event.target as Node
+      const clickedTrigger = rootRef.current?.contains(target)
+      const clickedMenu = menuRef.current?.contains(target)
+      if (!clickedTrigger && !clickedMenu) {
         setOpen(false)
       }
     }
@@ -87,40 +94,43 @@ export function ThemeToggle() {
         <span className="topbar-icon-value">{modeLabel}</span>
       </button>
 
-      {open ? (
-        <div className="topbar-dropdown" role="menu">
-          <button
-            type="button"
-            className={`topbar-dropdown-item ${mode === 'system' ? 'is-active' : ''}`}
-            onClick={() => {
-              setMode('system')
-              setOpen(false)
-            }}
-          >
-            {t('layout:theme.options.system')}
-          </button>
-          <button
-            type="button"
-            className={`topbar-dropdown-item ${mode === 'light' ? 'is-active' : ''}`}
-            onClick={() => {
-              setMode('light')
-              setOpen(false)
-            }}
-          >
-            {t('layout:theme.options.light')}
-          </button>
-          <button
-            type="button"
-            className={`topbar-dropdown-item ${mode === 'dark' ? 'is-active' : ''}`}
-            onClick={() => {
-              setMode('dark')
-              setOpen(false)
-            }}
-          >
-            {t('layout:theme.options.dark')}
-          </button>
-        </div>
-      ) : null}
+      {open
+        ? createPortal(
+            <div className="topbar-dropdown topbar-dropdown-portal" role="menu" ref={menuRef} style={menuStyle}>
+              <button
+                type="button"
+                className={`topbar-dropdown-item ${mode === 'system' ? 'is-active' : ''}`}
+                onClick={() => {
+                  setMode('system')
+                  setOpen(false)
+                }}
+              >
+                {t('layout:theme.options.system')}
+              </button>
+              <button
+                type="button"
+                className={`topbar-dropdown-item ${mode === 'light' ? 'is-active' : ''}`}
+                onClick={() => {
+                  setMode('light')
+                  setOpen(false)
+                }}
+              >
+                {t('layout:theme.options.light')}
+              </button>
+              <button
+                type="button"
+                className={`topbar-dropdown-item ${mode === 'dark' ? 'is-active' : ''}`}
+                onClick={() => {
+                  setMode('dark')
+                  setOpen(false)
+                }}
+              >
+                {t('layout:theme.options.dark')}
+              </button>
+            </div>,
+            document.body,
+          )
+        : null}
     </div>
   )
 }

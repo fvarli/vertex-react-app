@@ -1,17 +1,24 @@
 import { useEffect, useRef, useState } from 'react'
+import { createPortal } from 'react-dom'
 import { useTranslation } from 'react-i18next'
+import { useAnchoredDropdown } from './useAnchoredDropdown'
 
 export function LanguageToggle() {
   const { i18n, t } = useTranslation(['layout'])
   const language = i18n.resolvedLanguage === 'tr' ? 'tr' : 'en'
   const [open, setOpen] = useState(false)
   const rootRef = useRef<HTMLDivElement | null>(null)
+  const menuRef = useRef<HTMLDivElement | null>(null)
+  const menuStyle = useAnchoredDropdown(open, rootRef)
 
   useEffect(() => {
     if (!open) return
 
     const onDocumentClick = (event: MouseEvent) => {
-      if (rootRef.current && !rootRef.current.contains(event.target as Node)) {
+      const target = event.target as Node
+      const clickedTrigger = rootRef.current?.contains(target)
+      const clickedMenu = menuRef.current?.contains(target)
+      if (!clickedTrigger && !clickedMenu) {
         setOpen(false)
       }
     }
@@ -49,30 +56,33 @@ export function LanguageToggle() {
         <span className="topbar-icon-value">{language.toUpperCase()}</span>
       </button>
 
-      {open ? (
-        <div className="topbar-dropdown" role="menu">
-          <button
-            type="button"
-            className={`topbar-dropdown-item ${language === 'tr' ? 'is-active' : ''}`}
-            onClick={() => {
-              void i18n.changeLanguage('tr')
-              setOpen(false)
-            }}
-          >
-            {t('layout:language.options.tr')}
-          </button>
-          <button
-            type="button"
-            className={`topbar-dropdown-item ${language === 'en' ? 'is-active' : ''}`}
-            onClick={() => {
-              void i18n.changeLanguage('en')
-              setOpen(false)
-            }}
-          >
-            {t('layout:language.options.en')}
-          </button>
-        </div>
-      ) : null}
+      {open
+        ? createPortal(
+            <div className="topbar-dropdown topbar-dropdown-portal" role="menu" ref={menuRef} style={menuStyle}>
+              <button
+                type="button"
+                className={`topbar-dropdown-item ${language === 'tr' ? 'is-active' : ''}`}
+                onClick={() => {
+                  void i18n.changeLanguage('tr')
+                  setOpen(false)
+                }}
+              >
+                {t('layout:language.options.tr')}
+              </button>
+              <button
+                type="button"
+                className={`topbar-dropdown-item ${language === 'en' ? 'is-active' : ''}`}
+                onClick={() => {
+                  void i18n.changeLanguage('en')
+                  setOpen(false)
+                }}
+              >
+                {t('layout:language.options.en')}
+              </button>
+            </div>,
+            document.body,
+          )
+        : null}
     </div>
   )
 }
