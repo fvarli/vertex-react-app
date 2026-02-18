@@ -13,6 +13,8 @@
 - [ ] HTTPS domain/proxy config validated (`vertex-ui.local` for local).
 - [ ] Browser cache strategy reviewed (new build hash rollout).
 - [ ] GitHub Actions production secrets are configured (`PROD_HOST`, `PROD_USER`, `PROD_SSH_KEY`, optional `PROD_SSH_PORT`).
+- [ ] GitHub `production` environment has required reviewers enabled.
+- [ ] `PROD_SSH_KEY` rotation date is within policy window (<= 90 days).
 
 ## Deploy
 - [ ] Merge PR to `main` and confirm `Frontend CI` is green.
@@ -36,3 +38,4 @@
 - [ ] Re-point to previous frontend artifact.
 - [ ] Invalidate cache if required.
 - [ ] Re-run smoke checks.
+- [ ] Update `docs/production-operations-runbook.md` if new operational lessons were found.
