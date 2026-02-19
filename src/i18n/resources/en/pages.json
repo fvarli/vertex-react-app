@@ -13,9 +13,57 @@
       "todaySentReminders": "Reminders Sent Today",
       "todayEscalatedReminders": "Escalated Today"
     },
+    "trainers": {
+      "title": "Trainer Overview",
+      "description": "Quick snapshot of trainer distribution and workload in active workspace.",
+      "open": "Open Trainers",
+      "cards": {
+        "totalTrainers": "Total Trainers",
+        "totalStudents": "Students Assigned",
+        "todayAppointments": "Today Sessions",
+        "avgStudents": "Avg Students / Trainer"
+      }
+    },
     "timelineTitle": "Today Timeline",
     "timelineDescription": "Sessions planned for today in the current workspace scope.",
     "timelineEmpty": "No appointments for today."
+  },
+  "trainers": {
+    "sectionLabel": "Team",
+    "title": "Trainers",
+    "description": "Manage trainer accounts and monitor workload by trainer.",
+    "new": "New Trainer",
+    "searchPlaceholder": "Search name, email or phone...",
+    "empty": "No trainers found for the current filters.",
+    "noticeCreated": "Trainer created successfully.",
+    "filters": {
+      "activeOnly": "Active memberships",
+      "allMemberships": "All memberships"
+    },
+    "cards": {
+      "totalTrainers": "Total Trainers",
+      "activeTrainers": "Active Trainers",
+      "totalStudents": "Students Assigned",
+      "todayAppointments": "Today Sessions",
+      "avgStudents": "Avg Students / Trainer"
+    },
+    "table": {
+      "trainer": "Trainer",
+      "contact": "Contact",
+      "membership": "Membership",
+      "students": "Students",
+      "today": "Today",
+      "upcoming": "Upcoming (7d)"
+    },
+    "form": {
+      "title": "Create Trainer",
+      "description": "New trainer is attached to active workspace immediately.",
+      "name": "Name",
+      "surname": "Surname",
+      "email": "Email",
+      "phone": "Phone",
+      "password": "Password"
+    }
   },
   "workspace": {
     "title": "Workspaces",

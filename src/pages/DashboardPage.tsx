@@ -1,10 +1,13 @@
 import { useQuery } from '@tanstack/react-query'
 import dayjs from 'dayjs'
 import { useTranslation } from 'react-i18next'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { Badge } from '../components/ui/badge'
+import { Button } from '../components/ui/button'
 import { Skeleton } from '../components/ui/skeleton'
 import { listAppointments } from '../features/appointments/api'
 import { getDashboardSummary } from '../features/dashboard/api'
+import { getTrainerOverview } from '../features/trainers/api'
 import { extractApiMessage } from '../lib/api-errors'
 
 function formatDateTime(value: string): string {
@@ -13,6 +16,9 @@ function formatDateTime(value: string): string {
 
 export function DashboardPage() {
   const { t } = useTranslation(['pages', 'common'])
+  const location = useLocation()
+  const navigate = useNavigate()
+  const isAdminArea = location.pathname.startsWith('/admin/')
 
   const summaryQuery = useQuery({
     queryKey: ['dashboard', 'summary'],
@@ -30,6 +36,12 @@ export function DashboardPage() {
         page: 1,
         per_page: 50,
       }),
+  })
+
+  const trainerOverviewQuery = useQuery({
+    queryKey: ['dashboard', 'trainer-overview'],
+    queryFn: () => getTrainerOverview({ include_inactive: false }),
+    enabled: isAdminArea,
   })
 
   const summary = summaryQuery.data
@@ -105,6 +117,50 @@ export function DashboardPage() {
           </>
         )}
       </div>
+
+      {isAdminArea ? (
+        <div className="panel">
+          <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
+            <div>
+              <h3 className="text-lg font-semibold tracking-tight">{t('pages:dashboard.trainers.title')}</h3>
+              <p className="text-sm text-muted">{t('pages:dashboard.trainers.description')}</p>
+            </div>
+            <Button variant="outline" size="sm" onClick={() => navigate('/admin/trainers')}>
+              {t('pages:dashboard.trainers.open')}
+            </Button>
+          </div>
+
+          {trainerOverviewQuery.isLoading ? (
+            <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+              <Skeleton className="h-24 w-full rounded-2xl" />
+              <Skeleton className="h-24 w-full rounded-2xl" />
+              <Skeleton className="h-24 w-full rounded-2xl" />
+              <Skeleton className="h-24 w-full rounded-2xl" />
+            </div>
+          ) : trainerOverviewQuery.isError ? (
+            <p className="text-sm text-danger">{extractApiMessage(trainerOverviewQuery.error, t('common:requestFailed'))}</p>
+          ) : (
+            <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+              <div className="kpi-card stagger-in">
+                <p className="text-xs uppercase tracking-[0.08em] text-muted">{t('pages:dashboard.trainers.cards.totalTrainers')}</p>
+                <p className="mt-2 text-3xl font-extrabold">{trainerOverviewQuery.data?.summary.total_trainers ?? 0}</p>
+              </div>
+              <div className="kpi-card stagger-in">
+                <p className="text-xs uppercase tracking-[0.08em] text-muted">{t('pages:dashboard.trainers.cards.totalStudents')}</p>
+                <p className="mt-2 text-3xl font-extrabold">{trainerOverviewQuery.data?.summary.total_students ?? 0}</p>
+              </div>
+              <div className="kpi-card stagger-in">
+                <p className="text-xs uppercase tracking-[0.08em] text-muted">{t('pages:dashboard.trainers.cards.todayAppointments')}</p>
+                <p className="mt-2 text-3xl font-extrabold">{trainerOverviewQuery.data?.summary.today_appointments ?? 0}</p>
+              </div>
+              <div className="kpi-card stagger-in">
+                <p className="text-xs uppercase tracking-[0.08em] text-muted">{t('pages:dashboard.trainers.cards.avgStudents')}</p>
+                <p className="mt-2 text-3xl font-extrabold">{trainerOverviewQuery.data?.summary.avg_students_per_trainer ?? '-'}</p>
+              </div>
+            </div>
+          )}
+        </div>
+      ) : null}
 
       <div className="panel">
         <h3 className="mb-2 text-lg font-semibold tracking-tight">{t('pages:dashboard.timelineTitle')}</h3>

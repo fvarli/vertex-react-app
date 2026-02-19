@@ -12,6 +12,7 @@ import { NotFoundPage } from '../pages/NotFoundPage'
 import { ProgramsPage } from '../pages/ProgramsPage'
 import { RemindersPage } from '../pages/RemindersPage'
 import { StudentsPage } from '../pages/StudentsPage'
+import { TrainersPage } from '../pages/TrainersPage'
 import { WorkspacePage } from '../pages/WorkspacePage'
 
 const adminChildren = [
@@ -21,6 +22,7 @@ const adminChildren = [
     element: <WorkspaceRoute area="admin" />,
     children: [
       { path: '/admin/dashboard', element: <DashboardPage /> },
+      { path: '/admin/trainers', element: <TrainersPage /> },
       { path: '/admin/students', element: <StudentsPage /> },
       { path: '/admin/programs', element: <ProgramsPage /> },
       { path: '/admin/appointments', element: <AppointmentsPage /> },
@@ -73,6 +75,7 @@ export const router = createBrowserRouter([
       { path: '/dashboard', element: <RoleAwareRedirect adminPath="/admin/dashboard" trainerPath="/trainer/dashboard" /> },
       { path: '/workspaces', element: <RoleAwareRedirect adminPath="/admin/workspaces" trainerPath="/trainer/workspaces" /> },
       { path: '/students', element: <RoleAwareRedirect adminPath="/admin/students" trainerPath="/trainer/students" /> },
+      { path: '/trainers', element: <RoleAwareRedirect adminPath="/admin/trainers" trainerPath="/trainer/dashboard" /> },
       { path: '/programs', element: <RoleAwareRedirect adminPath="/admin/programs" trainerPath="/trainer/programs" /> },
       { path: '/appointments', element: <RoleAwareRedirect adminPath="/admin/appointments" trainerPath="/trainer/appointments" /> },
       { path: '/calendar', element: <RoleAwareRedirect adminPath="/admin/calendar" trainerPath="/trainer/calendar" /> },

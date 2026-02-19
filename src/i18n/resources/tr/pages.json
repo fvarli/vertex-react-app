@@ -13,9 +13,57 @@
       "todaySentReminders": "Bugün Gönderilen Hatırlatma",
       "todayEscalatedReminders": "Bugün Eskale"
     },
+    "trainers": {
+      "title": "Antrenör Özeti",
+      "description": "Aktif çalışma alanındaki antrenör dağılımı ve iş yükü özeti.",
+      "open": "Antrenörleri Aç",
+      "cards": {
+        "totalTrainers": "Toplam Antrenör",
+        "totalStudents": "Atanan Öğrenci",
+        "todayAppointments": "Bugünkü Seans",
+        "avgStudents": "Ort Öğrenci / Antrenör"
+      }
+    },
     "timelineTitle": "Bugün Zaman Çizelgesi",
     "timelineDescription": "Mevcut çalışma alanı kapsamında bugüne planlanan seanslar.",
     "timelineEmpty": "Bugün için randevu yok."
+  },
+  "trainers": {
+    "sectionLabel": "Ekip",
+    "title": "Antrenörler",
+    "description": "Antrenör hesaplarını yönet ve antrenör bazlı iş yükünü izle.",
+    "new": "Yeni Antrenör",
+    "searchPlaceholder": "Ad, e-posta veya telefon ara...",
+    "empty": "Mevcut filtrelere göre antrenör bulunamadı.",
+    "noticeCreated": "Antrenör başarıyla oluşturuldu.",
+    "filters": {
+      "activeOnly": "Aktif üyelikler",
+      "allMemberships": "Tüm üyelikler"
+    },
+    "cards": {
+      "totalTrainers": "Toplam Antrenör",
+      "activeTrainers": "Aktif Antrenör",
+      "totalStudents": "Atanan Öğrenci",
+      "todayAppointments": "Bugünkü Seans",
+      "avgStudents": "Ort Öğrenci / Antrenör"
+    },
+    "table": {
+      "trainer": "Antrenör",
+      "contact": "İletişim",
+      "membership": "Üyelik",
+      "students": "Öğrenci",
+      "today": "Bugün",
+      "upcoming": "Yaklaşan (7g)"
+    },
+    "form": {
+      "title": "Antrenör Oluştur",
+      "description": "Yeni antrenör aktif çalışma alanına anında bağlanır.",
+      "name": "Ad",
+      "surname": "Soyad",
+      "email": "E-posta",
+      "phone": "Telefon",
+      "password": "Şifre"
+    }
   },
   "workspace": {
     "title": "Çalışma Alanları",

@@ -50,6 +50,11 @@ export function AppLayout({ area }: AppLayoutProps) {
       <NavLink to={`${base}/dashboard`} onClick={onNavigate}>
         {t('layout:menu.dashboard')}
       </NavLink>
+      {area === 'admin' ? (
+        <NavLink to={`${base}/trainers`} onClick={onNavigate}>
+          {t('layout:menu.trainers')}
+        </NavLink>
+      ) : null}
       <NavLink to={`${base}/students`} onClick={onNavigate}>
         {t('layout:menu.students')}
       </NavLink>
