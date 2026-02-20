@@ -299,7 +299,7 @@
       "pending": "Beklemede",
       "ready": "Hazır",
       "sent": "Gönderildi",
-      "missed": "Kaçırıldı",
+      "missed": "Atlandı",
       "cancelled": "İptal",
       "failed": "Hata",
       "escalated": "Eskale",
