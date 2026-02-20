@@ -162,6 +162,7 @@ Frontend flow:
 
 - English guide: `docs/user-guide.en.md`
 - Turkish guide: `docs/user-guide.tr.md`
+- Architecture: `docs/architecture.md`
 - In-app left menu:
   - Admin: `/admin/documentation`
   - Trainer: `/trainer/documentation`
@@ -170,6 +171,7 @@ All three documentation sources are maintained together:
 - in-app docs (`/admin/documentation`, `/trainer/documentation`)
 - markdown guides (`docs/user-guide.en.md`, `docs/user-guide.tr.md`)
 - release QA docs (`docs/smoke-qa.md`, `docs/release-checklist.md`)
+- architecture docs (`docs/architecture.md`)
 
 ## Notes
 
