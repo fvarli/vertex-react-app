@@ -2,7 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
+:root,
+html.light {
   --background: 245 247 252;
   --foreground: 21 26 48;
   --card: 255 255 255;
@@ -11,15 +12,15 @@
   --primary: 38 82 255;
   --success: 20 137 95;
   --danger: 198 48 48;
-  --sidebar: 17 24 39;
-  --sidebar-foreground: 240 245 255;
-  --sidebar-muted: 165 178 207;
-  --sidebar-active: 41 58 94;
+  --sidebar: 255 255 255;
+  --sidebar-foreground: 21 26 48;
+  --sidebar-muted: 94 106 133;
+  --sidebar-active: 215 223 237;
 
   font-family: 'Manrope', 'DM Sans', 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
-.dark {
+html.dark {
   --background: 9 13 24;
   --foreground: 227 233 248;
   --card: 17 24 39;
@@ -62,7 +63,11 @@ a {
 }
 
 .sidebar {
-  @apply sticky top-0 flex h-screen flex-col border-r border-sidebarActive/60 bg-sidebar/95 px-5 py-6 text-sidebarForeground backdrop-blur;
+  @apply sticky top-0 flex h-screen flex-col border-r border-sidebarActive/60 bg-sidebar px-5 py-6 text-sidebarForeground;
+}
+
+html.light .sidebar {
+  @apply border-border/80 bg-card text-foreground;
 }
 
 .sidebar h1 {
@@ -83,6 +88,22 @@ a {
 
 .sidebar a.active {
   @apply bg-sidebarActive text-sidebarForeground shadow-[0_8px_24px_rgba(0,0,0,0.2)];
+}
+
+html.light .sidebar a {
+  @apply text-muted;
+}
+
+html.light .sidebar a:hover {
+  @apply bg-foreground/5 text-foreground;
+}
+
+html.light .sidebar a.active {
+  @apply bg-foreground/10 text-foreground shadow-[0_8px_20px_rgba(17,24,39,0.08)];
+}
+
+html.dark .sidebar a.active {
+  @apply shadow-[0_8px_24px_rgba(0,0,0,0.2)];
 }
 
 .main {
@@ -206,49 +227,49 @@ a {
   @apply bg-sidebarActive text-sidebarForeground;
 }
 
-:root .mobile-drawer {
+html.light .mobile-drawer {
   @apply border-border/80 bg-card/95 text-foreground;
 }
 
-:root .mobile-drawer-kicker,
-:root .mobile-drawer-area {
+html.light .mobile-drawer-kicker,
+html.light .mobile-drawer-area {
   color: rgb(var(--muted));
 }
 
-:root .mobile-drawer-title {
+html.light .mobile-drawer-title {
   color: rgb(var(--foreground));
 }
 
-:root .mobile-drawer-nav a {
+html.light .mobile-drawer-nav a {
   @apply text-muted;
 }
 
-:root .mobile-drawer-nav a:hover,
-:root .mobile-drawer-nav a.active {
+html.light .mobile-drawer-nav a:hover,
+html.light .mobile-drawer-nav a.active {
   @apply bg-foreground/5 text-foreground shadow-none;
 }
 
-:root .mobile-drawer-controls {
+html.light .mobile-drawer-controls {
   @apply border-border/70;
 }
 
-:root .mobile-drawer .topbar-icon-button {
+html.light .mobile-drawer .topbar-icon-button {
   @apply border-border/80 bg-background/80 text-foreground;
 }
 
-:root .mobile-drawer .topbar-icon-button svg {
+html.light .mobile-drawer .topbar-icon-button svg {
   @apply text-muted;
 }
 
-:root .mobile-drawer .topbar-dropdown {
+html.light .mobile-drawer .topbar-dropdown {
   @apply border-border/80 bg-card/95;
 }
 
-:root .mobile-drawer .topbar-dropdown-item {
+html.light .mobile-drawer .topbar-dropdown-item {
   @apply text-foreground hover:bg-foreground/5;
 }
 
-:root .mobile-drawer .topbar-dropdown-item.is-active {
+html.light .mobile-drawer .topbar-dropdown-item.is-active {
   color: rgb(var(--primary));
   background: rgb(var(--primary) / 0.12);
 }

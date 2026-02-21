@@ -19,7 +19,9 @@ export function resolveTheme(mode: ThemeMode): ResolvedTheme {
 export function applyThemeToDocument(theme: ResolvedTheme): void {
   if (typeof document === 'undefined') return
 
-  document.documentElement.classList.toggle('dark', theme === 'dark')
+  document.documentElement.dataset.theme = theme
+  document.documentElement.classList.remove('light', 'dark')
+  document.documentElement.classList.add(theme)
 }
 
 export function applyThemeMode(mode: ThemeMode): ResolvedTheme {

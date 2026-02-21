@@ -27,7 +27,8 @@ function mockMatchMedia(matches: boolean) {
 describe('theme utilities', () => {
   beforeEach(() => {
     localStorage.clear()
-    document.documentElement.classList.remove('dark')
+    document.documentElement.classList.remove('light', 'dark')
+    delete document.documentElement.dataset.theme
   })
 
   it('resolves system mode from media query', () => {
@@ -38,21 +39,26 @@ describe('theme utilities', () => {
     expect(resolveTheme('system')).toBe('light')
   })
 
-  it('applies dark class to document root', () => {
+  it('applies resolved theme class and data attribute to document root', () => {
     expect(document.documentElement.classList.contains('dark')).toBe(false)
 
     applyThemeMode('dark')
     expect(document.documentElement.classList.contains('dark')).toBe(true)
+    expect(document.documentElement.classList.contains('light')).toBe(false)
+    expect(document.documentElement.dataset.theme).toBe('dark')
 
     applyThemeMode('light')
     expect(document.documentElement.classList.contains('dark')).toBe(false)
+    expect(document.documentElement.classList.contains('light')).toBe(true)
+    expect(document.documentElement.dataset.theme).toBe('light')
   })
 })
 
 describe('ThemeToggle', () => {
   beforeEach(() => {
     localStorage.clear()
-    document.documentElement.classList.remove('dark')
+    document.documentElement.classList.remove('light', 'dark')
+    delete document.documentElement.dataset.theme
     mockMatchMedia(false)
   })
 
@@ -67,5 +73,6 @@ describe('ThemeToggle', () => {
 
     expect(getThemeMode()).toBe('dark')
     expect(document.documentElement.classList.contains('dark')).toBe(true)
+    expect(document.documentElement.dataset.theme).toBe('dark')
   })
 })
