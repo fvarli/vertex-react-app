@@ -23,6 +23,10 @@
 
 ## Post-deploy verification
 - [ ] Login and workspace switch.
+- [ ] Pending/rejected workspace banner appears with correct copy.
+- [ ] Mutation controls are disabled while workspace is pending/rejected.
+- [ ] Notification bell unread badge updates.
+- [ ] Notification list/mark read/mark all read work.
 - [ ] Role-safe redirects from `/` and generic routes resolve to correct area.
 - [ ] Dashboard shows attendance KPIs (`today_no_show`, `attendance_rate`).
 - [ ] Programs page template accelerator works (save template, create from template, copy week).

@@ -14,11 +14,13 @@ import { StatusDialog } from '../features/students/components/StatusDialog'
 import { StudentsTable } from '../features/students/components/StudentsTable'
 import type { Student, StudentStatus } from '../features/students/types'
 import { extractApiMessage, isForbidden } from '../lib/api-errors'
+import { useWorkspaceAccess } from '../features/workspace/access'
 
 export function StudentsPage() {
   const { t } = useTranslation(['pages', 'common'])
   const navigate = useNavigate()
   const queryClient = useQueryClient()
+  const { canMutate, approvalMessage } = useWorkspaceAccess()
 
   const [searchInput, setSearchInput] = useState('')
   const [search, setSearch] = useState('')
@@ -139,6 +141,8 @@ export function StudentsPage() {
             <p className="mt-1 text-sm text-muted">{t('pages:students.description')}</p>
           </div>
           <Button
+            disabled={!canMutate}
+            title={!canMutate ? approvalMessage ?? undefined : undefined}
             onClick={() => {
               setFormMode('create')
               setActiveStudent(null)
@@ -192,11 +196,13 @@ export function StudentsPage() {
               <StudentsTable
                 students={students}
                 onEdit={(student) => {
+                  if (!canMutate) return
                   setFormMode('edit')
                   setActiveStudent(student)
                   setFormOpen(true)
                 }}
                 onStatus={(student) => {
+                  if (!canMutate) return
                   setStatusTarget(student)
                   setStatusOpen(true)
                 }}
@@ -244,6 +250,7 @@ export function StudentsPage() {
         submitting={createOrUpdateSubmitting}
         onClose={() => setFormOpen(false)}
         onSubmit={async (values) => {
+          if (!canMutate) return
           const payload = {
             full_name: values.full_name,
             phone: values.phone,
@@ -266,6 +273,7 @@ export function StudentsPage() {
         submitting={statusMutation.isPending}
         onClose={() => setStatusOpen(false)}
         onConfirm={async () => {
+          if (!canMutate) return
           if (!statusTarget) return
           const nextStatus: StudentStatus = statusTarget.status === 'active' ? 'passive' : 'active'
           await statusMutation.mutateAsync({ studentId: statusTarget.id, nextStatus })

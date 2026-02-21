@@ -21,6 +21,7 @@ import {
 import type { Appointment, AppointmentStatus, AppointmentWhatsappStatus } from '../features/appointments/types'
 import { listStudents } from '../features/students/api'
 import { extractApiMessage, extractValidationErrors, isForbidden, isValidationError } from '../lib/api-errors'
+import { useWorkspaceAccess } from '../features/workspace/access'
 
 function toLocalInput(value: string): string {
   return dayjs(value).format('YYYY-MM-DDTHH:mm')
@@ -34,6 +35,7 @@ export function AppointmentsPage() {
   const { t } = useTranslation(['pages', 'common'])
   const navigate = useNavigate()
   const queryClient = useQueryClient()
+  const { canMutate, approvalMessage } = useWorkspaceAccess()
 
   const [status, setStatus] = useState<AppointmentStatus | 'all'>('all')
   const [whatsappStatus, setWhatsappStatus] = useState<AppointmentWhatsappStatus | 'all'>('all')
@@ -261,6 +263,7 @@ export function AppointmentsPage() {
   }
 
   async function submitForm(event: React.FormEvent<HTMLFormElement>) {
+    if (!canMutate) return
     event.preventDefault()
 
     if (!formStudentId) {
@@ -285,6 +288,7 @@ export function AppointmentsPage() {
   }
 
   async function submitSeriesForm(event: React.FormEvent<HTMLFormElement>) {
+    if (!canMutate) return
     event.preventDefault()
     if (!seriesStudentId) {
       setErrorNotice(t('pages:appointments.needStudent'))
@@ -318,10 +322,10 @@ export function AppointmentsPage() {
             <p className="mt-1 text-sm text-muted">{t('pages:appointments.description')}</p>
           </div>
           <div className="flex flex-wrap gap-2">
-            <Button variant="outline" onClick={openCreateSeriesForm}>
+            <Button variant="outline" onClick={openCreateSeriesForm} disabled={!canMutate} title={!canMutate ? approvalMessage ?? undefined : undefined}>
               {t('pages:appointments.series.new')}
             </Button>
-            <Button onClick={openCreateForm}>{t('pages:appointments.new')}</Button>
+            <Button onClick={openCreateForm} disabled={!canMutate} title={!canMutate ? approvalMessage ?? undefined : undefined}>{t('pages:appointments.new')}</Button>
           </div>
         </div>
 

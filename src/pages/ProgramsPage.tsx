@@ -21,6 +21,7 @@ import {
 import type { Program, ProgramItem, ProgramStatus } from '../features/programs/types'
 import { listStudents } from '../features/students/api'
 import { extractApiMessage, isForbidden } from '../lib/api-errors'
+import { useWorkspaceAccess } from '../features/workspace/access'
 
 function blankItem(order: number): ProgramItem {
   return {
@@ -38,6 +39,7 @@ export function ProgramsPage() {
   const { t } = useTranslation(['pages', 'common'])
   const navigate = useNavigate()
   const queryClient = useQueryClient()
+  const { canMutate, approvalMessage } = useWorkspaceAccess()
 
   const [studentId, setStudentId] = useState<number | null>(null)
   const [statusFilter, setStatusFilter] = useState<ProgramStatus | 'all'>('all')
@@ -224,6 +226,7 @@ export function ProgramsPage() {
   }
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+    if (!canMutate) return
     event.preventDefault()
 
     if (!selectedStudentId && !editingProgram) {
@@ -262,6 +265,7 @@ export function ProgramsPage() {
   }
 
   async function handleCreateFromTemplate() {
+    if (!canMutate) return
     if (!selectedStudentId || !templateId || !templateWeekStartDate) {
       setErrorNotice(t('pages:programs.needTemplateFields'))
       return
@@ -278,6 +282,7 @@ export function ProgramsPage() {
   }
 
   async function handleCopyWeek() {
+    if (!canMutate) return
     if (!selectedStudentId || !copySourceWeek || !copyTargetWeek) {
       setErrorNotice(t('pages:programs.needCopyFields'))
       return
@@ -294,6 +299,7 @@ export function ProgramsPage() {
   }
 
   async function handleSaveTemplate(program: Program) {
+    if (!canMutate) return
     const templateName = window.prompt(t('pages:programs.templateNamePrompt'), `${program.title}-${program.week_start_date}`)
     if (!templateName || templateName.trim().length === 0) {
       return
@@ -324,7 +330,7 @@ export function ProgramsPage() {
             <h2 className="text-2xl font-extrabold tracking-tight">{t('pages:programs.title')}</h2>
             <p className="mt-1 text-sm text-muted">{t('pages:programs.description')}</p>
           </div>
-          <Button onClick={openCreateForm} disabled={!selectedStudentId}>
+          <Button onClick={openCreateForm} disabled={!selectedStudentId || !canMutate} title={!canMutate ? approvalMessage ?? undefined : undefined}>
             {t('pages:programs.new')}
           </Button>
         </div>
@@ -366,7 +372,7 @@ export function ProgramsPage() {
                 <option value="archived">{t('common:archived')}</option>
               </Select>
             </div>
-            <Button size="sm" onClick={() => void handleCreateFromTemplate()} disabled={fromTemplateMutation.isPending || !selectedStudentId}>
+            <Button size="sm" onClick={() => void handleCreateFromTemplate()} disabled={fromTemplateMutation.isPending || !selectedStudentId || !canMutate} title={!canMutate ? approvalMessage ?? undefined : undefined}>
               {t('pages:programs.accelerator.createFromTemplate')}
             </Button>
           </div>
@@ -382,7 +388,7 @@ export function ProgramsPage() {
                 <option value="archived">{t('common:archived')}</option>
               </Select>
             </div>
-            <Button size="sm" variant="outline" onClick={() => void handleCopyWeek()} disabled={copyWeekMutation.isPending || !selectedStudentId}>
+            <Button size="sm" variant="outline" onClick={() => void handleCopyWeek()} disabled={copyWeekMutation.isPending || !selectedStudentId || !canMutate} title={!canMutate ? approvalMessage ?? undefined : undefined}>
               {t('pages:programs.accelerator.copyWeek')}
             </Button>
           </div>

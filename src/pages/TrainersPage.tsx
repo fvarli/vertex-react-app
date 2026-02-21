@@ -11,6 +11,7 @@ import { Skeleton } from '../components/ui/skeleton'
 import { createTrainer, getTrainerOverview } from '../features/trainers/api'
 import type { CreateTrainerPayload } from '../features/trainers/types'
 import { extractApiMessage, isForbidden } from '../lib/api-errors'
+import { useWorkspaceAccess } from '../features/workspace/access'
 
 type MembershipFilter = 'active' | 'all'
 
@@ -26,6 +27,7 @@ export function TrainersPage() {
   const { t } = useTranslation(['pages', 'common'])
   const navigate = useNavigate()
   const queryClient = useQueryClient()
+  const { canMutate, approvalMessage } = useWorkspaceAccess()
 
   const [searchInput, setSearchInput] = useState('')
   const [search, setSearch] = useState('')
@@ -92,7 +94,7 @@ export function TrainersPage() {
             <h2 className="text-2xl font-extrabold tracking-tight">{t('pages:trainers.title')}</h2>
             <p className="mt-1 text-sm text-muted">{t('pages:trainers.description')}</p>
           </div>
-          <Button onClick={() => setOpenCreate(true)}>{t('pages:trainers.new')}</Button>
+          <Button onClick={() => setOpenCreate(true)} disabled={!canMutate} title={!canMutate ? approvalMessage ?? undefined : undefined}>{t('pages:trainers.new')}</Button>
         </div>
 
         <div className="filter-surface mb-4 grid gap-3 sm:grid-cols-2">
@@ -205,6 +207,7 @@ export function TrainersPage() {
             </Button>
             <Button
               onClick={async () => {
+                if (!canMutate) return
                 await createMutation.mutateAsync(form)
               }}
               disabled={createMutation.isPending}

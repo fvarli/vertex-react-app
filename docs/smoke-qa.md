@@ -80,3 +80,13 @@ Expected:
 - Capture route, screenshot, and console error.
 - Include backend `request_id` where relevant.
 - Block release sign-off until issue is triaged.
+
+## 10) Workspace Approval + Notification Flow
+1. Create a workspace (new owner) and verify status is `pending`.
+2. Open frontend as owner and verify pending banner + disabled mutation actions.
+3. Approve/reject from platform admin API.
+4. Verify owner sees notification bell updates and decision notification.
+Expected:
+- Banner state changes according to approval status.
+- Disabled actions become enabled immediately after approval.
+- Notification unread count and read actions are consistent.

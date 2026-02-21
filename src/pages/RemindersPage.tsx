@@ -20,6 +20,7 @@ import {
 import { listStudents } from '../features/students/api'
 import { api } from '../lib/api'
 import { extractApiMessage, isForbidden } from '../lib/api-errors'
+import { useWorkspaceAccess } from '../features/workspace/access'
 
 function formatDate(value: string | null): string {
   if (!value) return '-'
@@ -30,6 +31,7 @@ export function RemindersPage() {
   const { t } = useTranslation(['pages', 'common'])
   const navigate = useNavigate()
   const queryClient = useQueryClient()
+  const { canMutate, approvalMessage } = useWorkspaceAccess()
 
   const [status, setStatus] = useState<ReminderStatus | 'all'>('all')
   const [escalatedOnly, setEscalatedOnly] = useState<'0' | '1'>('0')
@@ -162,6 +164,7 @@ export function RemindersPage() {
   }
 
   async function handleBulk(action: 'mark-sent' | 'cancel' | 'requeue') {
+    if (!canMutate) return
     if (selectedIds.length === 0) {
       setErrorNotice(t('pages:reminders.needSelection'))
       return
@@ -232,13 +235,13 @@ export function RemindersPage() {
         </div>
 
         <div className="mb-4 flex flex-wrap gap-2 rounded-xl border border-border/70 bg-background/55 p-3">
-          <Button size="sm" variant="outline" onClick={() => void handleBulk('mark-sent')} disabled={bulkMutation.isPending}>
+          <Button size="sm" variant="outline" onClick={() => void handleBulk('mark-sent')} disabled={bulkMutation.isPending || !canMutate} title={!canMutate ? approvalMessage ?? undefined : undefined}>
             {t('pages:reminders.actions.bulkMarkSent')}
           </Button>
-          <Button size="sm" variant="outline" onClick={() => void handleBulk('requeue')} disabled={bulkMutation.isPending}>
+          <Button size="sm" variant="outline" onClick={() => void handleBulk('requeue')} disabled={bulkMutation.isPending || !canMutate} title={!canMutate ? approvalMessage ?? undefined : undefined}>
             {t('pages:reminders.actions.bulkRequeue')}
           </Button>
-          <Button size="sm" variant="danger" onClick={() => void handleBulk('cancel')} disabled={bulkMutation.isPending}>
+          <Button size="sm" variant="danger" onClick={() => void handleBulk('cancel')} disabled={bulkMutation.isPending || !canMutate} title={!canMutate ? approvalMessage ?? undefined : undefined}>
             {t('pages:reminders.actions.bulkCancel')}
           </Button>
         </div>
@@ -298,16 +301,16 @@ export function RemindersPage() {
                         </TD>
                         <TD>
                           <div className="flex flex-wrap gap-2">
-                            <Button size="sm" variant="outline" onClick={() => void openMutation.mutateAsync(reminder.id)}>
+                            <Button size="sm" variant="outline" onClick={() => void openMutation.mutateAsync(reminder.id)} disabled={!canMutate} title={!canMutate ? approvalMessage ?? undefined : undefined}>
                               {t('pages:reminders.actions.open')}
                             </Button>
-                            <Button size="sm" onClick={() => void markSentMutation.mutateAsync(reminder.id)}>
+                            <Button size="sm" onClick={() => void markSentMutation.mutateAsync(reminder.id)} disabled={!canMutate} title={!canMutate ? approvalMessage ?? undefined : undefined}>
                               {t('pages:reminders.actions.markSent')}
                             </Button>
-                            <Button size="sm" variant="outline" onClick={() => void requeueMutation.mutateAsync(reminder.id)}>
+                            <Button size="sm" variant="outline" onClick={() => void requeueMutation.mutateAsync(reminder.id)} disabled={!canMutate} title={!canMutate ? approvalMessage ?? undefined : undefined}>
                               {t('pages:reminders.actions.requeue')}
                             </Button>
-                            <Button size="sm" variant="danger" onClick={() => void cancelMutation.mutateAsync(reminder.id)}>
+                            <Button size="sm" variant="danger" onClick={() => void cancelMutation.mutateAsync(reminder.id)} disabled={!canMutate} title={!canMutate ? approvalMessage ?? undefined : undefined}>
                               {t('pages:reminders.actions.cancel')}
                             </Button>
                           </div>

@@ -36,5 +36,20 @@
       "tr": "TR",
       "en": "EN"
     }
+  },
+  "notifications": {
+    "aria": "Bildirimler",
+    "label": "Bildirim",
+    "title": "Bildirimler",
+    "markAll": "Tümünü okundu yap",
+    "empty": "Henüz bildirim yok.",
+    "loading": "Bildirimler yükleniyor..."
+  },
+  "approval": {
+    "pendingTitle": "Çalışma alanı onay bekliyor",
+    "pendingBody": "{{workspace}} platform admin onayı bekliyor. Düzenleme işlemleri geçici olarak kapalı.",
+    "rejectedTitle": "Çalışma alanı reddedildi",
+    "rejectedBody": "{{workspace}} reddedildi. Not: {{note}}",
+    "noNote": "Not bırakılmadı."
   }
 }

@@ -36,5 +36,20 @@
       "tr": "TR",
       "en": "EN"
     }
+  },
+  "notifications": {
+    "aria": "Notifications",
+    "label": "Alerts",
+    "title": "Notifications",
+    "markAll": "Mark all read",
+    "empty": "No notifications yet.",
+    "loading": "Loading notifications..."
+  },
+  "approval": {
+    "pendingTitle": "Workspace approval pending",
+    "pendingBody": "{{workspace}} is waiting for platform admin approval. Edit actions are disabled for now.",
+    "rejectedTitle": "Workspace approval rejected",
+    "rejectedBody": "{{workspace}} was rejected. Note: {{note}}",
+    "noNote": "No note provided."
   }
 }

@@ -2,8 +2,10 @@ import { useEffect, useState } from 'react'
 import { Link, NavLink, Outlet, useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { useAuth } from '../features/auth/auth-context'
+import { useWorkspaceAccess } from '../features/workspace/access'
 import { setActiveWorkspaceId } from '../lib/storage'
 import { LanguageToggle } from './LanguageToggle'
+import { NotificationBell } from './NotificationBell'
 import { ThemeToggle } from './ThemeToggle'
 import { Button } from './ui/button'
 
@@ -14,6 +16,7 @@ type AppLayoutProps = {
 export function AppLayout({ area }: AppLayoutProps) {
   const { t } = useTranslation(['layout'])
   const { user, logout } = useAuth()
+  const { approvalStatus, canMutate, activeWorkspace } = useWorkspaceAccess()
   const navigate = useNavigate()
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
 
@@ -117,6 +120,7 @@ export function AppLayout({ area }: AppLayoutProps) {
             <span>{user?.email}</span>
           </div>
           <div className="topbar-actions">
+            <NotificationBell />
             <div className="topbar-segment">
               <LanguageToggle />
               <ThemeToggle />
@@ -126,6 +130,19 @@ export function AppLayout({ area }: AppLayoutProps) {
             </Button>
           </div>
         </header>
+        {!canMutate && approvalStatus ? (
+          <div className={`workspace-approval-banner ${approvalStatus === 'rejected' ? 'is-rejected' : 'is-pending'}`}>
+            <strong>{approvalStatus === 'pending' ? t('layout:approval.pendingTitle') : t('layout:approval.rejectedTitle')}</strong>
+            <span>
+              {approvalStatus === 'pending'
+                ? t('layout:approval.pendingBody', { workspace: activeWorkspace?.name ?? '-' })
+                : t('layout:approval.rejectedBody', {
+                    workspace: activeWorkspace?.name ?? '-',
+                    note: activeWorkspace?.approval_note ?? t('layout:approval.noNote'),
+                  })}
+            </span>
+          </div>
+        ) : null}
         <section className="content">
           <Outlet />
         </section>
@@ -146,6 +163,7 @@ export function AppLayout({ area }: AppLayoutProps) {
             <p className="mobile-drawer-area mt-1 text-xs text-sidebarMuted">{area === 'admin' ? t('layout:area.admin') : t('layout:area.trainer')}</p>
             <nav className="mobile-drawer-nav">{renderNavLinks(() => setIsMobileMenuOpen(false))}</nav>
             <div className="mobile-drawer-controls">
+              <NotificationBell />
               <LanguageToggle />
               <ThemeToggle />
               <Button

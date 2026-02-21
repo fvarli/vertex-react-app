@@ -357,3 +357,20 @@ Reporting-ready backend endpoints (for next UI modules):
 - WhatsApp provider integration is not automatic in this release (hybrid/manual confirmation).
 - Provider delivery receipt sync is not yet implemented.
 - Build emits a non-blocking chunk-size warning; optimization can be handled in a dedicated perf sprint.
+
+## Workspace Approval UX
+
+- Frontend reads workspace `approval_status` from `/me/workspaces`.
+- If active workspace is `pending` or `rejected`, critical mutation actions are disabled.
+- A global top banner explains approval state and rejection note (when available).
+- Read/list flows remain available.
+
+## In-App Notifications
+
+- Topbar bell uses backend endpoints:
+  - `GET /me/notifications`
+  - `GET /me/notifications/unread-count`
+  - `PATCH /me/notifications/{id}/read`
+  - `PATCH /me/notifications/read-all`
+- Polling interval for unread count: 30s.
+- Approval lifecycle messages are displayed in dropdown list.
