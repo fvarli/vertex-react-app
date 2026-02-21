@@ -357,6 +357,48 @@
       "notes": "Not"
     }
   },
+  "profile": {
+    "sectionLabel": "Hesap",
+    "title": "Profil",
+    "description": "Kişisel bilgilerinizi, şifrenizi ve hesap ayarlarınızı yönetin.",
+    "info": {
+      "title": "Kişisel Bilgiler",
+      "description": "Adınızı, soyadınızı ve telefon numaranızı güncelleyin.",
+      "name": "Ad",
+      "surname": "Soyad",
+      "email": "E-posta",
+      "phone": "Telefon",
+      "emailReadonly": "E-posta değiştirilemez.",
+      "updated": "Profil başarıyla güncellendi."
+    },
+    "password": {
+      "title": "Şifre Değiştir",
+      "description": "Hesap şifrenizi güncelleyin.",
+      "currentPassword": "Mevcut Şifre",
+      "newPassword": "Yeni Şifre",
+      "confirmPassword": "Şifreyi Onayla",
+      "changed": "Şifre başarıyla değiştirildi."
+    },
+    "avatar": {
+      "title": "Avatar",
+      "description": "Profil fotoğrafı yükleyin. Maks 2MB, JPEG/PNG/WebP.",
+      "upload": "Yükle",
+      "remove": "Kaldır",
+      "uploaded": "Avatar başarıyla yüklendi.",
+      "removed": "Avatar kaldırıldı.",
+      "tooLarge": "Dosya çok büyük. Maksimum boyut 2MB.",
+      "invalidType": "Geçersiz dosya türü. JPEG, PNG veya WebP kullanın."
+    },
+    "deleteAccount": {
+      "title": "Hesabı Sil",
+      "description": "Hesabınızı ve tüm ilişkili verileri kalıcı olarak silin. Bu işlem geri alınamaz.",
+      "button": "Hesabı Sil",
+      "dialogTitle": "Hesabı Sil",
+      "dialogDescription": "Hesap silme işlemini onaylamak için şifrenizi girin.",
+      "password": "Şifre",
+      "deleted": "Hesap başarıyla silindi."
+    }
+  },
   "pagination": {
     "perPage": "{{count}} / sayfa"
   }

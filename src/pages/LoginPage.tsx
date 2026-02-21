@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { Button } from '../components/ui/button'
 import { Input } from '../components/ui/input'
@@ -81,11 +81,24 @@ export function LoginPage() {
             <Input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
           </label>
 
+          <div className="flex justify-end">
+            <Link to="/forgot-password" className="text-xs text-primary hover:underline">
+              {t('auth:forgotPasswordLink')}
+            </Link>
+          </div>
+
           {error ? <p className="rounded-xl bg-danger/15 px-3 py-2 text-sm text-danger">{error}</p> : null}
 
           <Button className="w-full" disabled={isSubmitting}>
             {isSubmitting ? t('auth:submitting') : t('auth:signIn')}
           </Button>
+
+          <p className="text-center text-sm text-muted">
+            {t('auth:noAccount')}{' '}
+            <Link to="/register" className="text-primary hover:underline">
+              {t('auth:registerLink')}
+            </Link>
+          </p>
         </form>
       </div>
     </div>

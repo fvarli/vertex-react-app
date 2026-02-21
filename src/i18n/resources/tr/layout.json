@@ -16,7 +16,8 @@
     "reminders": "Hatırlatmalar",
     "calendar": "Takvim",
     "workspaces": "Çalışma Alanları",
-    "documentation": "Dokümantasyon"
+    "documentation": "Dokümantasyon",
+    "profile": "Profil"
   },
   "logout": "Çıkış Yap",
   "theme": {

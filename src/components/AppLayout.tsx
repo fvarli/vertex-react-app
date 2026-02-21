@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { NavLink, Outlet, useNavigate } from 'react-router-dom'
+import { Link, NavLink, Outlet, useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { useAuth } from '../features/auth/auth-context'
 import { setActiveWorkspaceId } from '../lib/storage'
@@ -76,6 +76,9 @@ export function AppLayout({ area }: AppLayoutProps) {
       <NavLink to={`${base}/documentation`} onClick={onNavigate}>
         {t('layout:menu.documentation')}
       </NavLink>
+      <NavLink to={`${base}/profile`} onClick={onNavigate}>
+        {t('layout:menu.profile')}
+      </NavLink>
     </>
   )
 
@@ -91,11 +94,11 @@ export function AppLayout({ area }: AppLayoutProps) {
         </div>
         <nav>{renderNavLinks()}</nav>
 
-        <div className="mt-auto rounded-xl border border-sidebarActive/60 bg-sidebarActive/50 p-3">
+        <Link to={`${base}/profile`} className="mt-auto block rounded-xl border border-sidebarActive/60 bg-sidebarActive/50 p-3 transition-colors hover:bg-sidebarActive/70">
           <p className="text-xs text-sidebarMuted">{t('layout:signedInAs')}</p>
           <p className="text-sm font-semibold text-sidebarForeground">{user?.name}</p>
           <p className="text-xs text-sidebarMuted">{user?.email}</p>
-        </div>
+        </Link>
       </aside>
       <main className="main">
         <header className="topbar">

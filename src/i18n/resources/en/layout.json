@@ -16,7 +16,8 @@
     "reminders": "Reminders",
     "calendar": "Calendar",
     "workspaces": "Workspaces",
-    "documentation": "Documentation"
+    "documentation": "Documentation",
+    "profile": "Profile"
   },
   "logout": "Logout",
   "theme": {

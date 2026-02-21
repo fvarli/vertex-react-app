@@ -358,6 +358,48 @@
       "notes": "Notes"
     }
   },
+  "profile": {
+    "sectionLabel": "Account",
+    "title": "Profile",
+    "description": "Manage your personal information, password, and account settings.",
+    "info": {
+      "title": "Personal Information",
+      "description": "Update your name, surname, and phone number.",
+      "name": "Name",
+      "surname": "Surname",
+      "email": "Email",
+      "phone": "Phone",
+      "emailReadonly": "Email cannot be changed.",
+      "updated": "Profile updated successfully."
+    },
+    "password": {
+      "title": "Change Password",
+      "description": "Update your account password.",
+      "currentPassword": "Current Password",
+      "newPassword": "New Password",
+      "confirmPassword": "Confirm Password",
+      "changed": "Password changed successfully."
+    },
+    "avatar": {
+      "title": "Avatar",
+      "description": "Upload a profile picture. Max 2MB, JPEG/PNG/WebP.",
+      "upload": "Upload",
+      "remove": "Remove",
+      "uploaded": "Avatar uploaded successfully.",
+      "removed": "Avatar removed.",
+      "tooLarge": "File is too large. Maximum size is 2MB.",
+      "invalidType": "Invalid file type. Use JPEG, PNG, or WebP."
+    },
+    "deleteAccount": {
+      "title": "Delete Account",
+      "description": "Permanently delete your account and all associated data. This action cannot be undone.",
+      "button": "Delete Account",
+      "dialogTitle": "Delete Account",
+      "dialogDescription": "Enter your password to confirm account deletion.",
+      "password": "Password",
+      "deleted": "Account deleted successfully."
+    }
+  },
   "pagination": {
     "perPage": "{{count}} / page"
   }

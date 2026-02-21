@@ -8,9 +8,14 @@ export type ApiUser = {
   name: string
   surname?: string | null
   email: string
+  phone?: string | null
+  avatar?: string | null
+  is_active?: boolean
   system_role: SystemRole
   active_workspace_role: WorkspaceRole
   permissions: string[]
+  created_at?: string
+  updated_at?: string
 }
 
 

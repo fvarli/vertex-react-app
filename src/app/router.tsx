@@ -7,8 +7,13 @@ import { CalendarPage } from '../pages/CalendarPage'
 import { DashboardPage } from '../pages/DashboardPage'
 import { DocumentationPage } from '../pages/DocumentationPage'
 import { ForbiddenPage } from '../pages/ForbiddenPage'
+import { ForgotPasswordPage } from '../pages/ForgotPasswordPage'
 import { LoginPage } from '../pages/LoginPage'
 import { NotFoundPage } from '../pages/NotFoundPage'
+import { ProfilePage } from '../pages/ProfilePage'
+import { RegisterPage } from '../pages/RegisterPage'
+import { ResetPasswordPage } from '../pages/ResetPasswordPage'
+import { VerifyEmailPage } from '../pages/VerifyEmailPage'
 import { ProgramsPage } from '../pages/ProgramsPage'
 import { RemindersPage } from '../pages/RemindersPage'
 import { StudentsPage } from '../pages/StudentsPage'
@@ -16,6 +21,7 @@ import { TrainersPage } from '../pages/TrainersPage'
 import { WorkspacePage } from '../pages/WorkspacePage'
 
 const adminChildren = [
+  { path: '/admin/profile', element: <ProfilePage /> },
   { path: '/admin/workspaces', element: <WorkspacePage /> },
   { path: '/admin/documentation', element: <DocumentationPage area="admin" /> },
   {
@@ -33,6 +39,7 @@ const adminChildren = [
 ]
 
 const trainerChildren = [
+  { path: '/trainer/profile', element: <ProfilePage /> },
   { path: '/trainer/workspaces', element: <WorkspacePage /> },
   { path: '/trainer/documentation', element: <DocumentationPage area="trainer" /> },
   {
@@ -50,6 +57,10 @@ const trainerChildren = [
 
 export const router = createBrowserRouter([
   { path: '/login', element: <LoginPage /> },
+  { path: '/register', element: <RegisterPage /> },
+  { path: '/forgot-password', element: <ForgotPasswordPage /> },
+  { path: '/reset-password', element: <ResetPasswordPage /> },
+  { path: '/verify-email', element: <VerifyEmailPage /> },
   {
     element: <ProtectedRoute />,
     children: [
@@ -81,6 +92,7 @@ export const router = createBrowserRouter([
       { path: '/calendar', element: <RoleAwareRedirect adminPath="/admin/calendar" trainerPath="/trainer/calendar" /> },
       { path: '/reminders', element: <RoleAwareRedirect adminPath="/admin/reminders" trainerPath="/trainer/reminders" /> },
       { path: '/documentation', element: <RoleAwareRedirect adminPath="/admin/documentation" trainerPath="/trainer/documentation" /> },
+      { path: '/profile', element: <RoleAwareRedirect adminPath="/admin/profile" trainerPath="/trainer/profile" /> },
       { path: '/forbidden', element: <ForbiddenPage /> },
     ],
   },
