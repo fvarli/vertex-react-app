@@ -12,6 +12,8 @@ export type Workspace = {
   approved_by_user_id: number | null
   approval_note: string | null
   role: 'owner_admin' | 'trainer' | null
+  created_at?: string
+  updated_at?: string
 }
 
 export type WorkspaceListResponse = ApiEnvelope<Workspace[]>

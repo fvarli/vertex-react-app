@@ -19,10 +19,12 @@ import { RemindersPage } from '../pages/RemindersPage'
 import { StudentsPage } from '../pages/StudentsPage'
 import { TrainersPage } from '../pages/TrainersPage'
 import { WorkspacePage } from '../pages/WorkspacePage'
+import { AdminApprovalPage } from '../pages/AdminApprovalPage'
 
 const adminChildren = [
   { path: '/admin/profile', element: <ProfilePage /> },
   { path: '/admin/workspaces', element: <WorkspacePage /> },
+  { path: '/admin/approval', element: <AdminApprovalPage /> },
   { path: '/admin/documentation', element: <DocumentationPage area="admin" /> },
   {
     element: <WorkspaceRoute area="admin" />,

@@ -1,20 +1,51 @@
-import { useQuery } from '@tanstack/react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { Badge } from '../components/ui/badge'
 import { Button } from '../components/ui/button'
 import { Skeleton } from '../components/ui/skeleton'
 import { useAuth } from '../features/auth/auth-context'
-import { fetchWorkspaces, switchWorkspace } from '../features/workspace/api'
+import { useToast } from '../features/toast/toast-context'
+import { createWorkspace, fetchWorkspaces, switchWorkspace } from '../features/workspace/api'
+import { CreateWorkspaceDialog } from '../features/workspace/components/CreateWorkspaceDialog'
+import type { CreateWorkspaceInput } from '../features/workspace/schemas'
+import type { WorkspaceApprovalStatus } from '../features/workspace/types'
 import { setActiveWorkspaceId } from '../lib/storage'
+
+const statusBadgeVariant: Record<WorkspaceApprovalStatus, 'success' | 'warning' | 'danger'> = {
+  approved: 'success',
+  pending: 'warning',
+  rejected: 'danger',
+}
 
 export function WorkspacePage() {
   const { t } = useTranslation(['pages'])
   const navigate = useNavigate()
+  const queryClient = useQueryClient()
   const { refreshProfile } = useAuth()
+  const { addToast } = useToast()
+  const [dialogOpen, setDialogOpen] = useState(false)
+
   const { data, isLoading, isError } = useQuery({
     queryKey: ['workspaces'],
     queryFn: fetchWorkspaces,
+  })
+
+  const createMutation = useMutation({
+    mutationFn: (values: CreateWorkspaceInput) => createWorkspace(values),
+    onSuccess: async (workspace) => {
+      setDialogOpen(false)
+      await switchWorkspace(workspace.id)
+      setActiveWorkspaceId(workspace.id)
+      await refreshProfile()
+      await queryClient.invalidateQueries({ queryKey: ['workspaces'] })
+      navigate('/dashboard', { replace: true })
+      addToast(t('pages:workspace.noticeCreated'), 'success')
+    },
+    onError: () => {
+      addToast(t('pages:workspace.error'), 'error')
+    },
   })
 
   async function handleSelect(workspaceId: number, role: string | null) {
@@ -32,10 +63,13 @@ export function WorkspacePage() {
 
   return (
     <div className="space-y-5 fade-in">
-      <div className="panel">
-        <p className="text-xs uppercase tracking-[0.14em] text-muted">Workspace</p>
-        <h2 className="mt-1 text-2xl font-extrabold tracking-tight">{t('pages:workspace.title')}</h2>
-        <p className="mt-1 text-sm text-muted">{t('pages:workspace.description')}</p>
+      <div className="panel flex items-start justify-between gap-3">
+        <div>
+          <p className="text-xs uppercase tracking-[0.14em] text-muted">Workspace</p>
+          <h2 className="mt-1 text-2xl font-extrabold tracking-tight">{t('pages:workspace.title')}</h2>
+          <p className="mt-1 text-sm text-muted">{t('pages:workspace.description')}</p>
+        </div>
+        <Button onClick={() => setDialogOpen(true)}>{t('pages:workspace.create')}</Button>
       </div>
 
       {isLoading ? (
@@ -57,14 +91,39 @@ export function WorkspacePage() {
                   {workspace.role ?? t('pages:workspace.member')}
                 </p>
               </div>
-              <Badge variant="muted">#{workspace.id}</Badge>
+              <div className="flex items-center gap-1.5">
+                <Badge variant={statusBadgeVariant[workspace.approval_status]}>
+                  {t(`pages:workspace.status.${workspace.approval_status}`)}
+                </Badge>
+                <Badge variant="muted">#{workspace.id}</Badge>
+              </div>
             </div>
+
+            {workspace.approval_status === 'rejected' && workspace.approval_note ? (
+              <p className="mt-2 rounded-lg bg-danger/10 px-2.5 py-1.5 text-xs text-danger">
+                {t('pages:workspace.rejectedNote')}: {workspace.approval_note}
+              </p>
+            ) : null}
+
+            {workspace.approval_status === 'pending' ? (
+              <p className="mt-2 text-xs text-amber-600 dark:text-amber-400">
+                {t('pages:workspace.pendingHint')}
+              </p>
+            ) : null}
+
             <Button className="mt-4 w-full" onClick={() => void handleSelect(workspace.id, workspace.role)}>
-              Open Workspace
+              {t('pages:workspace.openWorkspace')}
             </Button>
           </div>
         ))}
       </div>
+
+      <CreateWorkspaceDialog
+        open={dialogOpen}
+        submitting={createMutation.isPending}
+        onClose={() => setDialogOpen(false)}
+        onSubmit={async (values) => { await createMutation.mutateAsync(values) }}
+      />
     </div>
   )
 }

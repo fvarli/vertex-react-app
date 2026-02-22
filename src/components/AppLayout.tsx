@@ -15,7 +15,7 @@ type AppLayoutProps = {
 
 export function AppLayout({ area }: AppLayoutProps) {
   const { t } = useTranslation(['layout'])
-  const { user, logout } = useAuth()
+  const { user, logout, systemRole } = useAuth()
   const { approvalStatus, canMutate, activeWorkspace } = useWorkspaceAccess()
   const navigate = useNavigate()
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
@@ -76,6 +76,11 @@ export function AppLayout({ area }: AppLayoutProps) {
       <NavLink to={`${base}/workspaces`} onClick={onNavigate}>
         {t('layout:menu.workspaces')}
       </NavLink>
+      {area === 'admin' && systemRole === 'platform_admin' ? (
+        <NavLink to={`${base}/approval`} onClick={onNavigate}>
+          {t('layout:menu.approval')}
+        </NavLink>
+      ) : null}
       <NavLink to={`${base}/documentation`} onClick={onNavigate}>
         {t('layout:menu.documentation')}
       </NavLink>

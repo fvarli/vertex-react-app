@@ -70,7 +70,22 @@
     "description": "Devam etmek için aktif çalışma alanını seç.",
     "loading": "Çalışma alanları yükleniyor...",
     "error": "Çalışma alanları yüklenemedi.",
-    "member": "üye"
+    "member": "üye",
+    "create": "Çalışma Alanı Oluştur",
+    "createTitle": "Çalışma Alanı Oluştur",
+    "createDescription": "Yeni çalışma alanınıza bir isim verin. Platform admin onayına gönderilecektir.",
+    "noticeCreated": "Çalışma alanı başarıyla oluşturuldu.",
+    "openWorkspace": "Çalışma Alanını Aç",
+    "form": {
+      "name": "Çalışma Alanı Adı"
+    },
+    "status": {
+      "pending": "Beklemede",
+      "approved": "Onaylı",
+      "rejected": "Reddedildi"
+    },
+    "rejectedNote": "Red notu",
+    "pendingHint": "Bu çalışma alanı platform admin onayı bekliyor."
   },
   "notFound": {
     "title": "Bulunamadı",
@@ -398,6 +413,23 @@
       "password": "Şifre",
       "deleted": "Hesap başarıyla silindi."
     }
+  },
+  "adminApproval": {
+    "sectionLabel": "Platform",
+    "title": "Çalışma Alanı Onayları",
+    "description": "Bekleyen çalışma alanı taleplerini incele ve onayla veya reddet.",
+    "empty": "Bekleyen çalışma alanı talebi yok.",
+    "owner": "Sahip",
+    "requestedAt": "Talep tarihi",
+    "approve": "Onayla",
+    "reject": "Reddet",
+    "approveTitle": "Çalışma Alanını Onayla",
+    "rejectTitle": "Çalışma Alanını Reddet",
+    "confirmDescription": "\"{{name}}\" çalışma alanının onay durumunu güncellemek üzeresiniz.",
+    "noteLabel": "Not (opsiyonel)",
+    "notePlaceholder": "Çalışma alanı sahibi için bir not ekleyin...",
+    "noticeUpdated": "Çalışma alanı onay durumu güncellendi.",
+    "pagination": "Sayfa {{page}} / {{lastPage}}"
   },
   "pagination": {
     "perPage": "{{count}} / sayfa"

@@ -1,5 +1,6 @@
 import { useMemo } from 'react'
 import { useQuery } from '@tanstack/react-query'
+import { useAuth } from '../../features/auth/auth-context'
 import { getActiveWorkspaceId } from '../../lib/storage'
 import { fetchWorkspaces } from './api'
 import type { Workspace, WorkspaceApprovalStatus } from './types'
@@ -12,6 +13,7 @@ export type WorkspaceAccessState = {
 }
 
 export function useWorkspaceAccess(): WorkspaceAccessState {
+  const { systemRole } = useAuth()
   const { data } = useQuery({
     queryKey: ['workspaces'],
     queryFn: fetchWorkspaces,
@@ -25,6 +27,16 @@ export function useWorkspaceAccess(): WorkspaceAccessState {
     if (!activeWorkspace) {
       return {
         activeWorkspace: null,
+        approvalStatus: null,
+        canMutate: true,
+        approvalMessage: null,
+      }
+    }
+
+    // Platform admins bypass approval restrictions (matches backend middleware)
+    if (systemRole === 'platform_admin') {
+      return {
+        activeWorkspace,
         approvalStatus: null,
         canMutate: true,
         approvalMessage: null,
@@ -57,5 +69,5 @@ export function useWorkspaceAccess(): WorkspaceAccessState {
         ? `Workspace approval was rejected: ${activeWorkspace.approval_note.trim()}`
         : 'Workspace approval was rejected. Contact platform admin.',
     }
-  }, [data])
+  }, [data, systemRole])
 }

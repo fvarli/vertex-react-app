@@ -70,7 +70,22 @@
     "description": "Select active workspace to continue.",
     "loading": "Loading workspaces...",
     "error": "Could not load workspaces.",
-    "member": "member"
+    "member": "member",
+    "create": "Create Workspace",
+    "createTitle": "Create Workspace",
+    "createDescription": "Give your new workspace a name. It will be sent for platform admin approval.",
+    "noticeCreated": "Workspace created successfully.",
+    "openWorkspace": "Open Workspace",
+    "form": {
+      "name": "Workspace Name"
+    },
+    "status": {
+      "pending": "Pending",
+      "approved": "Approved",
+      "rejected": "Rejected"
+    },
+    "rejectedNote": "Rejection note",
+    "pendingHint": "This workspace is awaiting platform admin approval."
   },
   "notFound": {
     "title": "Not Found",
@@ -399,6 +414,23 @@
       "password": "Password",
       "deleted": "Account deleted successfully."
     }
+  },
+  "adminApproval": {
+    "sectionLabel": "Platform",
+    "title": "Workspace Approvals",
+    "description": "Review and approve or reject pending workspace requests.",
+    "empty": "No pending workspace requests.",
+    "owner": "Owner",
+    "requestedAt": "Requested",
+    "approve": "Approve",
+    "reject": "Reject",
+    "approveTitle": "Approve Workspace",
+    "rejectTitle": "Reject Workspace",
+    "confirmDescription": "You are about to update the approval status of \"{{name}}\".",
+    "noteLabel": "Note (optional)",
+    "notePlaceholder": "Add a note for the workspace owner...",
+    "noticeUpdated": "Workspace approval updated.",
+    "pagination": "Page {{page}} / {{lastPage}}"
   },
   "pagination": {
     "perPage": "{{count}} / page"

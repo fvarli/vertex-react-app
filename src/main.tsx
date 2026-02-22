@@ -5,6 +5,7 @@ import { RouterProvider } from 'react-router-dom'
 import { AuthProvider } from './features/auth/auth-context'
 import { ToastProvider } from './features/toast/toast-context'
 import { ToastContainer } from './components/ToastContainer'
+import { ErrorBoundary } from './components/ErrorBoundary'
 import { queryClient } from './app/query-client'
 import { router } from './app/router'
 import { initTheme } from './features/theme/theme'
@@ -15,13 +16,15 @@ initTheme()
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <QueryClientProvider client={queryClient}>
-      <AuthProvider>
-        <ToastProvider>
-          <RouterProvider router={router} />
-          <ToastContainer />
-        </ToastProvider>
-      </AuthProvider>
-    </QueryClientProvider>
+    <ErrorBoundary>
+      <QueryClientProvider client={queryClient}>
+        <AuthProvider>
+          <ToastProvider>
+            <RouterProvider router={router} />
+            <ToastContainer />
+          </ToastProvider>
+        </AuthProvider>
+      </QueryClientProvider>
+    </ErrorBoundary>
   </StrictMode>,
 )

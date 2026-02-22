@@ -18,6 +18,11 @@ export async function fetchActiveWorkspace(): Promise<Workspace | null> {
   return workspaces.find((workspace) => workspace.id === activeId) ?? null
 }
 
+export async function createWorkspace(payload: { name: string }): Promise<Workspace> {
+  const response = await api.post<WorkspaceListResponse>('/workspaces', payload)
+  return response.data.data as unknown as Workspace
+}
+
 export async function switchWorkspace(workspaceId: number): Promise<void> {
   await api.post(`/workspaces/${workspaceId}/switch`)
 }
