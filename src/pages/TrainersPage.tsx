@@ -10,7 +10,7 @@ import { Select } from '../components/ui/select'
 import { Skeleton } from '../components/ui/skeleton'
 import { createTrainer, getTrainerOverview } from '../features/trainers/api'
 import type { CreateTrainerPayload } from '../features/trainers/types'
-import { extractApiMessage, isForbidden } from '../lib/api-errors'
+import { extractApiMessage, extractValidationErrors, isForbidden, isValidationError } from '../lib/api-errors'
 import { useWorkspaceAccess } from '../features/workspace/access'
 
 type MembershipFilter = 'active' | 'all'
@@ -36,6 +36,7 @@ export function TrainersPage() {
   const [form, setForm] = useState<CreateTrainerPayload>(initialForm)
   const [notice, setNotice] = useState<string | null>(null)
   const [errorNotice, setErrorNotice] = useState<string | null>(null)
+  const [fieldErrors, setFieldErrors] = useState<Record<string, string[]>>({})
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -64,11 +65,15 @@ export function TrainersPage() {
     }
   }, [navigate, overviewQuery.error])
 
+  const [successMessage, setSuccessMessage] = useState<string | null>(null)
+
   const createMutation = useMutation({
     mutationFn: createTrainer,
     onSuccess: async () => {
       setNotice(t('pages:trainers.noticeCreated'))
+      setSuccessMessage(t('pages:trainers.form.successMessage'))
       setErrorNotice(null)
+      setFieldErrors({})
       setOpenCreate(false)
       setForm(initialForm)
       await queryClient.invalidateQueries({ queryKey: ['trainers', 'overview'] })
@@ -77,6 +82,9 @@ export function TrainersPage() {
       if (isForbidden(error)) {
         navigate('/forbidden', { replace: true })
         return
+      }
+      if (isValidationError(error)) {
+        setFieldErrors(extractValidationErrors(error))
       }
       setErrorNotice(extractApiMessage(error, t('common:requestFailed')))
     },
@@ -105,7 +113,14 @@ export function TrainersPage() {
           </Select>
         </div>
 
-        {notice ? <p className="mb-3 rounded-xl bg-success/15 px-3 py-2 text-sm text-success">{notice}</p> : null}
+        {successMessage ? (
+          <div className="mb-3 rounded-xl bg-success/15 px-3 py-2 text-sm text-success">
+            <p>{successMessage}</p>
+            <Button variant="outline" size="sm" className="mt-2" onClick={() => setSuccessMessage(null)}>
+              {t('common:close')}
+            </Button>
+          </div>
+        ) : notice ? <p className="mb-3 rounded-xl bg-success/15 px-3 py-2 text-sm text-success">{notice}</p> : null}
         {errorNotice ? <p className="mb-3 rounded-xl bg-danger/15 px-3 py-2 text-sm text-danger">{errorNotice}</p> : null}
 
         <div className="mb-4 grid gap-3 sm:grid-cols-2 xl:grid-cols-5">
@@ -220,24 +235,30 @@ export function TrainersPage() {
         <div className="grid gap-3">
           <label className="grid gap-1 text-sm">
             {t('pages:trainers.form.name')}
-            <Input value={form.name} onChange={(e) => setForm((prev) => ({ ...prev, name: e.target.value }))} />
+            <Input value={form.name} onChange={(e) => setForm((prev) => ({ ...prev, name: e.target.value }))} required />
+            {fieldErrors.name ? <span className="text-xs text-danger">{fieldErrors.name[0]}</span> : null}
           </label>
           <label className="grid gap-1 text-sm">
             {t('pages:trainers.form.surname')}
-            <Input value={form.surname} onChange={(e) => setForm((prev) => ({ ...prev, surname: e.target.value }))} />
+            <Input value={form.surname} onChange={(e) => setForm((prev) => ({ ...prev, surname: e.target.value }))} required />
+            {fieldErrors.surname ? <span className="text-xs text-danger">{fieldErrors.surname[0]}</span> : null}
           </label>
           <label className="grid gap-1 text-sm">
             {t('pages:trainers.form.email')}
-            <Input type="email" value={form.email} onChange={(e) => setForm((prev) => ({ ...prev, email: e.target.value }))} />
+            <Input type="email" value={form.email} onChange={(e) => setForm((prev) => ({ ...prev, email: e.target.value }))} required />
+            {fieldErrors.email ? <span className="text-xs text-danger">{fieldErrors.email[0]}</span> : <span className="text-xs text-muted">{t('pages:trainers.form.emailHint')}</span>}
           </label>
           <label className="grid gap-1 text-sm">
             {t('pages:trainers.form.phone')}
             <Input value={form.phone ?? ''} onChange={(e) => setForm((prev) => ({ ...prev, phone: e.target.value }))} />
+            {fieldErrors.phone ? <span className="text-xs text-danger">{fieldErrors.phone[0]}</span> : null}
           </label>
           <label className="grid gap-1 text-sm">
             {t('pages:trainers.form.password')}
-            <Input type="password" value={form.password} onChange={(e) => setForm((prev) => ({ ...prev, password: e.target.value }))} />
+            <Input type="password" value={form.password} onChange={(e) => setForm((prev) => ({ ...prev, password: e.target.value }))} required minLength={8} />
+            {fieldErrors.password ? <span className="text-xs text-danger">{fieldErrors.password[0]}</span> : <span className="text-xs text-muted">{t('pages:trainers.form.passwordHint')}</span>}
           </label>
+          <p className="rounded-lg bg-border/50 px-3 py-2 text-xs text-muted">{t('pages:trainers.form.alreadyExistsHint')}</p>
         </div>
       </Dialog>
     </div>
