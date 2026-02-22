@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { Link, NavLink, Outlet, useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { useAuth } from '../features/auth/auth-context'
+import { usePushNotifications } from '../features/devices/usePushNotifications'
 import { useWorkspaceAccess } from '../features/workspace/access'
 import { setActiveWorkspaceId } from '../lib/storage'
 import { LanguageToggle } from './LanguageToggle'
@@ -19,6 +20,8 @@ export function AppLayout({ area }: AppLayoutProps) {
   const { approvalStatus, canMutate, activeWorkspace } = useWorkspaceAccess()
   const navigate = useNavigate()
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+
+  usePushNotifications()
 
   async function handleLogout() {
     await logout()
