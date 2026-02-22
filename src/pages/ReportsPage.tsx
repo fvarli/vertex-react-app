@@ -13,11 +13,14 @@ import {
   getReminderReport,
   getStudentReport,
 } from '../features/reports/api'
+import { ReportExportButton } from '../features/reports/components/ReportExportButton'
+import { StudentRetentionTab } from '../features/reports/components/StudentRetentionTab'
+import { TrainerPerformanceTab } from '../features/reports/components/TrainerPerformanceTab'
 import type { ReportGroupBy, ReportParams } from '../features/reports/types'
 import { getTrainerOverview } from '../features/trainers/api'
 import { extractApiMessage } from '../lib/api-errors'
 
-type ReportTab = 'appointments' | 'students' | 'programs' | 'reminders'
+type ReportTab = 'appointments' | 'students' | 'programs' | 'reminders' | 'trainer-performance' | 'student-retention'
 
 export function ReportsPage() {
   const { t } = useTranslation(['pages', 'common'])
@@ -69,12 +72,16 @@ export function ReportsPage() {
     enabled: activeTab === 'reminders',
   })
 
-  const tabs: { key: ReportTab; label: string }[] = [
+  const tabs: { key: ReportTab; label: string; adminOnly?: boolean }[] = [
     { key: 'appointments', label: t('pages:reports.tabs.appointments') },
     { key: 'students', label: t('pages:reports.tabs.students') },
     { key: 'programs', label: t('pages:reports.tabs.programs') },
     { key: 'reminders', label: t('pages:reports.tabs.reminders') },
+    { key: 'trainer-performance', label: t('pages:reports.tabs.trainerPerformance'), adminOnly: true },
+    { key: 'student-retention', label: t('pages:reports.tabs.studentRetention'), adminOnly: true },
   ]
+
+  const visibleTabs = tabs.filter((tab) => !tab.adminOnly || (isOwnerAdmin && isAdminArea))
 
   return (
     <div className="page space-y-5 fade-in">
@@ -85,7 +92,7 @@ export function ReportsPage() {
       </div>
 
       <div className="flex flex-wrap gap-2">
-        {tabs.map((tab) => (
+        {visibleTabs.map((tab) => (
           <button
             key={tab.key}
             onClick={() => setActiveTab(tab.key)}
@@ -143,13 +150,17 @@ export function ReportsPage() {
       </div>
 
       {activeTab === 'appointments' ? (
-        <AppointmentsReport query={appointmentsQuery} />
+        <AppointmentsReport query={appointmentsQuery} params={params} />
       ) : activeTab === 'students' ? (
-        <StudentsReport query={studentsQuery} />
+        <StudentsReport query={studentsQuery} params={params} />
       ) : activeTab === 'programs' ? (
-        <ProgramsReport query={programsQuery} />
+        <ProgramsReport query={programsQuery} params={params} />
+      ) : activeTab === 'reminders' ? (
+        <RemindersReport query={remindersQuery} params={params} />
+      ) : activeTab === 'trainer-performance' ? (
+        <TrainerPerformanceTab params={params} />
       ) : (
-        <RemindersReport query={remindersQuery} />
+        <StudentRetentionTab params={params} />
       )}
     </div>
   )
@@ -157,13 +168,17 @@ export function ReportsPage() {
 
 type QueryResult<T> = { data: T | undefined; isLoading: boolean; isError: boolean; error: unknown }
 
-function AppointmentsReport({ query }: { query: QueryResult<import('../features/reports/types').AppointmentReport> }) {
+function AppointmentsReport({ query, params }: { query: QueryResult<import('../features/reports/types').AppointmentReport>; params: ReportParams }) {
   const { t } = useTranslation(['pages', 'common'])
   if (query.isLoading) return <ReportSkeleton />
   if (query.isError) return <ReportError error={query.error} />
   const data = query.data!
   return (
     <>
+      <div className="mb-4 flex items-center justify-between">
+        <div />
+        <ReportExportButton type="appointments" params={params} />
+      </div>
       <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-5">
         <KpiCard label={t('pages:reports.appointments.total')} value={data.totals.total} />
         <KpiCard label={t('pages:reports.appointments.planned')} value={data.totals.planned} />
@@ -216,13 +231,17 @@ function AppointmentsReport({ query }: { query: QueryResult<import('../features/
   )
 }
 
-function StudentsReport({ query }: { query: QueryResult<import('../features/reports/types').StudentReport> }) {
+function StudentsReport({ query, params }: { query: QueryResult<import('../features/reports/types').StudentReport>; params: ReportParams }) {
   const { t } = useTranslation(['pages', 'common'])
   if (query.isLoading) return <ReportSkeleton />
   if (query.isError) return <ReportError error={query.error} />
   const data = query.data!
   return (
     <>
+      <div className="mb-4 flex items-center justify-between">
+        <div />
+        <ReportExportButton type="students" params={params} />
+      </div>
       <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
         <KpiCard label={t('pages:reports.students.total')} value={data.totals.total} />
         <KpiCard label={t('pages:reports.students.active')} value={data.totals.active} />
@@ -269,13 +288,17 @@ function StudentsReport({ query }: { query: QueryResult<import('../features/repo
   )
 }
 
-function ProgramsReport({ query }: { query: QueryResult<import('../features/reports/types').ProgramReport> }) {
+function ProgramsReport({ query, params }: { query: QueryResult<import('../features/reports/types').ProgramReport>; params: ReportParams }) {
   const { t } = useTranslation(['pages', 'common'])
   if (query.isLoading) return <ReportSkeleton />
   if (query.isError) return <ReportError error={query.error} />
   const data = query.data!
   return (
     <>
+      <div className="mb-4 flex items-center justify-between">
+        <div />
+        <ReportExportButton type="programs" params={params} />
+      </div>
       <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
         <KpiCard label={t('pages:reports.programs.total')} value={data.totals.total} />
         <KpiCard label={t('pages:reports.programs.active')} value={data.totals.active} />
@@ -325,13 +348,17 @@ function ProgramsReport({ query }: { query: QueryResult<import('../features/repo
   )
 }
 
-function RemindersReport({ query }: { query: QueryResult<import('../features/reports/types').ReminderReport> }) {
+function RemindersReport({ query, params }: { query: QueryResult<import('../features/reports/types').ReminderReport>; params: ReportParams }) {
   const { t } = useTranslation(['pages', 'common'])
   if (query.isLoading) return <ReportSkeleton />
   if (query.isError) return <ReportError error={query.error} />
   const data = query.data!
   return (
     <>
+      <div className="mb-4 flex items-center justify-between">
+        <div />
+        <ReportExportButton type="reminders" params={params} />
+      </div>
       <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
         <KpiCard label={t('pages:reports.reminders.total')} value={data.totals.total} />
         <KpiCard label={t('pages:reports.reminders.sent')} value={data.totals.sent} />

@@ -108,3 +108,32 @@ export type ReminderReport = {
   totals: ReminderTotals
   buckets: ReminderBucket[]
 }
+
+export type TrainerPerformanceRow = {
+  trainer_id: number
+  trainer_name: string
+  total_students: number
+  completed_appointments: number
+  completion_rate: number
+  no_show_count: number
+  reminder_success_rate: number
+}
+
+export type TrainerPerformanceReport = {
+  filters: ReportFilters
+  rows: TrainerPerformanceRow[]
+}
+
+export type StudentRetentionReport = {
+  filters: ReportFilters
+  retention_rate: number
+  churn_rate: number
+  new_students: number
+  churned_students: number
+  avg_student_lifetime_days: number
+  students_without_appointment_30d: number
+}
+
+export type ReportExportFormat = 'csv' | 'pdf'
+
+export type ReportExportType = 'appointments' | 'students' | 'programs' | 'reminders' | 'trainer-performance'
