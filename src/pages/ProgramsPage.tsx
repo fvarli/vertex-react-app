@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 import { Badge } from '../components/ui/badge'
 import { Button } from '../components/ui/button'
+import { Dialog } from '../components/ui/dialog'
 import { Input } from '../components/ui/input'
 import { Select } from '../components/ui/select'
 import { Skeleton } from '../components/ui/skeleton'
@@ -20,7 +21,7 @@ import {
 } from '../features/programs/api'
 import type { Program, ProgramItem, ProgramStatus } from '../features/programs/types'
 import { listStudents } from '../features/students/api'
-import { extractApiMessage, isForbidden } from '../lib/api-errors'
+import { extractApiMessage, extractValidationErrors, isForbidden, isValidationError } from '../lib/api-errors'
 import { useWorkspaceAccess } from '../features/workspace/access'
 
 function blankItem(order: number): ProgramItem {
@@ -61,6 +62,8 @@ export function ProgramsPage() {
 
   const [notice, setNotice] = useState<string | null>(null)
   const [errorNotice, setErrorNotice] = useState<string | null>(null)
+  const [fieldErrors, setFieldErrors] = useState<Record<string, string[]>>({})
+  const [archiveConfirmId, setArchiveConfirmId] = useState<number | null>(null)
 
   const studentsQuery = useQuery({
     queryKey: ['students', 'program-select'],
@@ -95,6 +98,7 @@ export function ProgramsPage() {
     onSuccess: async () => {
       setNotice(t('pages:programs.noticeCreated'))
       setErrorNotice(null)
+      setFieldErrors({})
       setFormOpen(false)
       await queryClient.invalidateQueries({ queryKey: ['programs', selectedStudentId] })
     },
@@ -102,6 +106,9 @@ export function ProgramsPage() {
       if (isForbidden(error)) {
         navigate('/workspaces', { replace: true })
         return
+      }
+      if (isValidationError(error)) {
+        setFieldErrors(extractValidationErrors(error))
       }
       setErrorNotice(extractApiMessage(error, t('common:requestFailed')))
     },
@@ -113,6 +120,7 @@ export function ProgramsPage() {
     onSuccess: async () => {
       setNotice(t('pages:programs.noticeUpdated'))
       setErrorNotice(null)
+      setFieldErrors({})
       setFormOpen(false)
       setEditingProgram(null)
       await queryClient.invalidateQueries({ queryKey: ['programs', selectedStudentId] })
@@ -121,6 +129,9 @@ export function ProgramsPage() {
       if (isForbidden(error)) {
         navigate('/workspaces', { replace: true })
         return
+      }
+      if (isValidationError(error)) {
+        setFieldErrors(extractValidationErrors(error))
       }
       setErrorNotice(extractApiMessage(error, t('common:requestFailed')))
     },
@@ -406,6 +417,19 @@ export function ProgramsPage() {
           </div>
         ) : programsQuery.isError ? (
           <p className="text-sm text-danger">{extractApiMessage(programsQuery.error, t('common:requestFailed'))}</p>
+        ) : programs.length === 0 ? (
+          <div className="rounded-xl bg-border/50 px-4 py-6 text-center">
+            <p className="text-sm text-muted">{t('pages:emptyState.programs')}</p>
+            <Button
+              className="mt-3"
+              size="sm"
+              disabled={!canMutate}
+              title={!canMutate ? approvalMessage ?? undefined : undefined}
+              onClick={openCreateForm}
+            >
+              {t('pages:emptyState.programsCta')}
+            </Button>
+          </div>
         ) : (
           <div className="space-y-3">
             <div className="grid gap-3 md:hidden">
@@ -432,7 +456,7 @@ export function ProgramsPage() {
                     <Button size="sm" variant="outline" onClick={() => void statusMutation.mutateAsync({ programId: program.id, nextStatus: 'draft' })}>
                       {t('common:draft')}
                     </Button>
-                    <Button size="sm" variant="danger" onClick={() => void statusMutation.mutateAsync({ programId: program.id, nextStatus: 'archived' })}>
+                    <Button size="sm" variant="danger" onClick={() => setArchiveConfirmId(program.id)}>
                       {t('pages:programs.table.archive')}
                     </Button>
                   </div>
@@ -487,7 +511,7 @@ export function ProgramsPage() {
                           <Button
                             size="sm"
                             variant="danger"
-                            onClick={() => void statusMutation.mutateAsync({ programId: program.id, nextStatus: 'archived' })}
+                            onClick={() => setArchiveConfirmId(program.id)}
                           >
                             {t('pages:programs.table.archive')}
                           </Button>
@@ -506,10 +530,16 @@ export function ProgramsPage() {
         <div className="panel">
           <h3 className="mb-3 text-lg font-semibold tracking-tight">{editingProgram ? t('pages:programs.form.editTitle') : t('pages:programs.form.newTitle')}</h3>
           <form className="space-y-3" onSubmit={handleSubmit}>
-            <Input value={title} onChange={(e) => setTitle(e.target.value)} placeholder={t('pages:programs.form.programTitle')} required />
+            <div className="grid gap-1">
+              <Input value={title} onChange={(e) => setTitle(e.target.value)} placeholder={t('pages:programs.form.programTitle')} required />
+              {fieldErrors.title ? <span className="text-xs text-danger">{fieldErrors.title[0]}</span> : null}
+            </div>
             <Input value={goal} onChange={(e) => setGoal(e.target.value)} placeholder={t('pages:programs.form.goal')} />
             <div className="grid gap-3 sm:grid-cols-2">
-              <Input value={weekStartDate} onChange={(e) => setWeekStartDate(e.target.value)} type="date" required />
+              <div className="grid gap-1">
+                <Input value={weekStartDate} onChange={(e) => setWeekStartDate(e.target.value)} type="date" required />
+                {fieldErrors.week_start_date ? <span className="text-xs text-danger">{fieldErrors.week_start_date[0]}</span> : null}
+              </div>
               <Select value={status} onChange={(e) => setStatus(e.target.value as ProgramStatus)}>
                 <option value="draft">{t('common:draft')}</option>
                 <option value="active">{t('common:active')}</option>
@@ -517,65 +547,117 @@ export function ProgramsPage() {
               </Select>
             </div>
 
-            <div className="space-y-2 rounded-xl border border-border/70 bg-background/40 p-3">
-              <div className="flex items-center justify-between">
-                <h4 className="text-sm font-semibold">{t('pages:programs.form.itemsTitle')}</h4>
-                <Button type="button" size="sm" variant="outline" onClick={() => setItems((prev) => [...prev, blankItem(prev.length + 1)])}>
-                  {t('pages:programs.form.addItem')}
-                </Button>
-              </div>
+            <div className="space-y-3 rounded-xl border border-border/70 bg-background/40 p-3">
+              <h4 className="text-sm font-semibold">{t('pages:programs.form.itemsTitle')}</h4>
+              {fieldErrors.items ? <span className="text-xs text-danger">{fieldErrors.items[0]}</span> : null}
 
-              {items.map((item, index) => (
-                <div key={`${item.order_no}-${index}`} className="grid gap-2 rounded-xl border border-border/70 bg-card/50 p-2 sm:grid-cols-6">
-                  <Input
-                    type="number"
-                    min={1}
-                    max={7}
-                    value={item.day_of_week}
-                    onChange={(e) => updateItem(index, { day_of_week: Number(e.target.value) })}
-                    placeholder={t('pages:programs.form.day')}
-                  />
-                  <Input
-                    type="number"
-                    min={1}
-                    value={item.order_no}
-                    onChange={(e) => updateItem(index, { order_no: Number(e.target.value) })}
-                    placeholder={t('pages:programs.form.order')}
-                  />
-                  <Input value={item.exercise} onChange={(e) => updateItem(index, { exercise: e.target.value })} placeholder={t('pages:programs.form.exercise')} />
-                  <Input
-                    type="number"
-                    min={1}
-                    value={item.sets ?? ''}
-                    onChange={(e) => updateItem(index, { sets: e.target.value ? Number(e.target.value) : null })}
-                    placeholder={t('pages:programs.form.sets')}
-                  />
-                  <Input
-                    type="number"
-                    min={1}
-                    value={item.reps ?? ''}
-                    onChange={(e) => updateItem(index, { reps: e.target.value ? Number(e.target.value) : null })}
-                    placeholder={t('pages:programs.form.reps')}
-                  />
-                  <div className="flex gap-2">
-                    <Input
-                      type="number"
-                      min={0}
-                      value={item.rest_seconds ?? ''}
-                      onChange={(e) => updateItem(index, { rest_seconds: e.target.value ? Number(e.target.value) : null })}
-                      placeholder={t('pages:programs.form.rest')}
-                    />
-                    <Button
-                      type="button"
-                      variant="outline"
-                      size="sm"
-                      onClick={() => setItems((prev) => (prev.length > 1 ? prev.filter((_, idx) => idx !== index) : prev))}
-                    >
-                      {t('common:remove')}
-                    </Button>
+              {[1, 2, 3, 4, 5, 6, 7].map((dayNum) => {
+                const dayItems = items
+                  .map((item, idx) => ({ item, idx }))
+                  .filter(({ item }) => item.day_of_week === dayNum)
+                  .sort((a, b) => a.item.order_no - b.item.order_no)
+
+                return (
+                  <div key={dayNum} className="rounded-xl border border-border/50 bg-card/40 p-3">
+                    <div className="mb-2 flex items-center justify-between">
+                      <p className="text-xs font-semibold uppercase tracking-[0.08em] text-muted">
+                        {t(`pages:programs.form.days.${dayNum}`)}
+                      </p>
+                      <Button
+                        type="button"
+                        size="sm"
+                        variant="outline"
+                        onClick={() => {
+                          const maxOrder = dayItems.reduce((max, { item }) => Math.max(max, item.order_no), 0)
+                          setItems((prev) => [...prev, { ...blankItem(maxOrder + 1), day_of_week: dayNum }])
+                        }}
+                      >
+                        {t('pages:programs.form.addExercise')}
+                      </Button>
+                    </div>
+
+                    {dayItems.length === 0 ? (
+                      <p className="text-xs text-muted">{t('pages:programs.form.noDayItems')}</p>
+                    ) : (
+                      <div className="space-y-2">
+                        {dayItems.map(({ item, idx }, posInDay) => (
+                          <div key={idx} className="grid gap-2 rounded-lg border border-border/60 bg-background/50 p-2 sm:grid-cols-[1fr_1fr_2fr_1fr_1fr_1fr_auto]">
+                            <Input
+                              type="number"
+                              min={1}
+                              value={item.order_no}
+                              onChange={(e) => updateItem(idx, { order_no: Number(e.target.value) })}
+                              placeholder={t('pages:programs.form.order')}
+                            />
+                            <Input value={item.exercise} onChange={(e) => updateItem(idx, { exercise: e.target.value })} placeholder={t('pages:programs.form.exercise')} />
+                            <Input
+                              type="number"
+                              min={1}
+                              value={item.sets ?? ''}
+                              onChange={(e) => updateItem(idx, { sets: e.target.value ? Number(e.target.value) : null })}
+                              placeholder={t('pages:programs.form.sets')}
+                            />
+                            <Input
+                              type="number"
+                              min={1}
+                              value={item.reps ?? ''}
+                              onChange={(e) => updateItem(idx, { reps: e.target.value ? Number(e.target.value) : null })}
+                              placeholder={t('pages:programs.form.reps')}
+                            />
+                            <Input
+                              type="number"
+                              min={0}
+                              value={item.rest_seconds ?? ''}
+                              onChange={(e) => updateItem(idx, { rest_seconds: e.target.value ? Number(e.target.value) : null })}
+                              placeholder={t('pages:programs.form.rest')}
+                            />
+                            <div className="flex items-center gap-1">
+                              <Button
+                                type="button"
+                                variant="outline"
+                                size="sm"
+                                disabled={posInDay === 0}
+                                onClick={() => {
+                                  const prevItem = dayItems[posInDay - 1]
+                                  const curOrder = item.order_no
+                                  const prevOrder = prevItem.item.order_no
+                                  updateItem(idx, { order_no: prevOrder })
+                                  updateItem(prevItem.idx, { order_no: curOrder })
+                                }}
+                              >
+                                ↑
+                              </Button>
+                              <Button
+                                type="button"
+                                variant="outline"
+                                size="sm"
+                                disabled={posInDay === dayItems.length - 1}
+                                onClick={() => {
+                                  const nextItem = dayItems[posInDay + 1]
+                                  const curOrder = item.order_no
+                                  const nextOrder = nextItem.item.order_no
+                                  updateItem(idx, { order_no: nextOrder })
+                                  updateItem(nextItem.idx, { order_no: curOrder })
+                                }}
+                              >
+                                ↓
+                              </Button>
+                              <Button
+                                type="button"
+                                variant="danger"
+                                size="sm"
+                                onClick={() => setItems((prev) => prev.filter((_, i) => i !== idx))}
+                              >
+                                {t('common:remove')}
+                              </Button>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    )}
                   </div>
-                </div>
-              ))}
+                )
+              })}
             </div>
 
             <div className="flex gap-2">
@@ -596,6 +678,33 @@ export function ProgramsPage() {
           </form>
         </div>
       ) : null}
+
+      <Dialog
+        open={archiveConfirmId !== null}
+        title={t('pages:confirmDialog.archiveProgram')}
+        description={t('pages:confirmDialog.archiveProgramDescription')}
+        onClose={() => setArchiveConfirmId(null)}
+        footer={
+          <>
+            <Button variant="outline" onClick={() => setArchiveConfirmId(null)}>
+              {t('common:cancel')}
+            </Button>
+            <Button
+              variant="danger"
+              disabled={statusMutation.isPending}
+              onClick={async () => {
+                if (!archiveConfirmId) return
+                await statusMutation.mutateAsync({ programId: archiveConfirmId, nextStatus: 'archived' })
+                setArchiveConfirmId(null)
+              }}
+            >
+              {statusMutation.isPending ? t('common:saving') : t('pages:programs.table.archive')}
+            </Button>
+          </>
+        }
+      >
+        <p className="text-sm text-muted">{t('pages:confirmDialog.archiveProgramDescription')}</p>
+      </Dialog>
     </div>
   )
 }
