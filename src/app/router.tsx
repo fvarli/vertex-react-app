@@ -21,6 +21,7 @@ import { StudentDetailPage } from '../pages/StudentDetailPage'
 import { StudentsPage } from '../pages/StudentsPage'
 import { TrainersPage } from '../pages/TrainersPage'
 import { WorkspacePage } from '../pages/WorkspacePage'
+import { WhatsAppPage } from '../pages/WhatsAppPage'
 import { WorkspaceSettingsPage } from '../pages/WorkspaceSettingsPage'
 import { AdminApprovalPage } from '../pages/AdminApprovalPage'
 
@@ -40,6 +41,7 @@ const adminChildren = [
       { path: '/admin/appointments', element: <AppointmentsPage /> },
       { path: '/admin/reminders', element: <RemindersPage /> },
       { path: '/admin/calendar', element: <CalendarPage /> },
+      { path: '/admin/whatsapp', element: <WhatsAppPage /> },
       { path: '/admin/reports', element: <ReportsPage /> },
       { path: '/admin/workspace-settings', element: <WorkspaceSettingsPage /> },
     ],
@@ -60,6 +62,7 @@ const trainerChildren = [
       { path: '/trainer/appointments', element: <AppointmentsPage /> },
       { path: '/trainer/reminders', element: <RemindersPage /> },
       { path: '/trainer/calendar', element: <CalendarPage /> },
+      { path: '/trainer/whatsapp', element: <WhatsAppPage /> },
       { path: '/trainer/reports', element: <ReportsPage /> },
     ],
   },
@@ -102,6 +105,7 @@ export const router = createBrowserRouter([
       { path: '/calendar', element: <RoleAwareRedirect adminPath="/admin/calendar" trainerPath="/trainer/calendar" /> },
       { path: '/reminders', element: <RoleAwareRedirect adminPath="/admin/reminders" trainerPath="/trainer/reminders" /> },
       { path: '/reports', element: <RoleAwareRedirect adminPath="/admin/reports" trainerPath="/trainer/reports" /> },
+      { path: '/whatsapp', element: <RoleAwareRedirect adminPath="/admin/whatsapp" trainerPath="/trainer/whatsapp" /> },
       { path: '/documentation', element: <RoleAwareRedirect adminPath="/admin/documentation" trainerPath="/trainer/documentation" /> },
       { path: '/profile', element: <RoleAwareRedirect adminPath="/admin/profile" trainerPath="/trainer/profile" /> },
       { path: '/forbidden', element: <ForbiddenPage /> },
