@@ -24,6 +24,24 @@
         "avgStudents": "Avg Students / Trainer"
       }
     },
+    "whatsapp": {
+      "title": "WhatsApp Delivery",
+      "todayTotal": "Today Total",
+      "sent": "Sent",
+      "notSent": "Not Sent",
+      "sendRate": "Send Rate"
+    },
+    "trends": {
+      "title": "Weekly Trends",
+      "appointmentsVsLastWeek": "Appointments vs Last Week",
+      "newStudents": "New Students",
+      "completionRate": "Completion Rate"
+    },
+    "topTrainers": {
+      "title": "Top Trainers",
+      "description": "Top 5 trainers by completed appointments this week.",
+      "sessions": "sessions"
+    },
     "timelineTitle": "Today Timeline",
     "timelineDescription": "Sessions planned for today in the current workspace scope.",
     "timelineEmpty": "No appointments for today."
@@ -509,7 +527,29 @@
       "appointments": "Appointments",
       "students": "Students",
       "programs": "Programs",
-      "reminders": "Reminders"
+      "reminders": "Reminders",
+      "trainerPerformance": "Trainer Performance",
+      "studentRetention": "Student Retention"
+    },
+    "export": {
+      "button": "Export",
+      "downloading": "Downloading..."
+    },
+    "trainerPerformance": {
+      "trainerName": "Trainer",
+      "totalStudents": "Total Students",
+      "completedAppointments": "Completed",
+      "completionRate": "Completion Rate",
+      "noShowCount": "No Shows",
+      "reminderSuccessRate": "Reminder Success"
+    },
+    "retention": {
+      "retentionRate": "Retention Rate",
+      "churnRate": "Churn Rate",
+      "newStudents": "New Students",
+      "churnedStudents": "Churned Students",
+      "avgLifetimeDays": "Avg Lifetime (days)",
+      "withoutAppointment30d": "No Appointment 30d"
     },
     "filters": {
       "dateFrom": "Date From",
@@ -551,6 +591,49 @@
       "onTimeSendRate": "On-Time Send Rate",
       "missedRate": "Missed Rate",
       "avgAttempts": "Avg Attempts"
+    }
+  },
+  "whatsapp": {
+    "sectionLabel": "Communication",
+    "title": "WhatsApp",
+    "description": "Manage bulk WhatsApp links and message templates for your workspace.",
+    "tabs": {
+      "bulkLinks": "Bulk Links",
+      "templates": "Message Templates"
+    },
+    "bulkLinks": {
+      "dateLabel": "Date",
+      "student": "Student",
+      "time": "Time",
+      "status": "Status",
+      "actions": "Actions",
+      "sent": "Sent",
+      "notSent": "Not Sent",
+      "openWhatsApp": "Open WhatsApp",
+      "markSent": "Mark Sent",
+      "markNotSent": "Mark Not Sent",
+      "empty": "No appointments found for the selected date."
+    },
+    "templates": {
+      "new": "New Template",
+      "name": "Name",
+      "body": "Body",
+      "default": "Default",
+      "actions": "Actions",
+      "defaultBadge": "Default",
+      "empty": "No message templates yet.",
+      "createTitle": "Create Template",
+      "editTitle": "Edit Template",
+      "formDescription": "Configure a WhatsApp message template with dynamic placeholders.",
+      "isDefault": "Set as default template"
+    },
+    "placeholders": {
+      "title": "Available placeholders",
+      "studentName": "Student name",
+      "appointmentDate": "Appointment date",
+      "appointmentTime": "Appointment time",
+      "trainerName": "Trainer name",
+      "location": "Location"
     }
   },
   "confirmDialog": {

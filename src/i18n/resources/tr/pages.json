@@ -24,6 +24,24 @@
         "avgStudents": "Ort Öğrenci / Antrenör"
       }
     },
+    "whatsapp": {
+      "title": "WhatsApp Gönderim",
+      "todayTotal": "Bugün Toplam",
+      "sent": "Gönderildi",
+      "notSent": "Gönderilmedi",
+      "sendRate": "Gönderim Oranı"
+    },
+    "trends": {
+      "title": "Haftalık Trendler",
+      "appointmentsVsLastWeek": "Randevular (Geçen Haftaya Göre)",
+      "newStudents": "Yeni Öğrenciler",
+      "completionRate": "Tamamlanma Oranı"
+    },
+    "topTrainers": {
+      "title": "En İyi Antrenörler",
+      "description": "Bu hafta tamamlanan randevuya göre en iyi 5 antrenör.",
+      "sessions": "seans"
+    },
     "timelineTitle": "Bugün Zaman Çizelgesi",
     "timelineDescription": "Mevcut çalışma alanı kapsamında bugüne planlanan seanslar.",
     "timelineEmpty": "Bugün için randevu yok."
@@ -508,7 +526,29 @@
       "appointments": "Randevular",
       "students": "Öğrenciler",
       "programs": "Programlar",
-      "reminders": "Hatırlatmalar"
+      "reminders": "Hatırlatmalar",
+      "trainerPerformance": "Antrenör Performansı",
+      "studentRetention": "Öğrenci Tutundurma"
+    },
+    "export": {
+      "button": "Dışa Aktar",
+      "downloading": "İndiriliyor..."
+    },
+    "trainerPerformance": {
+      "trainerName": "Antrenör",
+      "totalStudents": "Toplam Öğrenci",
+      "completedAppointments": "Tamamlanan",
+      "completionRate": "Tamamlanma Oranı",
+      "noShowCount": "Gelmedi",
+      "reminderSuccessRate": "Hatırlatma Başarısı"
+    },
+    "retention": {
+      "retentionRate": "Tutundurma Oranı",
+      "churnRate": "Kayıp Oranı",
+      "newStudents": "Yeni Öğrenciler",
+      "churnedStudents": "Kaybedilen Öğrenciler",
+      "avgLifetimeDays": "Ort Yaşam Süresi (gün)",
+      "withoutAppointment30d": "30g Randevusuz"
     },
     "filters": {
       "dateFrom": "Başlangıç",
@@ -550,6 +590,49 @@
       "onTimeSendRate": "Zamanında Gönderim",
       "missedRate": "Atlanma Oranı",
       "avgAttempts": "Ort Deneme"
+    }
+  },
+  "whatsapp": {
+    "sectionLabel": "İletişim",
+    "title": "WhatsApp",
+    "description": "Çalışma alanınız için toplu WhatsApp bağlantılarını ve mesaj şablonlarını yönetin.",
+    "tabs": {
+      "bulkLinks": "Toplu Linkler",
+      "templates": "Mesaj Şablonları"
+    },
+    "bulkLinks": {
+      "dateLabel": "Tarih",
+      "student": "Öğrenci",
+      "time": "Saat",
+      "status": "Durum",
+      "actions": "İşlemler",
+      "sent": "Gönderildi",
+      "notSent": "Gönderilmedi",
+      "openWhatsApp": "WhatsApp Aç",
+      "markSent": "Gönderildi İşaretle",
+      "markNotSent": "Gönderilmedi İşaretle",
+      "empty": "Seçilen tarih için randevu bulunamadı."
+    },
+    "templates": {
+      "new": "Yeni Şablon",
+      "name": "Ad",
+      "body": "İçerik",
+      "default": "Varsayılan",
+      "actions": "İşlemler",
+      "defaultBadge": "Varsayılan",
+      "empty": "Henüz mesaj şablonu yok.",
+      "createTitle": "Şablon Oluştur",
+      "editTitle": "Şablon Düzenle",
+      "formDescription": "Dinamik yer tutucularla WhatsApp mesaj şablonu yapılandırın.",
+      "isDefault": "Varsayılan şablon olarak ayarla"
+    },
+    "placeholders": {
+      "title": "Kullanılabilir yer tutucular",
+      "studentName": "Öğrenci adı",
+      "appointmentDate": "Randevu tarihi",
+      "appointmentTime": "Randevu saati",
+      "trainerName": "Antrenör adı",
+      "location": "Konum"
     }
   },
   "confirmDialog": {

@@ -7,6 +7,9 @@ import { Button } from '../components/ui/button'
 import { Skeleton } from '../components/ui/skeleton'
 import { listAppointments } from '../features/appointments/api'
 import { getDashboardSummary } from '../features/dashboard/api'
+import { TopTrainersCard } from '../features/dashboard/components/TopTrainersCard'
+import { TrendsSection } from '../features/dashboard/components/TrendsSection'
+import { WhatsAppStatsCard } from '../features/dashboard/components/WhatsAppStatsCard'
 import { getTrainerOverview } from '../features/trainers/api'
 import { extractApiMessage } from '../lib/api-errors'
 
@@ -126,6 +129,12 @@ export function DashboardPage() {
           </>
         )}
       </div>
+
+      {summary?.whatsapp ? <WhatsAppStatsCard stats={summary.whatsapp} /> : null}
+
+      {summary?.trends ? <TrendsSection trends={summary.trends} /> : null}
+
+      {isAdminArea && summary?.top_trainers ? <TopTrainersCard trainers={summary.top_trainers} /> : null}
 
       {isAdminArea ? (
         <div className="panel">

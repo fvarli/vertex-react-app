@@ -1,3 +1,24 @@
+export type WhatsAppStats = {
+  today_total: number
+  sent: number
+  not_sent: number
+  send_rate: number
+}
+
+export type DashboardTrends = {
+  appointments_vs_last_week: number
+  new_students: number
+  completion_rate: number
+  completion_rate_trend: 'up' | 'down' | 'stable'
+}
+
+export type TopTrainer = {
+  trainer_id: number
+  trainer_name: string
+  completed_appointments: number
+  completion_rate: number
+}
+
 export type DashboardSummary = {
   date: string
   students: {
@@ -24,4 +45,7 @@ export type DashboardSummary = {
     today_missed: number
     today_escalated: number
   }
+  whatsapp?: WhatsAppStats
+  trends?: DashboardTrends
+  top_trainers?: TopTrainer[]
 }
