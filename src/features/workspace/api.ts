@@ -23,6 +23,25 @@ export async function createWorkspace(payload: { name: string }): Promise<Worksp
   return response.data.data as unknown as Workspace
 }
 
+export async function updateWorkspace(workspaceId: number, payload: { name: string }): Promise<Workspace> {
+  const response = await api.put<WorkspaceListResponse>(`/workspaces/${workspaceId}`, payload)
+  return response.data.data as unknown as Workspace
+}
+
+export type WorkspaceMember = {
+  id: number
+  name: string
+  surname: string
+  email: string
+  role: string
+  is_active: boolean
+}
+
+export async function fetchWorkspaceMembers(workspaceId: number): Promise<WorkspaceMember[]> {
+  const response = await api.get<{ success: boolean; data: WorkspaceMember[] }>(`/workspaces/${workspaceId}/members`)
+  return response.data.data
+}
+
 export async function switchWorkspace(workspaceId: number): Promise<void> {
   await api.post(`/workspaces/${workspaceId}/switch`)
 }

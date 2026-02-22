@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next'
 import { Badge } from '../components/ui/badge'
 import { Button } from '../components/ui/button'
 import { Skeleton } from '../components/ui/skeleton'
+import { useLocation } from 'react-router-dom'
 import { useAuth } from '../features/auth/auth-context'
 import { useToast } from '../features/toast/toast-context'
 import { createWorkspace, fetchWorkspaces, switchWorkspace } from '../features/workspace/api'
@@ -23,7 +24,9 @@ export function WorkspacePage() {
   const { t } = useTranslation(['pages'])
   const navigate = useNavigate()
   const queryClient = useQueryClient()
+  const location = useLocation()
   const { refreshProfile } = useAuth()
+  const isAdminArea = location.pathname.startsWith('/admin/')
   const { addToast } = useToast()
   const [dialogOpen, setDialogOpen] = useState(false)
 
@@ -111,9 +114,18 @@ export function WorkspacePage() {
               </p>
             ) : null}
 
-            <Button className="mt-4 w-full" onClick={() => void handleSelect(workspace.id, workspace.role)}>
-              {t('pages:workspace.openWorkspace')}
-            </Button>
+            <div className="mt-4 flex gap-2">
+              <Button className="flex-1" onClick={() => void handleSelect(workspace.id, workspace.role)}>
+                {t('pages:workspace.openWorkspace')}
+              </Button>
+              {isAdminArea && workspace.role === 'owner_admin' ? (
+                <Button variant="outline" onClick={() => {
+                  void handleSelect(workspace.id, workspace.role).then(() => navigate('/admin/workspace-settings'))
+                }}>
+                  {t('pages:workspaceSettings.sectionLabel')}
+                </Button>
+              ) : null}
+            </div>
           </div>
         ))}
       </div>
