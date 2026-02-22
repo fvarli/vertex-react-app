@@ -80,6 +80,14 @@ export function DashboardPage() {
           </p>
         ) : (
           <>
+            {(summary?.students.active ?? 0) === 0 && (summary?.appointments.today_total ?? 0) === 0 ? (
+              <div className="col-span-full rounded-xl bg-border/50 px-4 py-6 text-center">
+                <p className="text-sm text-muted">{t('pages:emptyState.dashboardWelcome')}</p>
+                <Button className="mt-3" size="sm" onClick={() => navigate(isAdminArea ? '/admin/students' : '/trainer/students')}>
+                  {t('pages:emptyState.studentsCta')}
+                </Button>
+              </div>
+            ) : null}
             <div className="kpi-card stagger-in">
               <p className="text-xs uppercase tracking-[0.08em] text-muted">{t('pages:dashboard.cards.activeStudents')}</p>
               <p className="mt-2 text-3xl font-extrabold">{summary?.students.active ?? 0}</p>

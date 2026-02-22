@@ -190,6 +190,23 @@ export function StudentsPage() {
           </div>
         ) : studentsQuery.isError ? (
           <p className="text-sm text-danger">{extractApiMessage(studentsQuery.error, t('common:requestFailed'))}</p>
+        ) : students.length === 0 ? (
+          <div className="rounded-xl bg-border/50 px-4 py-6 text-center">
+            <p className="text-sm text-muted">{t('pages:emptyState.students')}</p>
+            <Button
+              className="mt-3"
+              size="sm"
+              disabled={!canMutate}
+              title={!canMutate ? approvalMessage ?? undefined : undefined}
+              onClick={() => {
+                setFormMode('create')
+                setActiveStudent(null)
+                setFormOpen(true)
+              }}
+            >
+              {t('pages:emptyState.studentsCta')}
+            </Button>
+          </div>
         ) : (
           <>
             <div className="table-surface">

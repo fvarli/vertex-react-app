@@ -256,9 +256,53 @@ export function RemindersPage() {
           </div>
         ) : remindersQuery.isError ? (
           <p className="text-sm text-danger">{extractApiMessage(remindersQuery.error, t('common:requestFailed'))}</p>
+        ) : reminders.length === 0 ? (
+          <div className="rounded-xl bg-border/50 px-4 py-6 text-center">
+            <p className="text-sm text-muted">{t('pages:emptyState.reminders')}</p>
+          </div>
         ) : (
           <>
-            <div className="table-surface">
+            <div className="grid gap-3 md:hidden">
+              {reminders.map((reminder) => {
+                const studentName =
+                  students.find((student) => student.id === reminder.appointment?.student_id)?.full_name ??
+                  `${t('pages:appointments.table.student')} #${reminder.appointment?.student_id ?? '-'}`
+                return (
+                  <div key={reminder.id} className="rounded-xl border border-border/70 bg-card/75 p-3">
+                    <div className="flex items-start justify-between gap-2">
+                      <div>
+                        <div className="flex items-center gap-2">
+                          <input type="checkbox" checked={selectedIds.includes(reminder.id)} onChange={() => toggleSelect(reminder.id)} />
+                          <p className="text-sm font-semibold text-foreground">{studentName}</p>
+                        </div>
+                        <p className="text-xs text-muted">{t('pages:reminders.table.scheduledFor')}: {formatDate(reminder.scheduled_for)}</p>
+                        <p className="text-xs text-muted">{t('pages:reminders.table.appointment')}: {reminder.appointment ? formatDate(reminder.appointment.starts_at) : '-'}</p>
+                        <p className="text-xs text-muted">{t('pages:reminders.table.attempts', { count: reminder.attempt_count })}</p>
+                      </div>
+                      <Badge variant={reminder.status === 'sent' ? 'success' : 'muted'}>
+                        {t(`pages:reminders.filters.${reminder.status}`)}
+                      </Badge>
+                    </div>
+                    <div className="mt-3 grid gap-2">
+                      <Button size="sm" variant="outline" onClick={() => void openMutation.mutateAsync(reminder.id)} disabled={!canMutate} title={!canMutate ? approvalMessage ?? undefined : undefined}>
+                        {t('pages:reminders.actions.open')}
+                      </Button>
+                      <Button size="sm" onClick={() => void markSentMutation.mutateAsync(reminder.id)} disabled={!canMutate} title={!canMutate ? approvalMessage ?? undefined : undefined}>
+                        {t('pages:reminders.actions.markSent')}
+                      </Button>
+                      <Button size="sm" variant="outline" onClick={() => void requeueMutation.mutateAsync(reminder.id)} disabled={!canMutate} title={!canMutate ? approvalMessage ?? undefined : undefined}>
+                        {t('pages:reminders.actions.requeue')}
+                      </Button>
+                      <Button size="sm" variant="danger" onClick={() => void cancelMutation.mutateAsync(reminder.id)} disabled={!canMutate} title={!canMutate ? approvalMessage ?? undefined : undefined}>
+                        {t('pages:reminders.actions.cancel')}
+                      </Button>
+                    </div>
+                  </div>
+                )
+              })}
+            </div>
+
+            <div className="table-surface hidden md:block">
               <Table>
                 <THead>
                   <tr>
