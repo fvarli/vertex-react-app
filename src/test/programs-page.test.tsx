@@ -17,6 +17,10 @@ vi.mock('../lib/api', () => ({
   api: apiMock,
 }))
 
+vi.mock('../features/workspace/access', () => ({
+  useWorkspaceAccess: () => ({ canMutate: true, approvalMessage: null }),
+}))
+
 function renderPage() {
   const client = new QueryClient({
     defaultOptions: { queries: { retry: false }, mutations: { retry: false } },
