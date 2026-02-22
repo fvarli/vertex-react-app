@@ -16,9 +16,12 @@ import { ResetPasswordPage } from '../pages/ResetPasswordPage'
 import { VerifyEmailPage } from '../pages/VerifyEmailPage'
 import { ProgramsPage } from '../pages/ProgramsPage'
 import { RemindersPage } from '../pages/RemindersPage'
+import { ReportsPage } from '../pages/ReportsPage'
+import { StudentDetailPage } from '../pages/StudentDetailPage'
 import { StudentsPage } from '../pages/StudentsPage'
 import { TrainersPage } from '../pages/TrainersPage'
 import { WorkspacePage } from '../pages/WorkspacePage'
+import { WorkspaceSettingsPage } from '../pages/WorkspaceSettingsPage'
 import { AdminApprovalPage } from '../pages/AdminApprovalPage'
 
 const adminChildren = [
@@ -32,10 +35,13 @@ const adminChildren = [
       { path: '/admin/dashboard', element: <DashboardPage /> },
       { path: '/admin/trainers', element: <TrainersPage /> },
       { path: '/admin/students', element: <StudentsPage /> },
+      { path: '/admin/students/:id', element: <StudentDetailPage /> },
       { path: '/admin/programs', element: <ProgramsPage /> },
       { path: '/admin/appointments', element: <AppointmentsPage /> },
       { path: '/admin/reminders', element: <RemindersPage /> },
       { path: '/admin/calendar', element: <CalendarPage /> },
+      { path: '/admin/reports', element: <ReportsPage /> },
+      { path: '/admin/workspace-settings', element: <WorkspaceSettingsPage /> },
     ],
   },
 ]
@@ -49,10 +55,12 @@ const trainerChildren = [
     children: [
       { path: '/trainer/dashboard', element: <DashboardPage /> },
       { path: '/trainer/students', element: <StudentsPage /> },
+      { path: '/trainer/students/:id', element: <StudentDetailPage /> },
       { path: '/trainer/programs', element: <ProgramsPage /> },
       { path: '/trainer/appointments', element: <AppointmentsPage /> },
       { path: '/trainer/reminders', element: <RemindersPage /> },
       { path: '/trainer/calendar', element: <CalendarPage /> },
+      { path: '/trainer/reports', element: <ReportsPage /> },
     ],
   },
 ]
@@ -93,6 +101,7 @@ export const router = createBrowserRouter([
       { path: '/appointments', element: <RoleAwareRedirect adminPath="/admin/appointments" trainerPath="/trainer/appointments" /> },
       { path: '/calendar', element: <RoleAwareRedirect adminPath="/admin/calendar" trainerPath="/trainer/calendar" /> },
       { path: '/reminders', element: <RoleAwareRedirect adminPath="/admin/reminders" trainerPath="/trainer/reminders" /> },
+      { path: '/reports', element: <RoleAwareRedirect adminPath="/admin/reports" trainerPath="/trainer/reports" /> },
       { path: '/documentation', element: <RoleAwareRedirect adminPath="/admin/documentation" trainerPath="/trainer/documentation" /> },
       { path: '/profile', element: <RoleAwareRedirect adminPath="/admin/profile" trainerPath="/trainer/profile" /> },
       { path: '/forbidden', element: <ForbiddenPage /> },

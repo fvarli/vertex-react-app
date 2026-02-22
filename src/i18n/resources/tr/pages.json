@@ -56,13 +56,17 @@
       "upcoming": "Yaklaşan (7g)"
     },
     "form": {
-      "title": "Antrenör Oluştur",
-      "description": "Yeni antrenör aktif çalışma alanına anında bağlanır.",
+      "title": "Antrenör Davet Et",
+      "description": "Yeni bir antrenör hesabı oluşturun ve çalışma alanınıza ekleyin. Sağladığınız bilgilerle hemen giriş yapabilecekler.",
       "name": "Ad",
       "surname": "Soyad",
       "email": "E-posta",
+      "emailHint": "Platform genelinde benzersiz olmalıdır.",
       "phone": "Telefon",
-      "password": "Şifre"
+      "password": "Şifre",
+      "passwordHint": "Minimum 8 karakter. Bu bilgiyi antrenörle paylaşın.",
+      "successMessage": "Antrenör hesabı oluşturuldu! Giriş sayfasından sağladığınız e-posta ve şifreyle giriş yapabilirler.",
+      "alreadyExistsHint": "E-posta hatası alırsanız, kullanıcının zaten bir hesabı olabilir. Çalışma alanınıza eklemek için destekle iletişime geçin."
     }
   },
   "workspace": {
@@ -235,7 +239,18 @@
       "exercise": "Hareket",
       "sets": "Set",
       "reps": "Tekrar",
-      "rest": "Dinlenme(sn)"
+      "rest": "Dinlenme(sn)",
+      "addExercise": "Hareket Ekle",
+      "noDayItems": "Bu gün için hareket yok.",
+      "days": {
+        "1": "Pazartesi",
+        "2": "Salı",
+        "3": "Çarşamba",
+        "4": "Perşembe",
+        "5": "Cuma",
+        "6": "Cumartesi",
+        "7": "Pazar"
+      }
     }
   },
   "appointments": {
@@ -298,6 +313,15 @@
       "markSent": "Gönderildi işaretle",
       "markNotSent": "Gönderilmedi işaretle"
     }
+  },
+  "appointmentDetail": {
+    "title": "Randevu Detayı",
+    "description": "Hatırlatma ve WhatsApp durumuyla birlikte tam randevu bilgisi.",
+    "viewDetail": "Detay",
+    "info": "Bilgi",
+    "whatsapp": "WhatsApp",
+    "reminders": "Hatırlatmalar",
+    "series": "Seri"
   },
   "reminders": {
     "sectionLabel": "Otomasyon",
@@ -430,6 +454,117 @@
     "notePlaceholder": "Çalışma alanı sahibi için bir not ekleyin...",
     "noticeUpdated": "Çalışma alanı onay durumu güncellendi.",
     "pagination": "Sayfa {{page}} / {{lastPage}}"
+  },
+  "workspaceSettings": {
+    "sectionLabel": "Ayarlar",
+    "title": "Çalışma Alanı Ayarları",
+    "description": "Çalışma alanı adını yönetin ve üyeleri görüntüleyin.",
+    "noWorkspace": "Aktif çalışma alanı seçilmedi.",
+    "noticeUpdated": "Çalışma alanı başarıyla güncellendi.",
+    "general": {
+      "title": "Genel",
+      "name": "Çalışma Alanı Adı",
+      "status": "Onay Durumu"
+    },
+    "members": {
+      "title": "Üyeler",
+      "description": "Bu çalışma alanına erişimi olan kullanıcılar.",
+      "empty": "Üye bulunamadı.",
+      "name": "Ad",
+      "email": "E-posta",
+      "role": "Rol",
+      "status": "Durum"
+    }
+  },
+  "studentDetail": {
+    "sectionLabel": "Öğrenci",
+    "backToList": "Öğrenci Listesine Dön",
+    "weekStart": "Hafta Başlangıcı",
+    "items": "Maddeler",
+    "programsEmpty": "Henüz program yok.",
+    "appointmentsEmpty": "Henüz randevu yok.",
+    "tabs": {
+      "overview": "Genel Bakış",
+      "programs": "Programlar",
+      "appointments": "Randevular",
+      "timeline": "Zaman Tüneli"
+    },
+    "overview": {
+      "status": "Durum",
+      "programs": "Programlar",
+      "phone": "Telefon",
+      "joined": "Katılım"
+    }
+  },
+  "reports": {
+    "sectionLabel": "Analitik",
+    "title": "Raporlar",
+    "description": "Tarih aralığı, gruplama ve antrenör filtresi ile çalışma alanı analitiği.",
+    "bucket": "Dönem",
+    "noData": "Seçilen aralık için veri yok.",
+    "tabs": {
+      "appointments": "Randevular",
+      "students": "Öğrenciler",
+      "programs": "Programlar",
+      "reminders": "Hatırlatmalar"
+    },
+    "filters": {
+      "dateFrom": "Başlangıç",
+      "dateTo": "Bitiş",
+      "groupBy": "Gruplama",
+      "day": "Gün",
+      "week": "Hafta",
+      "month": "Ay",
+      "trainer": "Antrenör",
+      "allTrainers": "Tüm Antrenörler"
+    },
+    "appointments": {
+      "total": "Toplam",
+      "planned": "Planlanmış",
+      "done": "Tamamlandı",
+      "cancelled": "İptal",
+      "noShow": "Gelmedi"
+    },
+    "students": {
+      "total": "Toplam",
+      "active": "Aktif",
+      "passive": "Pasif",
+      "newInRange": "Aralıktaki Yeni"
+    },
+    "programs": {
+      "total": "Toplam",
+      "active": "Aktif",
+      "draft": "Taslak",
+      "archived": "Arşivlenmiş"
+    },
+    "reminders": {
+      "total": "Toplam",
+      "sent": "Gönderildi",
+      "pending": "Beklemede",
+      "missed": "Atlandı",
+      "failed": "Hata",
+      "escalated": "Eskale",
+      "sendRate": "Gönderim Oranı",
+      "onTimeSendRate": "Zamanında Gönderim",
+      "missedRate": "Atlanma Oranı",
+      "avgAttempts": "Ort Deneme"
+    }
+  },
+  "confirmDialog": {
+    "archiveProgram": "Programı Arşivle",
+    "archiveProgramDescription": "Bu program arşivlenecek ve aktif listelerde görünmeyecek. Daha sonra tekrar aktif edebilirsiniz.",
+    "cancelAppointment": "Randevuyu İptal Et",
+    "cancelAppointmentDescription": "Bu randevu iptal edildi olarak işaretlenecek. Gerekirse durumunu tekrar değiştirebilirsiniz."
+  },
+  "emptyState": {
+    "students": "Henüz öğrenci yok. Başlamak için ilk öğrencinizi ekleyin.",
+    "studentsCta": "İlk Öğrenciyi Ekle",
+    "programs": "Bu öğrenci için program bulunamadı. Egzersizlerini takip etmek için haftalık program oluşturun.",
+    "programsCta": "Program Oluştur",
+    "appointments": "Seçilen aralıkta randevu yok. Başlamak için bir seans planlayın.",
+    "appointmentsCta": "Randevu Planla",
+    "reminders": "Henüz hatırlatma yok. Randevu planladığınızda otomatik olarak görünecekler.",
+    "dashboardWelcome": "Çalışma alanınıza hoş geldiniz! Öğrenci ekleyerek başlayın, ardından panelin canlanması için randevu planlayın."
   },
   "pagination": {
     "perPage": "{{count}} / sayfa"

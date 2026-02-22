@@ -56,13 +56,17 @@
       "upcoming": "Upcoming (7d)"
     },
     "form": {
-      "title": "Create Trainer",
-      "description": "New trainer is attached to active workspace immediately.",
+      "title": "Invite Trainer",
+      "description": "Create a new trainer account and add them to your workspace. They will be able to log in immediately with the credentials you provide.",
       "name": "Name",
       "surname": "Surname",
       "email": "Email",
+      "emailHint": "Must be unique across the platform.",
       "phone": "Phone",
-      "password": "Password"
+      "password": "Password",
+      "passwordHint": "Minimum 8 characters. Share this with the trainer.",
+      "successMessage": "Trainer account created! They can now log in at the login page with the email and password you provided.",
+      "alreadyExistsHint": "If you get an email error, the user may already have an account. Contact support to add them to your workspace."
     }
   },
   "workspace": {
@@ -236,7 +240,18 @@
       "exercise": "Exercise",
       "sets": "Sets",
       "reps": "Reps",
-      "rest": "Rest(s)"
+      "rest": "Rest(s)",
+      "addExercise": "Add Exercise",
+      "noDayItems": "No exercises for this day.",
+      "days": {
+        "1": "Monday",
+        "2": "Tuesday",
+        "3": "Wednesday",
+        "4": "Thursday",
+        "5": "Friday",
+        "6": "Saturday",
+        "7": "Sunday"
+      }
     }
   },
   "appointments": {
@@ -299,6 +314,15 @@
       "markSent": "Mark sent",
       "markNotSent": "Mark not sent"
     }
+  },
+  "appointmentDetail": {
+    "title": "Appointment Detail",
+    "description": "Full appointment information with reminders and WhatsApp status.",
+    "viewDetail": "Detail",
+    "info": "Information",
+    "whatsapp": "WhatsApp",
+    "reminders": "Reminders",
+    "series": "Series"
   },
   "reminders": {
     "sectionLabel": "Automation",
@@ -431,6 +455,117 @@
     "notePlaceholder": "Add a note for the workspace owner...",
     "noticeUpdated": "Workspace approval updated.",
     "pagination": "Page {{page}} / {{lastPage}}"
+  },
+  "workspaceSettings": {
+    "sectionLabel": "Settings",
+    "title": "Workspace Settings",
+    "description": "Manage workspace name and view members.",
+    "noWorkspace": "No active workspace selected.",
+    "noticeUpdated": "Workspace updated successfully.",
+    "general": {
+      "title": "General",
+      "name": "Workspace Name",
+      "status": "Approval Status"
+    },
+    "members": {
+      "title": "Members",
+      "description": "Users who have access to this workspace.",
+      "empty": "No members found.",
+      "name": "Name",
+      "email": "Email",
+      "role": "Role",
+      "status": "Status"
+    }
+  },
+  "studentDetail": {
+    "sectionLabel": "Student",
+    "backToList": "Back to Students",
+    "weekStart": "Week Start",
+    "items": "Items",
+    "programsEmpty": "No programs yet.",
+    "appointmentsEmpty": "No appointments yet.",
+    "tabs": {
+      "overview": "Overview",
+      "programs": "Programs",
+      "appointments": "Appointments",
+      "timeline": "Timeline"
+    },
+    "overview": {
+      "status": "Status",
+      "programs": "Programs",
+      "phone": "Phone",
+      "joined": "Joined"
+    }
+  },
+  "reports": {
+    "sectionLabel": "Analytics",
+    "title": "Reports",
+    "description": "Workspace analytics with date range, grouping, and trainer filters.",
+    "bucket": "Period",
+    "noData": "No data for the selected range.",
+    "tabs": {
+      "appointments": "Appointments",
+      "students": "Students",
+      "programs": "Programs",
+      "reminders": "Reminders"
+    },
+    "filters": {
+      "dateFrom": "Date From",
+      "dateTo": "Date To",
+      "groupBy": "Group By",
+      "day": "Day",
+      "week": "Week",
+      "month": "Month",
+      "trainer": "Trainer",
+      "allTrainers": "All Trainers"
+    },
+    "appointments": {
+      "total": "Total",
+      "planned": "Planned",
+      "done": "Done",
+      "cancelled": "Cancelled",
+      "noShow": "No Show"
+    },
+    "students": {
+      "total": "Total",
+      "active": "Active",
+      "passive": "Passive",
+      "newInRange": "New in Range"
+    },
+    "programs": {
+      "total": "Total",
+      "active": "Active",
+      "draft": "Draft",
+      "archived": "Archived"
+    },
+    "reminders": {
+      "total": "Total",
+      "sent": "Sent",
+      "pending": "Pending",
+      "missed": "Missed",
+      "failed": "Failed",
+      "escalated": "Escalated",
+      "sendRate": "Send Rate",
+      "onTimeSendRate": "On-Time Send Rate",
+      "missedRate": "Missed Rate",
+      "avgAttempts": "Avg Attempts"
+    }
+  },
+  "confirmDialog": {
+    "archiveProgram": "Archive Program",
+    "archiveProgramDescription": "This program will be archived and no longer visible in active lists. You can reactivate it later.",
+    "cancelAppointment": "Cancel Appointment",
+    "cancelAppointmentDescription": "This appointment will be marked as cancelled. You can change the status again later if needed."
+  },
+  "emptyState": {
+    "students": "No students yet. Add your first student to get started.",
+    "studentsCta": "Add First Student",
+    "programs": "No programs found for this student. Create a weekly program to track their exercises.",
+    "programsCta": "Create Program",
+    "appointments": "No appointments in the selected range. Schedule a session to get started.",
+    "appointmentsCta": "Schedule Appointment",
+    "reminders": "No reminders yet. They will appear automatically when you schedule appointments.",
+    "dashboardWelcome": "Welcome to your workspace! Start by adding students, then schedule appointments to see your dashboard come alive."
   },
   "pagination": {
     "perPage": "{{count}} / page"
