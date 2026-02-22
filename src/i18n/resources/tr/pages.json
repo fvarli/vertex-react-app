@@ -70,6 +70,7 @@
     }
   },
   "workspace": {
+    "sectionLabel": "Çalışma Alanı",
     "title": "Çalışma Alanları",
     "description": "Devam etmek için aktif çalışma alanını seç.",
     "loading": "Çalışma alanları yükleniyor...",
@@ -190,6 +191,7 @@
     }
   },
   "programs": {
+    "sectionLabel": "Programlama",
     "title": "Programlar",
     "description": "Sıralı maddelerle haftalık öğrenci programlarını oluştur ve yönet.",
     "new": "Yeni Program",

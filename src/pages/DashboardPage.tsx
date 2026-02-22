@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query'
 import dayjs from 'dayjs'
 import { useTranslation } from 'react-i18next'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { Badge } from '../components/ui/badge'
 import { Button } from '../components/ui/button'
 import { Skeleton } from '../components/ui/skeleton'
@@ -19,6 +19,7 @@ export function DashboardPage() {
   const location = useLocation()
   const navigate = useNavigate()
   const isAdminArea = location.pathname.startsWith('/admin/')
+  const prefix = isAdminArea ? '/admin' : '/trainer'
 
   const summaryQuery = useQuery({
     queryKey: ['dashboard', 'summary'],
@@ -88,40 +89,40 @@ export function DashboardPage() {
                 </Button>
               </div>
             ) : null}
-            <div className="kpi-card stagger-in">
+            <Link to={`${prefix}/students`} className="kpi-card stagger-in cursor-pointer transition-colors hover:border-primary/40">
               <p className="text-xs uppercase tracking-[0.08em] text-muted">{t('pages:dashboard.cards.activeStudents')}</p>
               <p className="mt-2 text-3xl font-extrabold">{summary?.students.active ?? 0}</p>
-            </div>
-            <div className="kpi-card stagger-in">
+            </Link>
+            <Link to={`${prefix}/students`} className="kpi-card stagger-in cursor-pointer transition-colors hover:border-primary/40">
               <p className="text-xs uppercase tracking-[0.08em] text-muted">{t('pages:dashboard.cards.passiveStudents')}</p>
               <p className="mt-2 text-3xl font-extrabold">{summary?.students.passive ?? 0}</p>
-            </div>
-            <div className="kpi-card stagger-in">
+            </Link>
+            <Link to={`${prefix}/calendar`} className="kpi-card stagger-in cursor-pointer transition-colors hover:border-primary/40">
               <p className="text-xs uppercase tracking-[0.08em] text-muted">{t('pages:dashboard.cards.todayAppointments')}</p>
               <p className="mt-2 text-3xl font-extrabold">{summary?.appointments.today_total ?? 0}</p>
-            </div>
-            <div className="kpi-card stagger-in">
+            </Link>
+            <Link to={`${prefix}/appointments`} className="kpi-card stagger-in cursor-pointer transition-colors hover:border-primary/40">
               <p className="text-xs uppercase tracking-[0.08em] text-muted">{t('pages:dashboard.cards.todayNoShow')}</p>
               <p className="mt-2 text-3xl font-extrabold">{summary?.appointments.today_no_show ?? 0}</p>
-            </div>
-            <div className="kpi-card stagger-in">
+            </Link>
+            <Link to={`${prefix}/appointments`} className="kpi-card stagger-in cursor-pointer transition-colors hover:border-primary/40">
               <p className="text-xs uppercase tracking-[0.08em] text-muted">{t('pages:dashboard.cards.attendanceRate')}</p>
               <p className="mt-2 text-3xl font-extrabold">
                 {summary?.appointments.today_attendance_rate == null ? '-' : `${summary.appointments.today_attendance_rate}%`}
               </p>
-            </div>
-            <div className="kpi-card stagger-in">
+            </Link>
+            <Link to={`${prefix}/appointments`} className="kpi-card stagger-in cursor-pointer transition-colors hover:border-primary/40">
               <p className="text-xs uppercase tracking-[0.08em] text-muted">{t('pages:dashboard.cards.upcomingAppointments')}</p>
               <p className="mt-2 text-3xl font-extrabold">{summary?.appointments.upcoming_7d ?? 0}</p>
-            </div>
-            <div className="kpi-card stagger-in">
+            </Link>
+            <Link to={`${prefix}/reminders`} className="kpi-card stagger-in cursor-pointer transition-colors hover:border-primary/40">
               <p className="text-xs uppercase tracking-[0.08em] text-muted">{t('pages:dashboard.cards.todaySentReminders')}</p>
               <p className="mt-2 text-3xl font-extrabold">{summary?.reminders?.today_sent ?? 0}</p>
-            </div>
-            <div className="kpi-card stagger-in">
+            </Link>
+            <Link to={`${prefix}/reminders`} className="kpi-card stagger-in cursor-pointer transition-colors hover:border-primary/40">
               <p className="text-xs uppercase tracking-[0.08em] text-muted">{t('pages:dashboard.cards.todayEscalatedReminders')}</p>
               <p className="mt-2 text-3xl font-extrabold">{summary?.reminders?.today_escalated ?? 0}</p>
-            </div>
+            </Link>
           </>
         )}
       </div>

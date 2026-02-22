@@ -68,7 +68,7 @@ export function WorkspacePage() {
     <div className="space-y-5 fade-in">
       <div className="panel flex items-start justify-between gap-3">
         <div>
-          <p className="text-xs uppercase tracking-[0.14em] text-muted">Workspace</p>
+          <p className="text-xs uppercase tracking-[0.14em] text-muted">{t('pages:workspace.sectionLabel')}</p>
           <h2 className="mt-1 text-2xl font-extrabold tracking-tight">{t('pages:workspace.title')}</h2>
           <p className="mt-1 text-sm text-muted">{t('pages:workspace.description')}</p>
         </div>

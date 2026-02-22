@@ -337,7 +337,7 @@ export function ProgramsPage() {
       <div className="panel">
         <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
           <div>
-            <p className="text-xs uppercase tracking-[0.14em] text-muted">Programming</p>
+            <p className="text-xs uppercase tracking-[0.14em] text-muted">{t('pages:programs.sectionLabel')}</p>
             <h2 className="text-2xl font-extrabold tracking-tight">{t('pages:programs.title')}</h2>
             <p className="mt-1 text-sm text-muted">{t('pages:programs.description')}</p>
           </div>

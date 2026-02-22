@@ -70,6 +70,7 @@
     }
   },
   "workspace": {
+    "sectionLabel": "Workspace",
     "title": "Workspaces",
     "description": "Select active workspace to continue.",
     "loading": "Loading workspaces...",
@@ -191,6 +192,7 @@
     }
   },
   "programs": {
+    "sectionLabel": "Programming",
     "title": "Programs",
     "description": "Create and manage weekly student programs with ordered items.",
     "new": "New Program",
