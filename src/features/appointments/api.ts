@@ -14,6 +14,11 @@ import type {
   Paginated,
 } from './types'
 
+export async function fetchAppointment(appointmentId: number): Promise<Appointment> {
+  const response = await api.get<ApiEnvelope<Appointment>>(`/appointments/${appointmentId}`)
+  return response.data.data
+}
+
 export async function listAppointments(params: AppointmentListParams): Promise<Paginated<Appointment>> {
   const query = compactQuery({
     ...params,

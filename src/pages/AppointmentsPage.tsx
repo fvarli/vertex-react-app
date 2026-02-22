@@ -21,6 +21,8 @@ import {
 import type { Appointment, AppointmentStatus, AppointmentWhatsappStatus } from '../features/appointments/types'
 import { listStudents } from '../features/students/api'
 import { extractApiMessage, extractValidationErrors, isForbidden, isValidationError } from '../lib/api-errors'
+import { Dialog } from '../components/ui/dialog'
+import { AppointmentDetailDialog } from '../features/appointments/components/AppointmentDetailDialog'
 import { useWorkspaceAccess } from '../features/workspace/access'
 
 function toLocalInput(value: string): string {
@@ -65,8 +67,12 @@ export function AppointmentsPage() {
   const [seriesUntil, setSeriesUntil] = useState('')
   const [seriesWeekdays, setSeriesWeekdays] = useState<number[]>([1, 3, 5])
 
+  const [detailTarget, setDetailTarget] = useState<Appointment | null>(null)
+  const [cancelConfirmId, setCancelConfirmId] = useState<number | null>(null)
+
   const [notice, setNotice] = useState<string | null>(null)
   const [errorNotice, setErrorNotice] = useState<string | null>(null)
+  const [fieldErrors, setFieldErrors] = useState<Record<string, string[]>>({})
 
   const filters = useMemo(
     () => ({
@@ -96,6 +102,7 @@ export function AppointmentsPage() {
     onSuccess: async () => {
       setNotice(t('pages:appointments.noticeCreated'))
       setErrorNotice(null)
+      setFieldErrors({})
       setFormOpen(false)
       await queryClient.invalidateQueries({ queryKey: ['appointments'] })
       await queryClient.invalidateQueries({ queryKey: ['calendar'] })
@@ -108,6 +115,7 @@ export function AppointmentsPage() {
 
       if (isValidationError(error)) {
         const validation = extractValidationErrors(error)
+        setFieldErrors(validation)
         const code = validation.code?.[0]
         if (code === 'time_slot_conflict') {
           setErrorNotice(t('pages:appointments.errors.timeSlotConflict'))
@@ -129,6 +137,7 @@ export function AppointmentsPage() {
     onSuccess: async () => {
       setNotice(t('pages:appointments.noticeUpdated'))
       setErrorNotice(null)
+      setFieldErrors({})
       setFormOpen(false)
       setActiveAppointment(null)
       await queryClient.invalidateQueries({ queryKey: ['appointments'] })
@@ -142,6 +151,7 @@ export function AppointmentsPage() {
 
       if (isValidationError(error)) {
         const validation = extractValidationErrors(error)
+        setFieldErrors(validation)
         const code = validation.code?.[0]
         if (code === 'time_slot_conflict') {
           setErrorNotice(t('pages:appointments.errors.timeSlotConflict'))
@@ -368,6 +378,19 @@ export function AppointmentsPage() {
           </div>
         ) : appointmentsQuery.isError ? (
           <p className="text-sm text-danger">{extractApiMessage(appointmentsQuery.error, t('common:requestFailed'))}</p>
+        ) : appointments.length === 0 ? (
+          <div className="rounded-xl bg-border/50 px-4 py-6 text-center">
+            <p className="text-sm text-muted">{t('pages:emptyState.appointments')}</p>
+            <Button
+              className="mt-3"
+              size="sm"
+              disabled={!canMutate}
+              title={!canMutate ? approvalMessage ?? undefined : undefined}
+              onClick={openCreateForm}
+            >
+              {t('pages:emptyState.appointmentsCta')}
+            </Button>
+          </div>
         ) : (
           <div className="space-y-3">
             <div className="grid gap-3 md:hidden">
@@ -390,6 +413,9 @@ export function AppointmentsPage() {
                     </div>
                   </div>
                   <div className="mt-3 grid gap-2">
+                    <Button size="sm" variant="outline" onClick={() => setDetailTarget(appointment)}>
+                      {t('pages:appointmentDetail.viewDetail')}
+                    </Button>
                     <Button size="sm" onClick={() => void whatsappLinkMutation.mutateAsync(appointment.id)}>
                       {t('pages:appointments.whatsapp.open')}
                     </Button>
@@ -414,7 +440,7 @@ export function AppointmentsPage() {
                     <Button size="sm" variant="outline" onClick={() => void statusMutation.mutateAsync({ appointmentId: appointment.id, nextStatus: 'no_show' })}>
                       {t('pages:appointments.table.noShow')}
                     </Button>
-                    <Button size="sm" variant="danger" onClick={() => void statusMutation.mutateAsync({ appointmentId: appointment.id, nextStatus: 'cancelled' })}>
+                    <Button size="sm" variant="danger" onClick={() => setCancelConfirmId(appointment.id)}>
                       {t('pages:appointments.table.cancel')}
                     </Button>
                   </div>
@@ -454,6 +480,9 @@ export function AppointmentsPage() {
                       </TD>
                       <TD>
                         <div className="flex flex-wrap gap-2">
+                          <Button size="sm" variant="outline" onClick={() => setDetailTarget(appointment)}>
+                            {t('pages:appointmentDetail.viewDetail')}
+                          </Button>
                           <Button size="sm" onClick={() => void whatsappLinkMutation.mutateAsync(appointment.id)}>
                             {t('pages:appointments.whatsapp.open')}
                           </Button>
@@ -489,7 +518,7 @@ export function AppointmentsPage() {
                           <Button
                             size="sm"
                             variant="danger"
-                            onClick={() => void statusMutation.mutateAsync({ appointmentId: appointment.id, nextStatus: 'cancelled' })}
+                            onClick={() => setCancelConfirmId(appointment.id)}
                           >
                             {t('pages:appointments.table.cancel')}
                           </Button>
@@ -536,17 +565,26 @@ export function AppointmentsPage() {
         <div className="panel">
           <h3 className="mb-3 text-lg font-semibold tracking-tight">{isEditing ? t('pages:appointments.form.editTitle') : t('pages:appointments.form.newTitle')}</h3>
           <form className="space-y-3" onSubmit={submitForm}>
-            <Select value={formStudentId} onChange={(e) => setFormStudentId(e.target.value)} required>
-              <option value="">{t('common:selectStudent')}</option>
-              {students.map((student) => (
-                <option key={student.id} value={student.id}>
-                  {student.full_name}
-                </option>
-              ))}
-            </Select>
+            <div className="grid gap-1">
+              <Select value={formStudentId} onChange={(e) => setFormStudentId(e.target.value)} required>
+                <option value="">{t('common:selectStudent')}</option>
+                {students.map((student) => (
+                  <option key={student.id} value={student.id}>
+                    {student.full_name}
+                  </option>
+                ))}
+              </Select>
+              {fieldErrors.student_id ? <span className="text-xs text-danger">{fieldErrors.student_id[0]}</span> : null}
+            </div>
             <div className="grid gap-3 sm:grid-cols-2">
-              <Input type="datetime-local" value={formStartsAt} onChange={(e) => setFormStartsAt(e.target.value)} required />
-              <Input type="datetime-local" value={formEndsAt} onChange={(e) => setFormEndsAt(e.target.value)} required />
+              <div className="grid gap-1">
+                <Input type="datetime-local" value={formStartsAt} onChange={(e) => setFormStartsAt(e.target.value)} required />
+                {fieldErrors.starts_at ? <span className="text-xs text-danger">{fieldErrors.starts_at[0]}</span> : null}
+              </div>
+              <div className="grid gap-1">
+                <Input type="datetime-local" value={formEndsAt} onChange={(e) => setFormEndsAt(e.target.value)} required />
+                {fieldErrors.ends_at ? <span className="text-xs text-danger">{fieldErrors.ends_at[0]}</span> : null}
+              </div>
             </div>
             <Input placeholder={t('pages:appointments.form.location')} value={formLocation} onChange={(e) => setFormLocation(e.target.value)} />
             <Input placeholder={t('pages:appointments.form.notes')} value={formNotes} onChange={(e) => setFormNotes(e.target.value)} />
@@ -568,6 +606,46 @@ export function AppointmentsPage() {
           </form>
         </div>
       ) : null}
+
+      <AppointmentDetailDialog
+        open={Boolean(detailTarget)}
+        appointment={detailTarget}
+        studentName={students.find((s) => s.id === detailTarget?.student_id)?.full_name}
+        onClose={() => setDetailTarget(null)}
+        onStatusChange={(id, s) => {
+          void statusMutation.mutateAsync({ appointmentId: id, nextStatus: s })
+          setDetailTarget(null)
+        }}
+        onWhatsAppOpen={(id) => void whatsappLinkMutation.mutateAsync(id)}
+        canMutate={canMutate}
+      />
+
+      <Dialog
+        open={cancelConfirmId !== null}
+        title={t('pages:confirmDialog.cancelAppointment')}
+        description={t('pages:confirmDialog.cancelAppointmentDescription')}
+        onClose={() => setCancelConfirmId(null)}
+        footer={
+          <>
+            <Button variant="outline" onClick={() => setCancelConfirmId(null)}>
+              {t('common:cancel')}
+            </Button>
+            <Button
+              variant="danger"
+              disabled={statusMutation.isPending}
+              onClick={async () => {
+                if (!cancelConfirmId) return
+                await statusMutation.mutateAsync({ appointmentId: cancelConfirmId, nextStatus: 'cancelled' })
+                setCancelConfirmId(null)
+              }}
+            >
+              {statusMutation.isPending ? t('common:saving') : t('pages:appointments.table.cancel')}
+            </Button>
+          </>
+        }
+      >
+        <p className="text-sm text-muted">{t('pages:confirmDialog.cancelAppointmentDescription')}</p>
+      </Dialog>
 
       {seriesFormOpen ? (
         <div className="panel">
