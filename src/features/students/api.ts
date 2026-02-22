@@ -36,6 +36,11 @@ export async function updateStudentStatus(studentId: number, payload: StudentSta
   return response.data.data
 }
 
+export async function fetchStudent(studentId: number): Promise<Student> {
+  const response = await api.get<ApiEnvelope<Student>>(`/students/${studentId}`)
+  return response.data.data
+}
+
 export async function getStudentTimeline(studentId: number, limit = 30): Promise<StudentTimeline> {
   const response = await api.get<ApiEnvelope<StudentTimeline>>(`/students/${studentId}/timeline`, {
     params: compactQuery({ limit }),
