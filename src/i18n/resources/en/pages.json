@@ -123,48 +123,170 @@
   },
   "documentation": {
     "sectionLabel": "Guide",
-    "title": "Documentation",
-    "description": "Role-based usage guide for the {{area}} workspace experience in Vertex Coach.",
+    "title": "User Guide",
+    "description": "Comprehensive guide covering all features of Vertex Coach, organized by role access level.",
+    "tocTitle": "Contents",
+    "expandAll": "Expand all",
+    "collapseAll": "Collapse all",
     "user": "User",
-    "systemRole": "System Role",
-    "workspaceRole": "Workspace Role",
-    "activeWorkspaceId": "Active Workspace ID",
+    "activeWorkspaceId": "Active Workspace",
     "notSelected": "Not selected",
-    "howToUse": "How to use the application",
     "quickLinks": "Quick navigation links",
     "helpTitle": "Support tip",
-    "helpBody": "If a page returns 403, first verify your active workspace and role scope.",
+    "helpBody": "If a page returns 403, first verify your active workspace and role scope. Each feature is accessible based on your system role and workspace role combination.",
+    "roles": {
+      "platformAdmin": "Platform Admin",
+      "ownerAdmin": "Owner / Admin",
+      "trainer": "Trainer",
+      "accessLabel": "Access"
+    },
     "links": {
+      "dashboard": "Dashboard",
       "workspaces": "Workspaces",
+      "trainers": "Trainers",
       "students": "Students",
       "programs": "Programs",
       "appointments": "Appointments",
       "reminders": "Reminders",
-      "calendar": "Calendar"
+      "calendar": "Calendar",
+      "whatsapp": "WhatsApp",
+      "reports": "Reports",
+      "profile": "Profile"
     },
-    "admin": {
-      "step1Title": "Select active workspace",
-      "step1Detail": "Go to Workspaces and pick the workspace you want to manage for this session.",
-      "step2Title": "Manage students",
-      "step2Detail": "Create and update students and keep active/passive status accurate.",
-      "step3Title": "Plan weekly programs",
-      "step3Detail": "Assign programs per student and keep week-by-week updates in a single place.",
-      "step4Title": "Control appointments and calendar",
-      "step4Detail": "Track reservations, recurring series, and review trainer schedule blocks directly in Calendar.",
-      "step5Title": "Run reminders and WhatsApp follow-up",
-      "step5Detail": "Use Reminders for daily queue operations and keep WhatsApp send status updated."
-    },
-    "trainer": {
-      "step1Title": "Select active workspace",
-      "step1Detail": "Start from Workspaces and continue with your active workspace context.",
-      "step2Title": "Add your students",
-      "step2Detail": "Register students and keep status current so active lists stay clean.",
-      "step3Title": "Publish weekly programs",
-      "step3Detail": "Create program rows by day, sets, reps, and notes for each student.",
-      "step4Title": "Run your booking flow",
-      "step4Detail": "Create appointments and monitor the day/week plan from Calendar.",
-      "step5Title": "Execute reminders with manual confirmation",
-      "step5Detail": "Open WhatsApp from appointment/reminder context and manually mark sent/not-sent status."
+    "guide": {
+      "roles": {
+        "title": "Roles & Permissions",
+        "description": "Understand the three role levels and what each can access across the platform.",
+        "detail1": "Platform Admin — Has system-wide access including workspace approval management, all workspace data visibility, and platform-level configuration. This is the highest privilege level.",
+        "detail2": "Owner / Admin — Workspace owner who can manage trainers, view all student and appointment data within their workspace, access reports, and configure workspace settings.",
+        "detail3": "Trainer — Can manage their own students, create programs and appointments, handle reminders, and view their own calendar. Cannot see other trainers' data or access admin-level features.",
+        "tip": "Your system role (e.g. platform_admin) is separate from your workspace role (e.g. owner_admin, trainer). A platform admin can also hold a workspace-level role within specific workspaces."
+      },
+      "gettingStarted": {
+        "title": "Getting Started",
+        "description": "First steps to set up your account and start using the platform.",
+        "detail1": "Register a new account with your name, email, and password. A verification email will be sent — click the link to activate your account before logging in.",
+        "detail2": "After logging in, navigate to Workspaces. Select an existing workspace you've been invited to, or create a new one. New workspaces require platform admin approval before they become active.",
+        "detail3": "Once your workspace is approved and selected as active, the full navigation menu becomes available. Your dashboard will show live KPIs and today's schedule.",
+        "tip": "Keep your active workspace selection in mind — all data (students, appointments, programs) is scoped to the currently selected workspace."
+      },
+      "dashboard": {
+        "title": "Dashboard",
+        "description": "Central control panel showing workspace KPIs, trends, and today's activity at a glance.",
+        "detail1": "Eight KPI cards display real-time metrics: Active Students, Passive Students, Today's Appointments, Today No-Show, Attendance Rate, Upcoming (7 days), Reminders Sent Today, and Escalated Today.",
+        "detail2": "Today's Timeline shows all sessions planned for the current day in chronological order, giving you a quick overview of the day's schedule.",
+        "detail3": "Weekly Trends section compares this week's appointments vs. last week, tracks new student registrations, and shows overall completion rate.",
+        "detail4": "Admin-only panels include Top Trainers (top 5 by completed sessions this week), Trainer Overview (distribution and workload summary), and WhatsApp Delivery statistics (sent/not-sent rates for today)."
+      },
+      "trainers": {
+        "title": "Trainers",
+        "description": "Manage trainer accounts, monitor workload, and invite new trainers to your workspace.",
+        "detail1": "KPI summary cards show Total Trainers, Active Trainers, Students Assigned, Today's Sessions, and Average Students per Trainer at the top of the page.",
+        "detail2": "The trainer table lists all trainers with search (by name, email, or phone), membership status filter (active only or all), and columns for contact info, student count, today's sessions, and upcoming 7-day appointments.",
+        "detail3": "Use the Invite Trainer form to create a new trainer account with name, surname, email, phone, and password. The trainer can log in immediately with the provided credentials.",
+        "tip": "If you get an email error when inviting, the user may already have an account on the platform. Contact support to add them to your workspace."
+      },
+      "students": {
+        "title": "Students",
+        "description": "Create, edit, and manage student records within your active workspace.",
+        "detail1": "Add students with full name, phone number, and optional notes. Each student is scoped to the active workspace. Trainers see only their own students; admins see all.",
+        "detail2": "Toggle student status between Active and Passive. Passive students are hidden from default lists but remain in the system. Use the search bar (with debounce) to find students quickly by name or phone.",
+        "detail3": "Each student row provides quick actions: edit details, change status, open WhatsApp chat link, and view their timeline. Pagination keeps large lists manageable.",
+        "tip": "The WhatsApp icon next to each student opens a direct chat link using their phone number — no need to save contacts manually."
+      },
+      "studentDetail": {
+        "title": "Student Detail",
+        "description": "Comprehensive view of a single student with tabbed sections for all related data.",
+        "detail1": "Overview tab shows the student's current status, phone number, program count, and the date they joined the workspace.",
+        "detail2": "Programs tab lists all weekly programs assigned to this student with status indicators (draft, active, archived). Appointments tab shows their complete appointment history with status and series information.",
+        "detail3": "Timeline tab presents a chronological feed of all events related to this student — appointment changes, program updates, and status transitions — giving you a complete activity history."
+      },
+      "programs": {
+        "title": "Programs",
+        "description": "Build structured weekly exercise programs with day-based organization and template management.",
+        "detail1": "Create programs by selecting a student and defining a weekly structure. Each program contains items organized by day (Monday–Sunday), with fields for exercise name, sets, reps, rest period (seconds), and order.",
+        "detail2": "Template system lets you save any program as a reusable template. Later, create new programs from templates with a single click — select the template, choose the target week, and generate instantly.",
+        "detail3": "Copy Week feature duplicates an entire week's program to a new target week, saving time for recurring training plans. Select source week and target week, then copy all items.",
+        "detail4": "Program status follows a lifecycle: Draft (being prepared) → Active (in use) → Archived (completed). Change status directly from the program table with Activate or Archive actions.",
+        "tip": "Use templates for your most common training plans, then adjust details per student. This dramatically speeds up weekly program creation."
+      },
+      "appointments": {
+        "title": "Appointments",
+        "description": "Schedule individual or recurring sessions with conflict detection and WhatsApp integration.",
+        "detail1": "Create single appointments by selecting a student, setting start/end times, and optionally adding location and notes. The backend validates time slots against existing trainer and student schedules to prevent conflicts.",
+        "detail2": "Recurring Series generates multiple appointments using weekly or monthly frequency rules (RRule). Configure start date, time, frequency, interval, count, optional end date, and weekday selection.",
+        "detail3": "Appointment status flows through: Planned → Done / Cancelled / No-Show. Update individual appointments or use bulk status update by selecting multiple rows with checkboxes.",
+        "detail4": "WhatsApp integration shows send status per appointment (sent/not sent). Open WhatsApp directly from the row or mark send status manually to track communication.",
+        "detail5": "Each appointment creation uses an idempotency key to prevent duplicate submissions. If a duplicate key is detected with a different payload, you'll be prompted to retry from a fresh form.",
+        "tip": "For weekly recurring clients, use the Series feature to generate all appointments at once, then fine-tune individual sessions as needed."
+      },
+      "calendar": {
+        "title": "Calendar",
+        "description": "Visual schedule management with multiple view modes and interactive appointment details.",
+        "detail1": "Four view modes: Month (overview grid), Week (7-day columns), Day (hourly breakdown), and List (tabular operations view). Switch between them using the tab bar at the top.",
+        "detail2": "Filter appointments by student using the dropdown selector. Quick navigation buttons (Today, This Week, This Month) jump directly to common date ranges.",
+        "detail3": "Click any appointment on the calendar to see its details in the side panel, including student name, time, location, notes, and current status. The detail panel provides quick access to edit or update status."
+      },
+      "reminders": {
+        "title": "Reminders",
+        "description": "Automated reminder queue with status tracking, bulk operations, and retry/escalation support.",
+        "detail1": "Reminders are auto-generated for upcoming appointments. Filter by status: Pending (not yet due), Ready (due for sending), Sent (confirmed delivered), Missed (window passed), Cancelled, Failed, or Escalated.",
+        "detail2": "Individual actions per reminder: Mark as Opened, Mark as Sent, Requeue (send again), or Cancel. Each reminder tracks attempt count and next retry time.",
+        "detail3": "Bulk operations let you select multiple reminders and apply Mark Sent, Requeue, or Cancel to all at once. Use CSV Export to download the current filtered list for external analysis.",
+        "detail4": "Retry mechanism automatically requeues failed reminders. After multiple failures, reminders escalate to the Escalated status for manual attention. Toggle escalated/retry-due filters to focus on items needing action.",
+        "tip": "Check the Escalated filter regularly to catch reminders that need manual intervention — these are the ones that automated retries couldn't resolve."
+      },
+      "whatsapp": {
+        "title": "WhatsApp",
+        "description": "Bulk link generation and customizable message templates with dynamic placeholders.",
+        "detail1": "Bulk Links tab: Select a date to see all appointments for that day. Generate WhatsApp links for each appointment and track send status (Sent / Not Sent). Open WhatsApp directly or mark status manually.",
+        "detail2": "Message Templates tab: Create reusable message templates with dynamic placeholders. Available placeholders: {student_name}, {date}, {time}, {trainer_name}, {location}. Set one template as default for quick access.",
+        "detail3": "Templates support full CRUD operations — create, view, edit, and delete. Each template has a name, body text with placeholders, and a default flag. The default template is highlighted with a badge.",
+        "tip": "Design a concise default template for daily reminders, and create specialized templates for cancellations, rescheduling, or welcome messages."
+      },
+      "reports": {
+        "title": "Reports",
+        "description": "Workspace analytics with six report categories, flexible filtering, and CSV export.",
+        "detail1": "Six report tabs: Appointments (total/planned/done/cancelled/no-show), Students (total/active/passive/new), Programs (total/active/draft/archived), Reminders (total/sent/pending/missed/failed/escalated with rates).",
+        "detail2": "Trainer Performance tab (admin only) shows per-trainer metrics: total students, completed appointments, completion rate, no-show count, and reminder success rate.",
+        "detail3": "Student Retention tab tracks retention rate, churn rate, new students, churned students, average lifetime (days), and students without appointments in the last 30 days.",
+        "detail4": "All reports support date range selection (from/to), grouping by day/week/month, and trainer filter (admin only). Export any report view to CSV for external use.",
+        "tip": "Use weekly grouping with Trainer Performance to identify trends in trainer engagement and student retention patterns."
+      },
+      "workspaces": {
+        "title": "Workspaces",
+        "description": "Manage workspace selection, creation, and approval status.",
+        "detail1": "The workspace list shows all workspaces you have access to with member count and approval status. Click a workspace card to set it as your active workspace for the current session.",
+        "detail2": "Create a new workspace by providing a name. New workspace requests are sent for platform admin approval. Status is visible as Pending, Approved, or Rejected (with rejection note if applicable).",
+        "detail3": "Only approved workspaces can be opened and used. If your workspace is pending, wait for platform admin approval. Rejected workspaces display the admin's note explaining the reason.",
+        "tip": "You can be a member of multiple workspaces. Switch between them anytime from the Workspaces page — all data views update to reflect the selected workspace."
+      },
+      "workspaceSettings": {
+        "title": "Workspace Settings",
+        "description": "Configure workspace name and view member roster. Available to workspace owners and admins only.",
+        "detail1": "General section allows editing the workspace name and displays the current approval status. Changes are saved immediately.",
+        "detail2": "Members section lists all users who have access to this workspace, showing their name, email, role (owner_admin or trainer), and membership status."
+      },
+      "approvals": {
+        "title": "Workspace Approvals",
+        "description": "Review and process pending workspace creation requests. Platform admin exclusive feature.",
+        "detail1": "Lists all pending workspace requests with owner information and request date. Each request can be approved or rejected with an optional note to the workspace owner.",
+        "detail2": "Approved workspaces become immediately available for the requesting user. Rejected workspaces display your note so the owner understands the reason and can take action.",
+        "tip": "Add a clear note when rejecting a workspace request so the owner knows what to fix before resubmitting."
+      },
+      "profile": {
+        "title": "Profile",
+        "description": "Manage your personal account settings, avatar, password, and account deletion.",
+        "detail1": "Upload a profile avatar (max 2MB, JPEG/PNG/WebP). The system automatically resizes and generates a thumbnail. Remove your avatar anytime to revert to the default.",
+        "detail2": "Edit your personal information: name, surname, and phone number. Email is displayed but cannot be changed after registration.",
+        "detail3": "Change your password by entering your current password and the new one. Delete Account permanently removes your account and all associated data — this action requires password confirmation and cannot be undone."
+      },
+      "themeLanguage": {
+        "title": "Theme & Language",
+        "description": "Customize the application appearance and language to your preference.",
+        "detail1": "Toggle between Dark and Light mode using the theme switcher in the navigation bar. Your preference is saved and applied automatically on future visits.",
+        "detail2": "Switch between English and Turkish using the language selector. The change applies instantly without a page reload — all interface text updates in real time."
+      }
     }
   },
   "students": {

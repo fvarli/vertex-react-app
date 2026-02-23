@@ -123,48 +123,170 @@
   },
   "documentation": {
     "sectionLabel": "Kılavuz",
-    "title": "Dokümantasyon",
-    "description": "Vertex Coach içindeki {{area}} çalışma alanı deneyimi için role dayalı kullanım kılavuzu.",
+    "title": "Kullanım Kılavuzu",
+    "description": "Vertex Coach'un tüm özelliklerini kapsayan, rol erişim düzeyine göre düzenlenmiş kapsamlı kılavuz.",
+    "tocTitle": "İçindekiler",
+    "expandAll": "Tümünü aç",
+    "collapseAll": "Tümünü kapat",
     "user": "Kullanıcı",
-    "systemRole": "Sistem Rolü",
-    "workspaceRole": "Çalışma Alanı Rolü",
-    "activeWorkspaceId": "Aktif Çalışma Alanı ID",
+    "activeWorkspaceId": "Aktif Çalışma Alanı",
     "notSelected": "Seçilmedi",
-    "howToUse": "Uygulama nasıl kullanılır",
     "quickLinks": "Hızlı gezinme bağlantıları",
     "helpTitle": "Destek ipucu",
-    "helpBody": "Bir sayfa 403 dönerse önce aktif çalışma alanını ve rol kapsamını doğrula.",
+    "helpBody": "Bir sayfa 403 hatası dönerse önce aktif çalışma alanınızı ve rol kapsamınızı doğrulayın. Her özellik, sistem rolü ve çalışma alanı rolü kombinasyonunuza göre erişilebilir.",
+    "roles": {
+      "platformAdmin": "Platform Admin",
+      "ownerAdmin": "Sahip / Admin",
+      "trainer": "Antrenör",
+      "accessLabel": "Erişim"
+    },
     "links": {
+      "dashboard": "Panel",
       "workspaces": "Çalışma Alanları",
+      "trainers": "Antrenörler",
       "students": "Öğrenciler",
       "programs": "Programlar",
       "appointments": "Randevular",
       "reminders": "Hatırlatmalar",
-      "calendar": "Takvim"
+      "calendar": "Takvim",
+      "whatsapp": "WhatsApp",
+      "reports": "Raporlar",
+      "profile": "Profil"
     },
-    "admin": {
-      "step1Title": "Aktif çalışma alanını seç",
-      "step1Detail": "Çalışma Alanları sayfasından bu oturumda yöneteceğin alanı seç.",
-      "step2Title": "Öğrencileri yönet",
-      "step2Detail": "Öğrenci ekle-güncelle ve aktif/pasif durumunu güncel tut.",
-      "step3Title": "Haftalık programları planla",
-      "step3Detail": "Öğrenci bazlı program atayıp haftalık güncellemeleri tek yerde tut.",
-      "step4Title": "Randevu ve takvimi kontrol et",
-      "step4Detail": "Randevuları ve tekrarlı seri akışını takip et, antrenör takvim bloklarını doğrudan Takvimden gör.",
-      "step5Title": "Hatırlatmaları ve WhatsApp takibini yönet",
-      "step5Detail": "Hatırlatmalar ekranında günlük kuyruğu yönet ve WhatsApp gönderim durumlarını güncel tut."
-    },
-    "trainer": {
-      "step1Title": "Aktif çalışma alanını seç",
-      "step1Detail": "Çalışma Alanları ekranından başla ve aktif alan bağlamında devam et.",
-      "step2Title": "Öğrencilerini ekle",
-      "step2Detail": "Öğrenci kaydı oluştur ve aktif listelerin temiz kalması için durumlarını güncel tut.",
-      "step3Title": "Haftalık program yayınla",
-      "step3Detail": "Her öğrenci için gün/set/tekrar/not bazlı program satırları oluştur.",
-      "step4Title": "Rezervasyon akışını yönet",
-      "step4Detail": "Randevu oluştur ve gün/hafta planını Takvimden takip et.",
-      "step5Title": "Hatırlatma kuyruğunu uygula",
-      "step5Detail": "WhatsApp bağlantısını açtıktan sonra gönderim durumunu manuel olarak gönderildi/gönderilmedi şeklinde işaretle."
+    "guide": {
+      "roles": {
+        "title": "Roller ve Yetkiler",
+        "description": "Üç rol seviyesini ve her birinin platform genelinde nelere erişebildiğini anlayın.",
+        "detail1": "Platform Admin — Çalışma alanı onay yönetimi, tüm çalışma alanı verilerinin görünürlüğü ve platform düzeyinde yapılandırma dahil sistem genelinde erişime sahiptir. En yüksek yetki seviyesidir.",
+        "detail2": "Sahip / Admin — Antrenörleri yönetebilen, çalışma alanındaki tüm öğrenci ve randevu verilerini görebilen, raporlara erişebilen ve çalışma alanı ayarlarını yapılandırabilen çalışma alanı sahibidir.",
+        "detail3": "Antrenör — Kendi öğrencilerini yönetebilir, program ve randevu oluşturabilir, hatırlatmaları takip edebilir ve kendi takvimini görüntüleyebilir. Diğer antrenörlerin verilerini göremez veya admin düzeyindeki özelliklere erişemez.",
+        "tip": "Sistem rolünüz (ör. platform_admin) çalışma alanı rolünüzden (ör. owner_admin, trainer) ayrıdır. Bir platform admin, belirli çalışma alanlarında çalışma alanı düzeyinde bir role de sahip olabilir."
+      },
+      "gettingStarted": {
+        "title": "Başlarken",
+        "description": "Hesabınızı kurmak ve platformu kullanmaya başlamak için ilk adımlar.",
+        "detail1": "Adınız, e-postanız ve şifrenizle yeni bir hesap oluşturun. Bir doğrulama e-postası gönderilecektir — giriş yapmadan önce hesabınızı aktifleştirmek için bağlantıya tıklayın.",
+        "detail2": "Giriş yaptıktan sonra Çalışma Alanları sayfasına gidin. Davet edildiğiniz mevcut bir çalışma alanını seçin veya yeni bir tane oluşturun. Yeni çalışma alanları aktif hale gelmeden önce platform admin onayı gerektirir.",
+        "detail3": "Çalışma alanınız onaylanıp aktif olarak seçildikten sonra tam navigasyon menüsü kullanılabilir hale gelir. Paneliniz canlı KPI değerlerini ve bugünkü programı gösterecektir.",
+        "tip": "Aktif çalışma alanı seçiminizi aklınızda tutun — tüm veriler (öğrenciler, randevular, programlar) o anda seçili çalışma alanına bağlıdır."
+      },
+      "dashboard": {
+        "title": "Panel",
+        "description": "Çalışma alanı KPI'larını, trendleri ve günlük aktiviteyi tek bakışta gösteren merkezi kontrol paneli.",
+        "detail1": "Sekiz KPI kartı gerçek zamanlı metrikleri gösterir: Aktif Öğrenciler, Pasif Öğrenciler, Bugünkü Randevular, Bugün Gelmedi, Katılım Oranı, Yaklaşan (7 gün), Bugün Gönderilen Hatırlatmalar ve Bugün Eskale.",
+        "detail2": "Bugün Zaman Çizelgesi, mevcut gün için planlanan tüm seansları kronolojik sırayla göstererek günün programına hızlı bir genel bakış sunar.",
+        "detail3": "Haftalık Trendler bölümü bu haftanın randevularını geçen haftayla karşılaştırır, yeni öğrenci kayıtlarını takip eder ve genel tamamlanma oranını gösterir.",
+        "detail4": "Sadece admin panelleri: En İyi Antrenörler (bu hafta tamamlanan seanslara göre ilk 5), Antrenör Özeti (dağılım ve iş yükü özeti) ve WhatsApp Gönderim istatistikleri (bugünün gönderildi/gönderilmedi oranları)."
+      },
+      "trainers": {
+        "title": "Antrenörler",
+        "description": "Antrenör hesaplarını yönetin, iş yükünü izleyin ve çalışma alanınıza yeni antrenörler davet edin.",
+        "detail1": "KPI özet kartları sayfanın üstünde Toplam Antrenör, Aktif Antrenör, Atanan Öğrenci, Bugünkü Seans ve Antrenör Başına Ortalama Öğrenci sayılarını gösterir.",
+        "detail2": "Antrenör tablosu tüm antrenörleri arama (ad, e-posta veya telefon), üyelik durumu filtresi (sadece aktif veya tümü) ve iletişim bilgisi, öğrenci sayısı, bugünkü seans, yaklaşan 7 günlük randevu sütunlarıyla listeler.",
+        "detail3": "Antrenör Davet Et formunu kullanarak ad, soyad, e-posta, telefon ve şifre ile yeni bir antrenör hesabı oluşturun. Antrenör sağlanan bilgilerle hemen giriş yapabilir.",
+        "tip": "Davet ederken e-posta hatası alırsanız, kullanıcının platformda zaten bir hesabı olabilir. Çalışma alanınıza eklemek için destekle iletişime geçin."
+      },
+      "students": {
+        "title": "Öğrenciler",
+        "description": "Aktif çalışma alanınızdaki öğrenci kayıtlarını oluşturun, düzenleyin ve yönetin.",
+        "detail1": "Ad soyad, telefon numarası ve isteğe bağlı notlarla öğrenci ekleyin. Her öğrenci aktif çalışma alanına bağlıdır. Antrenörler yalnızca kendi öğrencilerini görür; adminler tümünü görür.",
+        "detail2": "Öğrenci durumunu Aktif ve Pasif arasında değiştirin. Pasif öğrenciler varsayılan listelerden gizlenir ancak sistemde kalır. Arama çubuğunu (debounce ile) kullanarak öğrencileri ad veya telefonla hızlıca bulun.",
+        "detail3": "Her öğrenci satırı hızlı işlemler sunar: bilgi düzenleme, durum değiştirme, WhatsApp sohbet bağlantısı açma ve zaman tünelini görüntüleme. Sayfalama büyük listeleri yönetilebilir tutar.",
+        "tip": "Her öğrencinin yanındaki WhatsApp simgesi, telefon numarasını kullanarak doğrudan sohbet bağlantısı açar — rehbere manuel kaydetmeye gerek yok."
+      },
+      "studentDetail": {
+        "title": "Öğrenci Detayı",
+        "description": "İlgili tüm veriler için sekmeli bölümlerle tek bir öğrencinin kapsamlı görünümü.",
+        "detail1": "Genel Bakış sekmesi öğrencinin mevcut durumunu, telefon numarasını, program sayısını ve çalışma alanına katılım tarihini gösterir.",
+        "detail2": "Programlar sekmesi bu öğrenciye atanan tüm haftalık programları durum göstergeleriyle (taslak, aktif, arşivlenmiş) listeler. Randevular sekmesi durum ve seri bilgisiyle tam randevu geçmişini gösterir.",
+        "detail3": "Zaman Tüneli sekmesi bu öğrenciyle ilgili tüm olayları kronolojik bir akış olarak sunar — randevu değişiklikleri, program güncellemeleri ve durum geçişleri — tam bir aktivite geçmişi sağlar."
+      },
+      "programs": {
+        "title": "Programlar",
+        "description": "Gün bazlı organizasyon ve şablon yönetimiyle yapılandırılmış haftalık egzersiz programları oluşturun.",
+        "detail1": "Bir öğrenci seçip haftalık yapı tanımlayarak program oluşturun. Her program güne (Pazartesi–Pazar) göre düzenlenmiş maddeler içerir; hareket adı, set, tekrar, dinlenme süresi (saniye) ve sıra alanlarıyla.",
+        "detail2": "Şablon sistemi herhangi bir programı yeniden kullanılabilir şablon olarak kaydetmenizi sağlar. Daha sonra şablonlardan tek tıkla yeni programlar oluşturun — şablonu seçin, hedef haftayı belirleyin ve anında oluşturun.",
+        "detail3": "Hafta Kopyala özelliği bir haftanın tüm programını yeni bir hedef haftaya kopyalayarak tekrarlayan antrenman planlarında zaman kazandırır. Kaynak ve hedef haftayı seçin, tüm maddeleri kopyalayın.",
+        "detail4": "Program durumu bir yaşam döngüsünü takip eder: Taslak (hazırlanıyor) → Aktif (kullanımda) → Arşivlenmiş (tamamlandı). Program tablosundan Aktif Et veya Arşivle işlemleriyle durumu doğrudan değiştirin.",
+        "tip": "En yaygın antrenman planlarınız için şablon kullanın, ardından öğrenci bazında detayları ayarlayın. Bu, haftalık program oluşturmayı önemli ölçüde hızlandırır."
+      },
+      "appointments": {
+        "title": "Randevular",
+        "description": "Çakışma algılama ve WhatsApp entegrasyonuyla tekli veya tekrarlı seanslar planlayın.",
+        "detail1": "Bir öğrenci seçip, başlangıç/bitiş saatlerini ayarlayarak ve isteğe bağlı konum ve not ekleyerek tekli randevu oluşturun. Backend, çakışmaları önlemek için mevcut antrenör ve öğrenci programlarına göre zaman dilimlerini doğrular.",
+        "detail2": "Tekrarlı Seri, haftalık veya aylık tekrar kurallarını (RRule) kullanarak çoklu randevu üretir. Başlangıç tarihi, saat, sıklık, aralık, adet, isteğe bağlı bitiş tarihi ve hafta günü seçimini yapılandırın.",
+        "detail3": "Randevu durumu şu akışı izler: Planlandı → Tamamlandı / İptal / Gelmedi. Tek tek randevuları güncelleyin veya onay kutularıyla birden fazla satır seçerek toplu durum güncellemesi yapın.",
+        "detail4": "WhatsApp entegrasyonu randevu başına gönderim durumunu (gönderildi/gönderilmedi) gösterir. Satırdan doğrudan WhatsApp açın veya iletişimi takip etmek için gönderim durumunu manuel olarak işaretleyin.",
+        "detail5": "Her randevu oluşturma, mükerrer gönderimleri önlemek için bir benzersizlik anahtarı kullanır. Farklı bir içerikle aynı anahtar algılanırsa, yeni form durumundan tekrar denemeniz istenecektir.",
+        "tip": "Haftalık düzenli müşteriler için Seri özelliğini kullanarak tüm randevuları tek seferde oluşturun, ardından gerektiğinde bireysel seansları ayarlayın."
+      },
+      "calendar": {
+        "title": "Takvim",
+        "description": "Birden fazla görünüm modu ve etkileşimli randevu detaylarıyla görsel program yönetimi.",
+        "detail1": "Dört görünüm modu: Ay (genel bakış ızgarası), Hafta (7 günlük sütunlar), Gün (saatlik dökümü) ve Liste (tablo operasyon görünümü). Üstteki sekme çubuğunu kullanarak aralarında geçiş yapın.",
+        "detail2": "Açılır menüdeki öğrenci seçiciyle randevuları filtreleyin. Hızlı gezinme düğmeleri (Bugün, Bu Hafta, Bu Ay) yaygın tarih aralıklarına doğrudan atlar.",
+        "detail3": "Takvimdeki herhangi bir randevuya tıklayarak yan panelde öğrenci adı, saat, konum, notlar ve mevcut durum dahil detaylarını görün. Detay paneli düzenleme veya durum güncelleme için hızlı erişim sağlar."
+      },
+      "reminders": {
+        "title": "Hatırlatmalar",
+        "description": "Durum takibi, toplu işlemler ve yeniden deneme/eskalasyon desteğiyle otomatik hatırlatma kuyruğu.",
+        "detail1": "Hatırlatmalar yaklaşan randevular için otomatik oluşturulur. Duruma göre filtreleyin: Beklemede (henüz zamanı gelmemiş), Hazır (gönderim zamanı), Gönderildi (teslim onaylandı), Atlandı (süre geçti), İptal, Hata veya Eskale.",
+        "detail2": "Hatırlatma başına bireysel işlemler: Açıldı İşaretle, Gönderildi İşaretle, Yeniden Kuyrukla (tekrar gönder) veya İptal Et. Her hatırlatma deneme sayısını ve sonraki yeniden deneme zamanını takip eder.",
+        "detail3": "Toplu işlemler birden fazla hatırlatma seçip hepsine Gönderildi İşaretle, Yeniden Kuyrukla veya İptal uygulmanıza olanak tanır. CSV Dışa Aktar ile mevcut filtrelenmiş listeyi harici analiz için indirin.",
+        "detail4": "Yeniden deneme mekanizması başarısız hatırlatmaları otomatik olarak tekrar kuyruğa alır. Birden fazla başarısızlıktan sonra hatırlatmalar manuel müdahale için Eskale durumuna geçer. Eylem gerektiren öğelere odaklanmak için eskale/yeniden deneme filtrelerini açın.",
+        "tip": "Manuel müdahale gerektiren hatırlatmaları yakalamak için Eskale filtresini düzenli kontrol edin — bunlar otomatik yeniden denemelerin çözemediği öğelerdir."
+      },
+      "whatsapp": {
+        "title": "WhatsApp",
+        "description": "Toplu bağlantı oluşturma ve dinamik yer tutucularla özelleştirilebilir mesaj şablonları.",
+        "detail1": "Toplu Linkler sekmesi: O günün tüm randevularını görmek için tarih seçin. Her randevu için WhatsApp bağlantıları oluşturun ve gönderim durumunu takip edin (Gönderildi / Gönderilmedi). WhatsApp'ı doğrudan açın veya durumu manuel olarak işaretleyin.",
+        "detail2": "Mesaj Şablonları sekmesi: Dinamik yer tutucularla yeniden kullanılabilir mesaj şablonları oluşturun. Kullanılabilir yer tutucular: {student_name}, {date}, {time}, {trainer_name}, {location}. Hızlı erişim için bir şablonu varsayılan olarak ayarlayın.",
+        "detail3": "Şablonlar tam CRUD işlemlerini destekler — oluşturma, görüntüleme, düzenleme ve silme. Her şablonun bir adı, yer tutuculu gövde metni ve varsayılan bayrağı vardır. Varsayılan şablon bir rozetle vurgulanır.",
+        "tip": "Günlük hatırlatmalar için kısa bir varsayılan şablon tasarlayın ve iptaller, yeniden planlama veya karşılama mesajları için özel şablonlar oluşturun."
+      },
+      "reports": {
+        "title": "Raporlar",
+        "description": "Altı rapor kategorisi, esnek filtreleme ve CSV dışa aktarma ile çalışma alanı analitiği.",
+        "detail1": "Altı rapor sekmesi: Randevular (toplam/planlanmış/tamamlandı/iptal/gelmedi), Öğrenciler (toplam/aktif/pasif/yeni), Programlar (toplam/aktif/taslak/arşivlenmiş), Hatırlatmalar (toplam/gönderildi/beklemede/atlandı/hata/eskale ve oranlar).",
+        "detail2": "Antrenör Performansı sekmesi (sadece admin) antrenör bazlı metrikleri gösterir: toplam öğrenci, tamamlanan randevu, tamamlanma oranı, gelmedi sayısı ve hatırlatma başarı oranı.",
+        "detail3": "Öğrenci Tutundurma sekmesi tutundurma oranını, kayıp oranını, yeni öğrencileri, kaybedilen öğrencileri, ortalama yaşam süresini (gün) ve son 30 günde randevusu olmayan öğrencileri takip eder.",
+        "detail4": "Tüm raporlar tarih aralığı seçimi (başlangıç/bitiş), güne/haftaya/aya göre gruplama ve antrenör filtresi (sadece admin) destekler. Herhangi bir rapor görünümünü harici kullanım için CSV olarak dışa aktarın.",
+        "tip": "Antrenör katılımı ve öğrenci tutundurma eğilimlerini belirlemek için Antrenör Performansı ile haftalık gruplamayı birlikte kullanın."
+      },
+      "workspaces": {
+        "title": "Çalışma Alanları",
+        "description": "Çalışma alanı seçimi, oluşturma ve onay durumu yönetimi.",
+        "detail1": "Çalışma alanı listesi erişiminiz olan tüm çalışma alanlarını üye sayısı ve onay durumuyla gösterir. Aktif çalışma alanınız olarak ayarlamak için bir çalışma alanı kartına tıklayın.",
+        "detail2": "Bir isim vererek yeni çalışma alanı oluşturun. Yeni çalışma alanı talepleri platform admin onayına gönderilir. Durum Beklemede, Onaylı veya Reddedildi (varsa red notu ile) olarak görünür.",
+        "detail3": "Yalnızca onaylı çalışma alanları açılıp kullanılabilir. Çalışma alanınız beklemedeyse platform admin onayını bekleyin. Reddedilen çalışma alanları sebebi açıklayan admin notunu gösterir.",
+        "tip": "Birden fazla çalışma alanının üyesi olabilirsiniz. Çalışma Alanları sayfasından istediğiniz zaman aralarında geçiş yapın — tüm veri görünümleri seçilen çalışma alanını yansıtacak şekilde güncellenir."
+      },
+      "workspaceSettings": {
+        "title": "Çalışma Alanı Ayarları",
+        "description": "Çalışma alanı adını yapılandırın ve üye listesini görüntüleyin. Yalnızca çalışma alanı sahipleri ve adminler erişebilir.",
+        "detail1": "Genel bölümü çalışma alanı adını düzenlemeye ve mevcut onay durumunu görüntülemeye olanak tanır. Değişiklikler anında kaydedilir.",
+        "detail2": "Üyeler bölümü bu çalışma alanına erişimi olan tüm kullanıcıları ad, e-posta, rol (owner_admin veya trainer) ve üyelik durumuyla listeler."
+      },
+      "approvals": {
+        "title": "Çalışma Alanı Onayları",
+        "description": "Bekleyen çalışma alanı oluşturma taleplerini inceleyin ve işleyin. Platform admin'e özel özellik.",
+        "detail1": "Sahip bilgisi ve talep tarihiyle birlikte tüm bekleyen çalışma alanı taleplerini listeler. Her talep, çalışma alanı sahibine isteğe bağlı bir notla onaylanabilir veya reddedilebilir.",
+        "detail2": "Onaylanan çalışma alanları talep eden kullanıcı için hemen kullanılabilir hale gelir. Reddedilen çalışma alanları notunuzu gösterir, böylece sahip nedenini anlayıp aksiyon alabilir.",
+        "tip": "Bir çalışma alanı talebini reddederken açık bir not ekleyin, böylece sahip yeniden göndermeden önce neyi düzeltmesi gerektiğini bilir."
+      },
+      "profile": {
+        "title": "Profil",
+        "description": "Kişisel hesap ayarlarınızı, avatarınızı, şifrenizi ve hesap silme işlemini yönetin.",
+        "detail1": "Profil avatarı yükleyin (maks 2MB, JPEG/PNG/WebP). Sistem otomatik olarak yeniden boyutlandırır ve küçük resim oluşturur. Varsayılana dönmek için avatarınızı istediğiniz zaman kaldırın.",
+        "detail2": "Kişisel bilgilerinizi düzenleyin: ad, soyad ve telefon numarası. E-posta görüntülenir ancak kayıttan sonra değiştirilemez.",
+        "detail3": "Mevcut şifrenizi ve yenisini girerek şifrenizi değiştirin. Hesabı Sil, hesabınızı ve tüm ilişkili verileri kalıcı olarak kaldırır — bu işlem şifre onayı gerektirir ve geri alınamaz."
+      },
+      "themeLanguage": {
+        "title": "Tema ve Dil",
+        "description": "Uygulama görünümünü ve dilini tercihinize göre özelleştirin.",
+        "detail1": "Navigasyon çubuğundaki tema değiştiriciyi kullanarak Karanlık ve Aydınlık mod arasında geçiş yapın. Tercihiniz kaydedilir ve sonraki ziyaretlerde otomatik olarak uygulanır.",
+        "detail2": "Dil seçiciyi kullanarak İngilizce ve Türkçe arasında geçiş yapın. Değişiklik sayfa yenilemesi olmadan anında uygulanır — tüm arayüz metni gerçek zamanlı olarak güncellenir."
+      }
     }
   },
   "students": {
