@@ -21,6 +21,10 @@ vi.mock('../features/workspace/access', () => ({
   useWorkspaceAccess: () => ({ canMutate: true, approvalMessage: null }),
 }))
 
+vi.mock('../features/toast/toast-context', () => ({
+  useToast: () => ({ addToast: vi.fn() }),
+}))
+
 function renderPage() {
   const client = new QueryClient({
     defaultOptions: { queries: { retry: false }, mutations: { retry: false } },
