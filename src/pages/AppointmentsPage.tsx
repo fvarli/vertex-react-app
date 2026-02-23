@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import dayjs from 'dayjs'
-import { useEffect, useMemo, useState } from 'react'
+import { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 import { Button } from '../components/ui/button'
@@ -91,9 +91,12 @@ export function AppointmentsPage() {
     [status, whatsappStatus, studentId, from, to, page],
   )
 
-  useEffect(() => {
+  const filterKey = `${status}|${whatsappStatus}|${studentId}|${from}|${to}|${page}`
+  const [prevFilterKey, setPrevFilterKey] = useState(filterKey)
+  if (prevFilterKey !== filterKey) {
+    setPrevFilterKey(filterKey)
     setSelectedIds([])
-  }, [status, whatsappStatus, studentId, from, to, page])
+  }
 
   const appointmentsQuery = useQuery({
     queryKey: ['appointments', filters],
