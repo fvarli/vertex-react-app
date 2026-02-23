@@ -10,6 +10,7 @@ export type ApiUser = {
   email: string
   phone?: string | null
   avatar?: string | null
+  avatar_thumb?: string | null
   is_active?: boolean
   system_role: SystemRole
   active_workspace_role: WorkspaceRole
