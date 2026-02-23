@@ -1,7 +1,7 @@
 import { api } from '../../lib/api'
-import type { NotificationListResponse, UnreadCountResponse } from './types'
+import type { AppNotification, NotificationListResponse, UnreadCountResponse } from './types'
 
-export async function listNotifications(params?: { unread_only?: boolean; per_page?: number }) {
+export async function listNotifications(params?: { unread_only?: boolean; per_page?: number }): Promise<AppNotification[]> {
   const response = await api.get<NotificationListResponse>('/me/notifications', {
     params: {
       unread_only: params?.unread_only ? 1 : 0,
@@ -9,10 +9,7 @@ export async function listNotifications(params?: { unread_only?: boolean; per_pa
     },
   })
 
-  return {
-    items: response.data.data,
-    meta: response.data.meta ?? {},
-  }
+  return response.data.data.data
 }
 
 export async function getUnreadCount(): Promise<number> {

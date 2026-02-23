@@ -71,7 +71,7 @@ export function NotificationBell() {
   }, [open])
 
   const unread = unreadQuery.data ?? 0
-  const notifications = listQuery.data?.items ?? []
+  const notifications = listQuery.data ?? []
 
   return (
     <div className="notification-wrap" ref={rootRef}>

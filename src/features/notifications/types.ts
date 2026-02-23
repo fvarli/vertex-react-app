@@ -11,7 +11,7 @@ export type AppNotification = {
   data: Record<string, unknown>
 }
 
-export type NotificationListResponse = ApiEnvelope<AppNotification[]>
+export type NotificationListResponse = ApiEnvelope<{ data: AppNotification[] }>
 
 export type UnreadCountResponse = ApiEnvelope<{
   count: number
