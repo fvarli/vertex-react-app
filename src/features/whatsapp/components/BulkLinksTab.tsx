@@ -2,16 +2,21 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import dayjs from 'dayjs'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { useNavigate } from 'react-router-dom'
 import { Badge } from '../../../components/ui/badge'
 import { Button } from '../../../components/ui/button'
 import { Skeleton } from '../../../components/ui/skeleton'
 import { Table, TBody, TD, TH, THead } from '../../../components/ui/table'
-import { extractApiMessage } from '../../../lib/api-errors'
+import { extractApiMessage, isForbidden } from '../../../lib/api-errors'
+import { useToast } from '../../toast/toast-context'
+import type { AppointmentWhatsappStatus } from '../../appointments/types'
 import { fetchBulkLinks, updateWhatsappStatus } from '../api'
 
 export function BulkLinksTab() {
   const { t } = useTranslation(['pages', 'common'])
+  const navigate = useNavigate()
   const queryClient = useQueryClient()
+  const { addToast } = useToast()
   const [date, setDate] = useState(() => dayjs().format('YYYY-MM-DD'))
 
   const query = useQuery({
@@ -20,11 +25,19 @@ export function BulkLinksTab() {
   })
 
   const statusMutation = useMutation({
-    mutationFn: ({ appointmentId, sent }: { appointmentId: number; sent: boolean }) =>
-      updateWhatsappStatus(appointmentId, sent),
+    mutationFn: ({ appointmentId, whatsappStatus }: { appointmentId: number; whatsappStatus: AppointmentWhatsappStatus }) =>
+      updateWhatsappStatus(appointmentId, whatsappStatus),
     onSuccess: async () => {
       await queryClient.invalidateQueries({ queryKey: ['whatsapp', 'bulk-links'] })
       await queryClient.invalidateQueries({ queryKey: ['dashboard', 'summary'] })
+    },
+    onError: (error) => {
+      if (isForbidden(error)) {
+        addToast(extractApiMessage(error, t('common:requestFailed')), 'error')
+        navigate('/workspaces', { replace: true })
+        return
+      }
+      addToast(extractApiMessage(error, t('common:requestFailed')), 'error')
     },
   })
 
@@ -92,7 +105,7 @@ export function BulkLinksTab() {
                           onClick={() =>
                             statusMutation.mutate({
                               appointmentId: item.appointment_id,
-                              sent: !item.whatsapp_sent,
+                              whatsappStatus: item.whatsapp_sent ? 'not_sent' : 'sent',
                             })
                           }
                         >
@@ -133,7 +146,7 @@ export function BulkLinksTab() {
                     onClick={() =>
                       statusMutation.mutate({
                         appointmentId: item.appointment_id,
-                        sent: !item.whatsapp_sent,
+                        whatsappStatus: item.whatsapp_sent ? 'not_sent' : 'sent',
                       })
                     }
                   >

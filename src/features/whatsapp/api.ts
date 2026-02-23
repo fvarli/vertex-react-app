@@ -1,5 +1,6 @@
 import { api } from '../../lib/api'
 import type { ApiEnvelope } from '../../lib/contracts'
+import type { AppointmentWhatsappStatus } from '../appointments/types'
 import type { BulkLinkItem, MessageTemplate, MessageTemplateFormData } from './types'
 
 export async function fetchBulkLinks(date: string): Promise<BulkLinkItem[]> {
@@ -9,9 +10,9 @@ export async function fetchBulkLinks(date: string): Promise<BulkLinkItem[]> {
   return response.data.data
 }
 
-export async function updateWhatsappStatus(appointmentId: number, sent: boolean): Promise<void> {
+export async function updateWhatsappStatus(appointmentId: number, whatsappStatus: AppointmentWhatsappStatus): Promise<void> {
   await api.patch(`/appointments/${appointmentId}/whatsapp-status`, {
-    whatsapp_sent: sent,
+    whatsapp_status: whatsappStatus,
   })
 }
 

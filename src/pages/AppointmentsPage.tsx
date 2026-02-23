@@ -25,6 +25,7 @@ import { extractApiMessage, extractValidationErrors, isForbidden, isValidationEr
 import { Dialog } from '../components/ui/dialog'
 import { AppointmentDetailDialog } from '../features/appointments/components/AppointmentDetailDialog'
 import { useWorkspaceAccess } from '../features/workspace/access'
+import { useToast } from '../features/toast/toast-context'
 
 function toLocalInput(value: string): string {
   return dayjs(value).format('YYYY-MM-DDTHH:mm')
@@ -39,6 +40,7 @@ export function AppointmentsPage() {
   const navigate = useNavigate()
   const queryClient = useQueryClient()
   const { canMutate, approvalMessage } = useWorkspaceAccess()
+  const { addToast } = useToast()
 
   const [status, setStatus] = useState<AppointmentStatus | 'all'>('all')
   const [whatsappStatus, setWhatsappStatus] = useState<AppointmentWhatsappStatus | 'all'>('all')
@@ -115,6 +117,7 @@ export function AppointmentsPage() {
     },
     onError: (error) => {
       if (isForbidden(error)) {
+        addToast(extractApiMessage(error, t('common:requestFailed')), 'error')
         navigate('/workspaces', { replace: true })
         return
       }
@@ -151,6 +154,7 @@ export function AppointmentsPage() {
     },
     onError: (error) => {
       if (isForbidden(error)) {
+        addToast(extractApiMessage(error, t('common:requestFailed')), 'error')
         navigate('/workspaces', { replace: true })
         return
       }
@@ -181,6 +185,7 @@ export function AppointmentsPage() {
     },
     onError: (error) => {
       if (isForbidden(error)) {
+        addToast(extractApiMessage(error, t('common:requestFailed')), 'error')
         navigate('/workspaces', { replace: true })
         return
       }
@@ -199,6 +204,7 @@ export function AppointmentsPage() {
     },
     onError: (error) => {
       if (isForbidden(error)) {
+        addToast(extractApiMessage(error, t('common:requestFailed')), 'error')
         navigate('/workspaces', { replace: true })
         return
       }
@@ -216,6 +222,7 @@ export function AppointmentsPage() {
     },
     onError: (error) => {
       if (isForbidden(error)) {
+        addToast(extractApiMessage(error, t('common:requestFailed')), 'error')
         navigate('/workspaces', { replace: true })
         return
       }
@@ -232,6 +239,7 @@ export function AppointmentsPage() {
     },
     onError: (error) => {
       if (isForbidden(error)) {
+        addToast(extractApiMessage(error, t('common:requestFailed')), 'error')
         navigate('/workspaces', { replace: true })
         return
       }
@@ -250,6 +258,7 @@ export function AppointmentsPage() {
     },
     onError: (error) => {
       if (isForbidden(error)) {
+        addToast(extractApiMessage(error, t('common:requestFailed')), 'error')
         navigate('/workspaces', { replace: true })
         return
       }
