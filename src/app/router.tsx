@@ -1,69 +1,77 @@
+import { lazy, Suspense } from 'react'
 import { createBrowserRouter } from 'react-router-dom'
 import { AppLayout } from '../components/AppLayout'
+import { LoadingScreen } from '../components/LoadingScreen'
 import { RoleAwareRedirect } from '../components/RoleAwareRedirect'
 import { AdminRoute, ProtectedRoute, TrainerRoute, WorkspaceRoute } from '../components/RouteGuards'
-import { AppointmentsPage } from '../pages/AppointmentsPage'
-import { CalendarPage } from '../pages/CalendarPage'
-import { DashboardPage } from '../pages/DashboardPage'
-import { DocumentationPage } from '../pages/DocumentationPage'
 import { ForbiddenPage } from '../pages/ForbiddenPage'
 import { ForgotPasswordPage } from '../pages/ForgotPasswordPage'
 import { LoginPage } from '../pages/LoginPage'
 import { NotFoundPage } from '../pages/NotFoundPage'
-import { ProfilePage } from '../pages/ProfilePage'
 import { RegisterPage } from '../pages/RegisterPage'
 import { ResetPasswordPage } from '../pages/ResetPasswordPage'
 import { VerifyEmailPage } from '../pages/VerifyEmailPage'
-import { ProgramsPage } from '../pages/ProgramsPage'
-import { RemindersPage } from '../pages/RemindersPage'
-import { ReportsPage } from '../pages/ReportsPage'
-import { StudentDetailPage } from '../pages/StudentDetailPage'
-import { StudentsPage } from '../pages/StudentsPage'
-import { TrainersPage } from '../pages/TrainersPage'
-import { WorkspacePage } from '../pages/WorkspacePage'
-import { WhatsAppPage } from '../pages/WhatsAppPage'
-import { WorkspaceSettingsPage } from '../pages/WorkspaceSettingsPage'
-import { AdminApprovalPage } from '../pages/AdminApprovalPage'
+
+// Lazy-loaded pages (authenticated area — reduces initial bundle size)
+const AdminApprovalPage = lazy(() => import('../pages/AdminApprovalPage').then(m => ({ default: m.AdminApprovalPage })))
+const AppointmentsPage = lazy(() => import('../pages/AppointmentsPage').then(m => ({ default: m.AppointmentsPage })))
+const CalendarPage = lazy(() => import('../pages/CalendarPage').then(m => ({ default: m.CalendarPage })))
+const DashboardPage = lazy(() => import('../pages/DashboardPage').then(m => ({ default: m.DashboardPage })))
+const DocumentationPage = lazy(() => import('../pages/DocumentationPage').then(m => ({ default: m.DocumentationPage })))
+const ProfilePage = lazy(() => import('../pages/ProfilePage').then(m => ({ default: m.ProfilePage })))
+const ProgramsPage = lazy(() => import('../pages/ProgramsPage').then(m => ({ default: m.ProgramsPage })))
+const RemindersPage = lazy(() => import('../pages/RemindersPage').then(m => ({ default: m.RemindersPage })))
+const ReportsPage = lazy(() => import('../pages/ReportsPage').then(m => ({ default: m.ReportsPage })))
+const StudentDetailPage = lazy(() => import('../pages/StudentDetailPage').then(m => ({ default: m.StudentDetailPage })))
+const StudentsPage = lazy(() => import('../pages/StudentsPage').then(m => ({ default: m.StudentsPage })))
+const TrainersPage = lazy(() => import('../pages/TrainersPage').then(m => ({ default: m.TrainersPage })))
+const WhatsAppPage = lazy(() => import('../pages/WhatsAppPage').then(m => ({ default: m.WhatsAppPage })))
+const WorkspacePage = lazy(() => import('../pages/WorkspacePage').then(m => ({ default: m.WorkspacePage })))
+const WorkspaceSettingsPage = lazy(() => import('../pages/WorkspaceSettingsPage').then(m => ({ default: m.WorkspaceSettingsPage })))
+
+function SuspensePage({ children }: { children: React.ReactNode }) {
+  return <Suspense fallback={<LoadingScreen />}>{children}</Suspense>
+}
 
 const adminChildren = [
-  { path: '/admin/profile', element: <ProfilePage /> },
-  { path: '/admin/workspaces', element: <WorkspacePage /> },
-  { path: '/admin/approval', element: <AdminApprovalPage /> },
-  { path: '/admin/documentation', element: <DocumentationPage area="admin" /> },
+  { path: '/admin/profile', element: <SuspensePage><ProfilePage /></SuspensePage> },
+  { path: '/admin/workspaces', element: <SuspensePage><WorkspacePage /></SuspensePage> },
+  { path: '/admin/approval', element: <SuspensePage><AdminApprovalPage /></SuspensePage> },
+  { path: '/admin/documentation', element: <SuspensePage><DocumentationPage area="admin" /></SuspensePage> },
   {
     element: <WorkspaceRoute area="admin" />,
     children: [
-      { path: '/admin/dashboard', element: <DashboardPage /> },
-      { path: '/admin/trainers', element: <TrainersPage /> },
-      { path: '/admin/students', element: <StudentsPage /> },
-      { path: '/admin/students/:id', element: <StudentDetailPage /> },
-      { path: '/admin/programs', element: <ProgramsPage /> },
-      { path: '/admin/appointments', element: <AppointmentsPage /> },
-      { path: '/admin/reminders', element: <RemindersPage /> },
-      { path: '/admin/calendar', element: <CalendarPage /> },
-      { path: '/admin/whatsapp', element: <WhatsAppPage /> },
-      { path: '/admin/reports', element: <ReportsPage /> },
-      { path: '/admin/workspace-settings', element: <WorkspaceSettingsPage /> },
+      { path: '/admin/dashboard', element: <SuspensePage><DashboardPage /></SuspensePage> },
+      { path: '/admin/trainers', element: <SuspensePage><TrainersPage /></SuspensePage> },
+      { path: '/admin/students', element: <SuspensePage><StudentsPage /></SuspensePage> },
+      { path: '/admin/students/:id', element: <SuspensePage><StudentDetailPage /></SuspensePage> },
+      { path: '/admin/programs', element: <SuspensePage><ProgramsPage /></SuspensePage> },
+      { path: '/admin/appointments', element: <SuspensePage><AppointmentsPage /></SuspensePage> },
+      { path: '/admin/reminders', element: <SuspensePage><RemindersPage /></SuspensePage> },
+      { path: '/admin/calendar', element: <SuspensePage><CalendarPage /></SuspensePage> },
+      { path: '/admin/whatsapp', element: <SuspensePage><WhatsAppPage /></SuspensePage> },
+      { path: '/admin/reports', element: <SuspensePage><ReportsPage /></SuspensePage> },
+      { path: '/admin/workspace-settings', element: <SuspensePage><WorkspaceSettingsPage /></SuspensePage> },
     ],
   },
 ]
 
 const trainerChildren = [
-  { path: '/trainer/profile', element: <ProfilePage /> },
-  { path: '/trainer/workspaces', element: <WorkspacePage /> },
-  { path: '/trainer/documentation', element: <DocumentationPage area="trainer" /> },
+  { path: '/trainer/profile', element: <SuspensePage><ProfilePage /></SuspensePage> },
+  { path: '/trainer/workspaces', element: <SuspensePage><WorkspacePage /></SuspensePage> },
+  { path: '/trainer/documentation', element: <SuspensePage><DocumentationPage area="trainer" /></SuspensePage> },
   {
     element: <WorkspaceRoute area="trainer" />,
     children: [
-      { path: '/trainer/dashboard', element: <DashboardPage /> },
-      { path: '/trainer/students', element: <StudentsPage /> },
-      { path: '/trainer/students/:id', element: <StudentDetailPage /> },
-      { path: '/trainer/programs', element: <ProgramsPage /> },
-      { path: '/trainer/appointments', element: <AppointmentsPage /> },
-      { path: '/trainer/reminders', element: <RemindersPage /> },
-      { path: '/trainer/calendar', element: <CalendarPage /> },
-      { path: '/trainer/whatsapp', element: <WhatsAppPage /> },
-      { path: '/trainer/reports', element: <ReportsPage /> },
+      { path: '/trainer/dashboard', element: <SuspensePage><DashboardPage /></SuspensePage> },
+      { path: '/trainer/students', element: <SuspensePage><StudentsPage /></SuspensePage> },
+      { path: '/trainer/students/:id', element: <SuspensePage><StudentDetailPage /></SuspensePage> },
+      { path: '/trainer/programs', element: <SuspensePage><ProgramsPage /></SuspensePage> },
+      { path: '/trainer/appointments', element: <SuspensePage><AppointmentsPage /></SuspensePage> },
+      { path: '/trainer/reminders', element: <SuspensePage><RemindersPage /></SuspensePage> },
+      { path: '/trainer/calendar', element: <SuspensePage><CalendarPage /></SuspensePage> },
+      { path: '/trainer/whatsapp', element: <SuspensePage><WhatsAppPage /></SuspensePage> },
+      { path: '/trainer/reports', element: <SuspensePage><ReportsPage /></SuspensePage> },
     ],
   },
 ]
@@ -112,4 +120,8 @@ export const router = createBrowserRouter([
     ],
   },
   { path: '*', element: <NotFoundPage /> },
-])
+], {
+  future: {
+    v7_relativeSplatPath: true,
+  },
+})

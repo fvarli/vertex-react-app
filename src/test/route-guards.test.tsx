@@ -26,7 +26,7 @@ describe('RouteGuards', () => {
     mocks.useAuth.mockReturnValue({ isAdminArea: false })
 
     render(
-      <MemoryRouter initialEntries={['/admin/dashboard']}>
+      <MemoryRouter initialEntries={['/admin/dashboard']} future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
         <Routes>
           <Route element={<AdminRoute />}>
             <Route path="/admin/dashboard" element={<div>Admin page</div>} />
@@ -43,7 +43,7 @@ describe('RouteGuards', () => {
     mocks.useAuth.mockReturnValue({ isAdminArea: true })
 
     render(
-      <MemoryRouter initialEntries={['/trainer/dashboard']}>
+      <MemoryRouter initialEntries={['/trainer/dashboard']} future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
         <Routes>
           <Route element={<TrainerRoute />}>
             <Route path="/trainer/dashboard" element={<div>Trainer page</div>} />
@@ -60,7 +60,7 @@ describe('RouteGuards', () => {
     mocks.getActiveWorkspaceId.mockReturnValue(null)
 
     render(
-      <MemoryRouter initialEntries={['/admin/students']}>
+      <MemoryRouter initialEntries={['/admin/students']} future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
         <Routes>
           <Route element={<WorkspaceRoute area="admin" />}>
             <Route path="/admin/students" element={<div>Students page</div>} />

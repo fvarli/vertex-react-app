@@ -20,7 +20,7 @@ describe('RoleAwareRedirect', () => {
     mocks.useAuth.mockReturnValue({ isReady: true, isAdminArea: true })
 
     render(
-      <MemoryRouter initialEntries={['/']}>
+      <MemoryRouter initialEntries={['/']} future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
         <Routes>
           <Route path="/" element={<RoleAwareRedirect adminPath="/admin/workspaces" trainerPath="/trainer/workspaces" />} />
           <Route path="/admin/workspaces" element={<div>Admin workspace</div>} />
@@ -36,7 +36,7 @@ describe('RoleAwareRedirect', () => {
     mocks.useAuth.mockReturnValue({ isReady: true, isAdminArea: false })
 
     render(
-      <MemoryRouter initialEntries={['/dashboard']}>
+      <MemoryRouter initialEntries={['/dashboard']} future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
         <Routes>
           <Route path="/dashboard" element={<RoleAwareRedirect adminPath="/admin/dashboard" trainerPath="/trainer/dashboard" />} />
           <Route path="/admin/dashboard" element={<div>Admin dashboard</div>} />

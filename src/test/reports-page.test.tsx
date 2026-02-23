@@ -27,7 +27,7 @@ function renderPage() {
   })
 
   return render(
-    <MemoryRouter initialEntries={['/trainer/reports']}>
+    <MemoryRouter initialEntries={['/trainer/reports']} future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
       <QueryClientProvider client={client}>
         <ReportsPage />
       </QueryClientProvider>
