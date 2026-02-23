@@ -111,9 +111,18 @@ type RetryConfig = AxiosRequestConfig & { _retry?: boolean }
 api.interceptors.response.use(
   (response) => response,
   async (error) => {
+    const requestId = error.config?.headers?.['X-Request-Id']
+      ?? error.response?.headers?.['x-request-id']
+    if (requestId) {
+      error.requestId = requestId
+    }
+
     const original = error.config as RetryConfig | undefined
 
     if (error.response?.status !== 401 || !original || original._retry || isAuthEndpoint(original.url)) {
+      if (requestId) {
+        console.error(`[API Error] X-Request-Id: ${requestId}`, error.message)
+      }
       return Promise.reject(error)
     }
 

@@ -1,4 +1,4 @@
-import { AxiosError } from 'axios'
+import { AxiosError, isAxiosError } from 'axios'
 
 type ApiErrorPayload = {
   message?: string
@@ -32,4 +32,12 @@ export function extractValidationErrors(error: unknown): Record<string, string[]
   const errors = (error.response?.data as ApiErrorPayload | undefined)?.errors
   if (!errors || typeof errors !== 'object') return {}
   return errors
+}
+
+export function extractRequestId(error: unknown): string | undefined {
+  if (isAxiosError(error)) {
+    return (error as AxiosError & { requestId?: string }).requestId
+      ?? error.config?.headers?.['X-Request-Id'] as string | undefined
+  }
+  return undefined
 }
