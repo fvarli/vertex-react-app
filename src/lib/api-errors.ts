@@ -7,7 +7,17 @@ type ApiErrorPayload = {
 
 export function extractApiMessage(error: unknown, fallback: string): string {
   if (!(error instanceof AxiosError)) return fallback
-  const message = (error.response?.data as ApiErrorPayload | undefined)?.message
+  const data = error.response?.data as ApiErrorPayload | undefined
+
+  if (error.response?.status === 422 && data?.errors) {
+    const firstField = Object.keys(data.errors)[0]
+    const firstMessage = firstField ? data.errors[firstField]?.[0] : undefined
+    if (typeof firstMessage === 'string' && firstMessage.trim() !== '') {
+      return firstMessage
+    }
+  }
+
+  const message = data?.message
   return typeof message === 'string' && message.trim() !== '' ? message : fallback
 }
 

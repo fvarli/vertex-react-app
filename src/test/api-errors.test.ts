@@ -28,5 +28,47 @@ describe('api-errors', () => {
 
     expect(extractValidationErrors(err)).toEqual({ field: ['message'] })
   })
+
+  it('prefers field error over generic message on 422', () => {
+    const err = new axios.AxiosError('failed', undefined, undefined, undefined, {
+      status: 422,
+      statusText: 'Unprocessable Entity',
+      headers: {},
+      config: { headers: new axios.AxiosHeaders() },
+      data: {
+        message: 'Validation failed.',
+        errors: { status: ['Future appointments cannot be marked as done or no_show.'] },
+      },
+    })
+
+    expect(extractApiMessage(err, 'fallback')).toBe('Future appointments cannot be marked as done or no_show.')
+  })
+
+  it('falls back to message when 422 errors object is empty', () => {
+    const err = new axios.AxiosError('failed', undefined, undefined, undefined, {
+      status: 422,
+      statusText: 'Unprocessable Entity',
+      headers: {},
+      config: { headers: new axios.AxiosHeaders() },
+      data: { message: 'Validation failed.', errors: {} },
+    })
+
+    expect(extractApiMessage(err, 'fallback')).toBe('Validation failed.')
+  })
+
+  it('does not prefer field errors for non-422 status codes', () => {
+    const err = new axios.AxiosError('failed', undefined, undefined, undefined, {
+      status: 400,
+      statusText: 'Bad Request',
+      headers: {},
+      config: { headers: new axios.AxiosHeaders() },
+      data: {
+        message: 'Bad request.',
+        errors: { field: ['Should not be returned.'] },
+      },
+    })
+
+    expect(extractApiMessage(err, 'fallback')).toBe('Bad request.')
+  })
 })
 
