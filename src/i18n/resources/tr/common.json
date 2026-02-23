@@ -24,5 +24,6 @@
   "page": "Sayfa",
   "total": "Toplam",
   "requestFailed": "İstek başarısız oldu. Lütfen tekrar deneyin.",
-  "selectStudent": "Öğrenci seç"
+  "selectStudent": "Öğrenci seç",
+  "selected": "seçili"
 }

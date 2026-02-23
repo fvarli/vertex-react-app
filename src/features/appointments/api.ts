@@ -7,10 +7,12 @@ import type {
   AppointmentPayload,
   AppointmentSeriesCreateResponse,
   AppointmentSeriesPayload,
+  AppointmentStatus,
   AppointmentStatusPayload,
   AppointmentWhatsappStatusPayload,
   AppointmentUpdatePayload,
   CalendarPayload,
+  CursorPaginated,
   Paginated,
 } from './types'
 
@@ -62,6 +64,24 @@ export async function updateAppointmentStatus(appointmentId: number, payload: Ap
 
 export async function updateAppointmentWhatsappStatus(appointmentId: number, payload: AppointmentWhatsappStatusPayload): Promise<Appointment> {
   const response = await api.patch<ApiEnvelope<Appointment>>(`/appointments/${appointmentId}/whatsapp-status`, payload)
+  return response.data.data
+}
+
+export async function bulkUpdateAppointmentStatus(payload: { ids: number[]; status: AppointmentStatus }): Promise<{ updated_count: number; skipped_ids: number[] }> {
+  const response = await api.patch<ApiEnvelope<{ updated_count: number; skipped_ids: number[] }>>('/appointments/bulk-status', payload)
+  return response.data.data
+}
+
+export async function listAppointmentsCursor(params: AppointmentListParams): Promise<CursorPaginated<Appointment>> {
+  const { cursor, ...rest } = params
+  const query = compactQuery({
+    ...rest,
+    status: rest.status === 'all' ? undefined : rest.status,
+    whatsapp_status: rest.whatsapp_status === 'all' ? undefined : rest.whatsapp_status,
+    cursor,
+  })
+
+  const response = await api.get<ApiEnvelope<CursorPaginated<Appointment>>>('/appointments', { params: query })
   return response.data.data
 }
 

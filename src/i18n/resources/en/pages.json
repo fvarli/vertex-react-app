@@ -287,6 +287,8 @@
     "noticeWhatsappOpened": "Opening WhatsApp link...",
     "noticeWhatsappStatus": "WhatsApp send status updated.",
     "needStudent": "Please select student.",
+    "needSelection": "Select at least one appointment.",
+    "bulkStatusUpdated": "Bulk status updated for {{count}} appointments.",
     "table": {
       "id": "ID",
       "student": "Student",

@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import dayjs from 'dayjs'
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 import { Button } from '../components/ui/button'
@@ -10,6 +10,7 @@ import { Select } from '../components/ui/select'
 import { Skeleton } from '../components/ui/skeleton'
 import { TBody, TD, TH, THead, Table } from '../components/ui/table'
 import {
+  bulkUpdateAppointmentStatus,
   createAppointment,
   createAppointmentSeries,
   getAppointmentWhatsappLink,
@@ -69,6 +70,7 @@ export function AppointmentsPage() {
 
   const [detailTarget, setDetailTarget] = useState<Appointment | null>(null)
   const [cancelConfirmId, setCancelConfirmId] = useState<number | null>(null)
+  const [selectedIds, setSelectedIds] = useState<number[]>([])
 
   const [notice, setNotice] = useState<string | null>(null)
   const [errorNotice, setErrorNotice] = useState<string | null>(null)
@@ -86,6 +88,10 @@ export function AppointmentsPage() {
     }),
     [status, whatsappStatus, studentId, from, to, page],
   )
+
+  useEffect(() => {
+    setSelectedIds([])
+  }, [status, whatsappStatus, studentId, from, to, page])
 
   const appointmentsQuery = useQuery({
     queryKey: ['appointments', filters],
@@ -233,9 +239,50 @@ export function AppointmentsPage() {
     },
   })
 
+  const bulkStatusMutation = useMutation({
+    mutationFn: bulkUpdateAppointmentStatus,
+    onSuccess: async (data) => {
+      setNotice(t('pages:appointments.bulkStatusUpdated', { count: data.updated_count }))
+      setErrorNotice(null)
+      setSelectedIds([])
+      await queryClient.invalidateQueries({ queryKey: ['appointments'] })
+      await queryClient.invalidateQueries({ queryKey: ['calendar'] })
+    },
+    onError: (error) => {
+      if (isForbidden(error)) {
+        navigate('/workspaces', { replace: true })
+        return
+      }
+      setErrorNotice(extractApiMessage(error, t('common:requestFailed')))
+    },
+  })
+
   const pagination = appointmentsQuery.data
   const appointments = pagination?.data ?? []
   const students = studentsQuery.data?.data ?? []
+
+  const allSelected = appointments.length > 0 && appointments.every((a) => selectedIds.includes(a.id))
+
+  function toggleSelect(id: number) {
+    setSelectedIds((prev) => (prev.includes(id) ? prev.filter((v) => v !== id) : [...prev, id]))
+  }
+
+  function toggleSelectAll() {
+    if (allSelected) {
+      setSelectedIds([])
+      return
+    }
+    setSelectedIds(appointments.map((a) => a.id))
+  }
+
+  async function handleBulkStatus(nextStatus: AppointmentStatus) {
+    if (!canMutate) return
+    if (selectedIds.length === 0) {
+      setErrorNotice(t('pages:appointments.needSelection'))
+      return
+    }
+    await bulkStatusMutation.mutateAsync({ ids: selectedIds, status: nextStatus })
+  }
 
   function openCreateForm() {
     setIsEditing(false)
@@ -393,17 +440,35 @@ export function AppointmentsPage() {
           </div>
         ) : (
           <div className="space-y-3">
+            {selectedIds.length > 0 ? (
+              <div className="flex flex-wrap items-center gap-2 rounded-xl border border-border/70 bg-background/55 p-3">
+                <span className="text-sm text-muted">{selectedIds.length} {t('common:selected')}</span>
+                <Button size="sm" variant="secondary" onClick={() => void handleBulkStatus('done')} disabled={bulkStatusMutation.isPending || !canMutate}>
+                  {t('common:done')}
+                </Button>
+                <Button size="sm" variant="outline" onClick={() => void handleBulkStatus('no_show')} disabled={bulkStatusMutation.isPending || !canMutate}>
+                  {t('pages:appointments.table.noShow')}
+                </Button>
+                <Button size="sm" variant="danger" onClick={() => void handleBulkStatus('cancelled')} disabled={bulkStatusMutation.isPending || !canMutate}>
+                  {t('pages:appointments.table.cancel')}
+                </Button>
+              </div>
+            ) : null}
+
             <div className="grid gap-3 md:hidden">
               {appointments.map((appointment) => (
                 <div key={appointment.id} className="rounded-xl border border-border/70 bg-card/75 p-3">
                   <div className="flex items-start justify-between gap-2">
-                    <div>
-                      <p className="text-sm font-semibold text-foreground">
-                        {students.find((student) => student.id === appointment.student_id)?.full_name ?? `${t('pages:appointments.table.student')} #${appointment.student_id}`}
-                      </p>
-                      <p className="text-xs text-muted">{formatDate(appointment.starts_at)}</p>
-                      <p className="text-xs text-muted">{formatDate(appointment.ends_at)}</p>
-                      {appointment.series_id ? <p className="text-xs text-primary">Series #{appointment.series_id}</p> : null}
+                    <div className="flex items-start gap-2">
+                      <input type="checkbox" checked={selectedIds.includes(appointment.id)} onChange={() => toggleSelect(appointment.id)} className="mt-1" />
+                      <div>
+                        <p className="text-sm font-semibold text-foreground">
+                          {students.find((student) => student.id === appointment.student_id)?.full_name ?? `${t('pages:appointments.table.student')} #${appointment.student_id}`}
+                        </p>
+                        <p className="text-xs text-muted">{formatDate(appointment.starts_at)}</p>
+                        <p className="text-xs text-muted">{formatDate(appointment.ends_at)}</p>
+                        {appointment.series_id ? <p className="text-xs text-primary">Series #{appointment.series_id}</p> : null}
+                      </div>
                     </div>
                     <div className="flex flex-col items-end gap-1">
                       <Badge variant={appointment.status === 'done' ? 'success' : 'muted'}>{t(`common:${appointment.status}`)}</Badge>
@@ -452,6 +517,7 @@ export function AppointmentsPage() {
               <Table>
                 <THead>
                   <tr>
+                    <TH><input type="checkbox" checked={allSelected} onChange={toggleSelectAll} /></TH>
                     <TH>{t('pages:appointments.table.id')}</TH>
                     <TH>{t('pages:appointments.table.student')}</TH>
                     <TH>{t('pages:appointments.table.start')}</TH>
@@ -465,6 +531,7 @@ export function AppointmentsPage() {
                 <TBody>
                   {appointments.map((appointment) => (
                     <tr key={appointment.id}>
+                      <TD><input type="checkbox" checked={selectedIds.includes(appointment.id)} onChange={() => toggleSelect(appointment.id)} /></TD>
                       <TD>#{appointment.id}</TD>
                       <TD>{students.find((student) => student.id === appointment.student_id)?.full_name ?? appointment.student_id}</TD>
                       <TD>{formatDate(appointment.starts_at)}</TD>

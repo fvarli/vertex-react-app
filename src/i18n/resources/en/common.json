@@ -24,5 +24,6 @@
   "page": "Page",
   "total": "Total",
   "requestFailed": "Request failed. Please try again.",
-  "selectStudent": "Select student"
+  "selectStudent": "Select student",
+  "selected": "selected"
 }

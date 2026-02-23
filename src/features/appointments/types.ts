@@ -36,6 +36,11 @@ export type Paginated<T> = {
   last_page: number
 }
 
+export type CursorPaginated<T> = {
+  data: T[]
+  meta: { per_page: number; next_cursor: string | null; prev_cursor: string | null }
+}
+
 export type AppointmentListParams = {
   date_from?: string
   date_to?: string
@@ -47,6 +52,7 @@ export type AppointmentListParams = {
   per_page?: number
   sort?: 'id' | 'starts_at' | 'ends_at' | 'status' | 'created_at'
   direction?: 'asc' | 'desc'
+  cursor?: string
 }
 
 export type AppointmentPayload = {

@@ -286,6 +286,8 @@
     "noticeWhatsappOpened": "WhatsApp bağlantısı açılıyor...",
     "noticeWhatsappStatus": "WhatsApp gönderim durumu güncellendi.",
     "needStudent": "Lütfen öğrenci seçin.",
+    "needSelection": "En az bir randevu seçin.",
+    "bulkStatusUpdated": "{{count}} randevu için toplu durum güncellendi.",
     "table": {
       "id": "ID",
       "student": "Öğrenci",
