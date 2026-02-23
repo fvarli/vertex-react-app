@@ -10,6 +10,8 @@ Internal MVP panel for Vertex coaching platform.
 - Axios
 - React Hook Form + Zod
 - Tailwind CSS + shadcn-style UI primitives
+- Firebase SDK (web push notifications)
+- FullCalendar
 - Vitest + Testing Library
 
 ## Requirements
@@ -30,6 +32,13 @@ Default dev URL: `http://127.0.0.1:5173`
 ## Environment
 
 - `VITE_API_BASE_URL` default: `https://vertex.local/api/v1`
+- `VITE_FIREBASE_API_KEY` — Firebase API key
+- `VITE_FIREBASE_AUTH_DOMAIN` — Firebase auth domain
+- `VITE_FIREBASE_PROJECT_ID` — Firebase project ID
+- `VITE_FIREBASE_STORAGE_BUCKET` — Firebase storage bucket
+- `VITE_FIREBASE_MESSAGING_SENDER_ID` — Firebase messaging sender ID
+- `VITE_FIREBASE_APP_ID` — Firebase app ID
+- `VITE_FIREBASE_VAPID_KEY` — Firebase VAPID key for web push
 
 ## Local HTTPS Domain (vertex-ui.local)
 
@@ -121,7 +130,11 @@ Deploy is triggered when:
 Production deploy steps:
 - SSH into server (`deploy` user)
 - pull `origin/main` in `/var/www/vertex-react-app`
-- write `.env.production` with `VITE_API_BASE_URL=https://api.vertex.ferzendervarli.com/api/v1`
+- write `.env.production` with:
+  - `VITE_API_BASE_URL=https://api.vertex.ferzendervarli.com/api/v1`
+  - `VITE_FIREBASE_API_KEY`, `VITE_FIREBASE_AUTH_DOMAIN`, `VITE_FIREBASE_PROJECT_ID`
+  - `VITE_FIREBASE_STORAGE_BUCKET`, `VITE_FIREBASE_MESSAGING_SENDER_ID`, `VITE_FIREBASE_APP_ID`
+  - `VITE_FIREBASE_VAPID_KEY`
 - `npm ci`
 - `npm run build`
 - smoke check against `https://vertex.ferzendervarli.com`
@@ -236,11 +249,58 @@ All three documentation sources are maintained together:
   - `reminders.today_sent`
   - `reminders.today_escalated`
 
-Reporting-ready backend endpoints (for next UI modules):
-- `GET /reports/appointments`
-- `GET /reports/students`
-- `GET /reports/programs`
-- `GET /reports/reminders`
+## Reports
+
+- `ReportsPage` consumes:
+  - `GET /reports/appointments`
+  - `GET /reports/students`
+  - `GET /reports/programs`
+  - `GET /reports/reminders`
+  - `GET /reports/trainer-performance`
+  - `GET /reports/student-retention`
+  - Export variants: `/reports/appointments/export`, `/reports/students/export`, `/reports/programs/export`, `/reports/reminders/export`, `/reports/trainer-performance/export`
+- Tab-based navigation between report types.
+- Export buttons for CSV/PDF download.
+
+## WhatsApp Page
+
+- `WhatsAppPage` with BulkLinksTab consuming `GET /whatsapp/bulk-links`.
+- Message templates management (`GET/POST/PUT/DELETE /message-templates`).
+- Status badges for link generation state.
+
+## Push Notifications
+
+- Firebase SDK integration for web push notifications.
+- Service Worker (`firebase-messaging-sw.js`) for background notifications.
+- Device token registration via `POST /devices`.
+- `usePushNotifications()` hook manages permission, token, and registration lifecycle.
+- Bell icon in topbar shows notification count.
+
+## Trainers Page
+
+- `TrainersPage` with trainer management and invitation form.
+- Trainer overview cards on dashboard showing per-trainer stats.
+- Only visible to `owner_admin` role.
+
+## Student Detail Page
+
+- `StudentDetailPage` with tabs:
+  - Programs tab
+  - Appointments tab
+  - Timeline tab
+- Accessible from students list row action.
+
+## Workspace Settings
+
+- `WorkspaceSettingsPage` for workspace management:
+  - Edit workspace name via `PUT /workspaces/{id}`
+  - View members list via `GET /workspaces/{id}/members`
+
+## Bulk Operations
+
+- Bulk appointment status update via `PATCH /appointments/bulk-status`.
+- Multi-select appointment rows with bulk action dropdown.
+- Cursor pagination support for appointments list.
 
 ## Programs
 
@@ -328,19 +388,30 @@ Reporting-ready backend endpoints (for next UI modules):
   - `/admin/workspaces`
   - `/admin/dashboard`
   - `/admin/students`
+  - `/admin/students/{id}`
   - `/admin/programs`
   - `/admin/appointments`
   - `/admin/reminders`
   - `/admin/calendar`
+  - `/admin/reports`
+  - `/admin/whatsapp`
+  - `/admin/trainers`
+  - `/admin/settings`
+  - `/admin/profile`
   - `/admin/documentation`
 - Trainer area:
   - `/trainer/workspaces`
   - `/trainer/dashboard`
   - `/trainer/students`
+  - `/trainer/students/{id}`
   - `/trainer/programs`
   - `/trainer/appointments`
   - `/trainer/reminders`
   - `/trainer/calendar`
+  - `/trainer/reports`
+  - `/trainer/whatsapp`
+  - `/trainer/settings`
+  - `/trainer/profile`
   - `/trainer/documentation`
 
 ## Release Ops

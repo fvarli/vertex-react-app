@@ -90,3 +90,62 @@ Expected:
 - Banner state changes according to approval status.
 - Disabled actions become enabled immediately after approval.
 - Notification unread count and read actions are consistent.
+
+## 11) Reports Page
+1. Navigate to `/admin/reports`.
+2. Switch between tabs (appointments, students, programs, reminders, trainer performance, student retention).
+3. Verify data loads in each tab.
+4. Test CSV/PDF export buttons.
+Expected:
+- Each tab fetches and displays data.
+- Export triggers file download.
+
+## 12) WhatsApp Bulk Links
+1. Navigate to `/admin/whatsapp`.
+2. Open Bulk Links tab and generate bulk links.
+3. Verify status badges appear for generated links.
+4. Switch to Message Templates tab and verify CRUD operations.
+Expected:
+- Bulk links are generated and displayed.
+- Message templates can be created, edited, and deleted.
+
+## 13) Push Notifications
+1. Grant notification permission when browser prompt appears.
+2. Verify bell icon in topbar shows unread count.
+3. Verify device token is registered via `POST /devices`.
+Expected:
+- Permission flow completes without error.
+- Bell icon reflects notification count.
+- Device token is stored on backend.
+
+## 14) Trainers Management
+1. Navigate to `/admin/trainers`.
+2. Submit trainer invite form.
+3. Verify trainer overview cards display.
+Expected:
+- Trainer is added to workspace.
+- Overview stats are visible.
+
+## 15) Student Detail Page
+1. Open a student from students list.
+2. Switch tabs: Programs, Appointments, Timeline.
+Expected:
+- Each tab loads and displays relevant data.
+- Empty states render cleanly for students without data.
+
+## 16) Workspace Settings
+1. Navigate to `/admin/settings`.
+2. Edit workspace name and save.
+3. View members list.
+Expected:
+- Name update persists and reflects in UI.
+- Members list shows workspace users.
+
+## 17) Bulk Appointment Status
+1. Navigate to `/admin/appointments`.
+2. Select multiple appointments via checkboxes.
+3. Apply bulk status update from dropdown.
+4. Confirm update.
+Expected:
+- Selected appointments change status.
+- Invalid transitions show error message.

@@ -1,6 +1,6 @@
 # Vertex React App — Architecture Documentation
 
-> **Last updated:** 2026-02-20
+> **Last updated:** 2026-02-23
 > **Related project:** [Vertex Laravel API](https://github.com/fvarli/vertex-laravel-api/blob/main/docs/architecture.md)
 
 ---
@@ -60,6 +60,7 @@
 | CSS | Tailwind CSS | 3.4 |
 | Calendar | FullCalendar | 6.1 |
 | i18n | i18next + react-i18next | 25.x |
+| Push Notifications | Firebase SDK | 12.x |
 | Testing | Vitest + Testing Library | 3.x |
 | Package Manager | npm | 10+ |
 | Node.js | — | 18.20+ |
@@ -73,6 +74,7 @@ zod                      — Schema-based validation
 @fullcalendar/*          — Calendar components (month/week/day)
 i18next                  — Internationalization infrastructure
 tailwindcss              — Utility-first CSS
+firebase                 — Push notifications (FCM)
 ```
 
 ---
@@ -696,6 +698,12 @@ export const studentUpdateSchema = studentCreateSchema.partial().refine(
 | `appointments` | 3 | Appointment CRUD + series + reminder API |
 | `programs` | 2 | Program CRUD + template |
 | `dashboard` | 2 | Dashboard KPI data |
+| `reports` | 2 | Report tabs + export |
+| `whatsapp` | 3 | WhatsApp API + BulkLinksTab + message templates |
+| `devices` | 2 | Device token API + types |
+| `notifications` | 2 | Notification API + bell component |
+| `profile` | 2 | Profile API + password |
+| `toast` | 1 | Global toast notifications |
 | `theme` | 1 | Theme resolution and application |
 
 ---
@@ -1335,6 +1343,13 @@ describe('payments api', () => {
 | Variable | Default | Description |
 |----------|---------|-------------|
 | `VITE_API_BASE_URL` | `http://127.0.0.1:8000/api/v1` | Backend API base URL |
+| `VITE_FIREBASE_API_KEY` | — | Firebase API key |
+| `VITE_FIREBASE_AUTH_DOMAIN` | — | Firebase auth domain |
+| `VITE_FIREBASE_PROJECT_ID` | — | Firebase project ID |
+| `VITE_FIREBASE_STORAGE_BUCKET` | — | Firebase storage bucket |
+| `VITE_FIREBASE_MESSAGING_SENDER_ID` | — | Firebase messaging sender ID |
+| `VITE_FIREBASE_APP_ID` | — | Firebase app ID |
+| `VITE_FIREBASE_VAPID_KEY` | — | Firebase VAPID key for web push |
 
 ## Build and Development Commands
 

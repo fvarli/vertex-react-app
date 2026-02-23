@@ -27,7 +27,11 @@ Alan-rol uyuşmazlığı olursa UI kullanıcıyı `/forbidden` ekranına yönlen
 6. Tekrarlayan seanslar için `Randevular` ekranından seri oluştur.
 7. `Hatırlatmalar` ekranında günlük kuyruğu yönet ve gönderim durumunu işaretle.
 8. `Takvim` ekranında Ay/Hafta/Gün sekmeleri ve Liste görünümü ile planı takip et.
-9. WhatsApp akışı öğrenci kısayolu değil, randevu/hatırlatma temellidir.
+9. `Raporlar` ekranında randevu, öğrenci, program, eğitmen raporlarını görüntüle — CSV/PDF olarak dışa aktar.
+10. `Eğitmenler` ekranında yeni eğitmen davet et, eğitmen bazlı istatistik kartlarını görüntüle.
+11. `WhatsApp` sayfasında toplu link gönder, mesaj şablonlarını yönet.
+12. `Çalışma Alanı Ayarları`: alan adını düzenle, üye listesini görüntüle.
+13. Tarayıcı bildirimi izni vererek anlık randevu güncellemelerini etkinleştir.
 
 ## Trainer hızlı akış
 1. Aktif çalışma alanını seç.
@@ -38,7 +42,9 @@ Alan-rol uyuşmazlığı olursa UI kullanıcıyı `/forbidden` ekranına yönlen
 6. `Öğrenciler` ekranındaki zaman tünelinden hızlı geçmiş özeti al.
 7. Günlük takip için `Hatırlatmalar` kuyruğunu kullan.
 8. Takvimden planı takip et.
-9. WhatsApp açıldıktan sonra gönderim manuel onaylanır (hibrit model).
+9. `Raporlar` ekranında kendi performans raporlarını görüntüle.
+10. Bildirim zili ile randevu güncellemelerini anlık takip et.
+11. WhatsApp açıldıktan sonra gönderim manuel onaylanır (hibrit model).
 
 ## Durumlar ve kısıtlar
 - Öğrenci durumu: `active` veya `passive`.

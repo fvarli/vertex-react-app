@@ -27,7 +27,11 @@ If area-role mismatch happens, UI redirects to `/forbidden`.
 6. Use recurring series creation from `Appointments` for repeated sessions.
 7. Manage reminder queue from `Reminders` and mark sent/cancelled actions.
 8. Use `Calendar` tabs (Month/Week/Day/List) to track planning in different scopes.
-9. WhatsApp flow is appointment/reminder based; student-level WhatsApp shortcut endpoint is not used.
+9. View `Reports`: appointments, students, programs, trainers — export CSV/PDF.
+10. Manage `Trainers`: invite new trainers, view overview cards with per-trainer stats.
+11. `WhatsApp` page: send bulk links, manage message templates.
+12. `Workspace Settings`: edit workspace name, view members list.
+13. Enable push notifications from browser prompt for real-time appointment updates.
 
 ## Trainer quick flow
 1. Select active workspace.
@@ -38,7 +42,9 @@ If area-role mismatch happens, UI redirects to `/forbidden`.
 6. Use student timeline in `Students` page for quick history context.
 7. Use `Reminders` for daily follow-up queue.
 8. Follow schedule from `Calendar`.
-9. Manual confirmation is required after opening WhatsApp (hybrid model).
+9. View own `Reports` for performance insights.
+10. Push notification bell shows appointment updates in real time.
+11. Manual confirmation is required after opening WhatsApp (hybrid model).
 
 ## Status and constraints
 - Student status: `active` or `passive`.

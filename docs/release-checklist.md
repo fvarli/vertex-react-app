@@ -35,6 +35,14 @@
 - [ ] Reminders list/actions (open, mark-sent, requeue, cancel) visible and operational.
 - [ ] Reminders bulk actions and CSV export work.
 - [ ] Topbar language/theme icon dropdowns work on desktop + mobile.
+- [ ] Reports page loads with all tabs and export works.
+- [ ] WhatsApp bulk links page works.
+- [ ] Push notification permission prompt works.
+- [ ] Trainers page shows list and invite form.
+- [ ] Student detail page tabs work.
+- [ ] Workspace settings edit and members list work.
+- [ ] Bulk appointment status update works.
+- [ ] Firebase environment variables are set in production.
 - [ ] No blocking console/runtime errors.
 - [ ] Login request URL points to `https://api.vertex.ferzendervarli.com/api/v1/login` (not local loopback).
 
