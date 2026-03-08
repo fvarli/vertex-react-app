@@ -25,7 +25,7 @@ export function WorkspacePage() {
   const navigate = useNavigate()
   const queryClient = useQueryClient()
   const location = useLocation()
-  const { refreshProfile } = useAuth()
+  const { refreshProfile, systemRole } = useAuth()
   const isAdminArea = location.pathname.startsWith('/admin/')
   const { addToast } = useToast()
   const [dialogOpen, setDialogOpen] = useState(false)
@@ -56,7 +56,7 @@ export function WorkspacePage() {
     setActiveWorkspaceId(workspaceId)
     await refreshProfile()
 
-    if (role === 'owner_admin') {
+    if (systemRole === 'platform_admin' || role === 'owner_admin') {
       navigate('/admin/dashboard', { replace: true })
       return
     }

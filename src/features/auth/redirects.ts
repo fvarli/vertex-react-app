@@ -1,7 +1,11 @@
 import type { ApiUser } from './types'
 
 function defaultRouteForUser(user: ApiUser): string {
-  if (user.system_role === 'platform_admin' || user.active_workspace_role === 'owner_admin') {
+  if (user.system_role === 'platform_admin') {
+    return '/admin/approval'
+  }
+
+  if (user.active_workspace_role === 'owner_admin') {
     return '/admin/workspaces'
   }
 
